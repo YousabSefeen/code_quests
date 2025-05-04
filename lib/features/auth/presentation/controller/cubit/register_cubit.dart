@@ -1,10 +1,10 @@
 import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-
 import '../../../../../core/enum/auth_state.dart';
-
+import '../../../../../core/enum/user_type.dart';
 import '../../../data/repository/auth_repository.dart';
 import '../states/register_state.dart';
 
@@ -22,6 +22,13 @@ class RegisterCubit extends Cubit<RegisterState> {
 
   void toggleConfirmPasswordVisibility() {
     emit(state.copyWith(isConfirmPasswordVisible: !state.isConfirmPasswordVisible));
+  }
+
+  UserType _userType = UserType.client;
+
+  void toggleUserType(UserType type) {
+    _userType = _userType != type ? type : _userType;
+    emit(state.copyWith(userType: _userType));
   }
 
   String? validateRegistrationInputs({
@@ -63,12 +70,20 @@ class RegisterCubit extends Cubit<RegisterState> {
   }
 
   Future<void> register({
+    required String name,
+    required String phone,
     required String email,
     required String password,
   }) async {
     emit(state.copyWith(registerState: AuthState.loading));
 
-    final response = await authRepository.register(email: email, password: password);
+    final response = await authRepository.register(
+      name: name,
+      phone: phone,
+      email: email,
+      password: password,
+      role: _userType.name,
+    );
 
     response.fold((failure) {
       emit(state.copyWith(

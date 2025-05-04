@@ -149,6 +149,18 @@ class AppLightTheme {
         fontWeight: FontWeight.w800,
         color: Colors.black87,
       ),
+      // headlineLarge: TextStyle(
+      //   //use in   (TimePicker)
+      //   color: Colors.black,
+      //   fontWeight: FontWeight.bold,
+      //   fontSize: 18.sp,
+      // ),
+      headlineSmall: TextStyle(
+        //use in AddScreen (TimePicker)
+        color: Colors.white,
+        fontSize: 17.sp,
+        fontWeight: FontWeight.w700,
+      ),
       labelLarge: TextStyle(fontSize: 15.sp,fontWeight: FontWeight.w400,color: Colors.black),
       titleMedium: GoogleFonts.permanentMarker(
         //TODO:Uses of texts( LogoText )

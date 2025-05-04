@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../../features/auth/presentation/screens/login_screen.dart';
 import '../../../features/auth/presentation/screens/register_screen.dart';
+import '../../../features/home/presentation/screens/doctor_panel_screen.dart';
 import '../../../features/home/presentation/screens/home_screen.dart';
 import '../../animations/animation_route.dart';
 import 'app_router_names.dart';
@@ -13,14 +14,16 @@ class AppRouter {
 
 
         case AppRouterNames.login:
-        return _animatedRoute(settings, LoginScreen());
+        return _animatedRoute(settings, const LoginScreen());
       case AppRouterNames.register:
-        return _animatedRoute(settings, RegisterScreen());
+        return _animatedRoute(settings, const RegisterScreen());
       // case AppRouterNames.emailVerification:
       //   return _animatedRoute(settings, const EmailVerificationScreen());
 
       case AppRouterNames.home:
         return _animatedRoute(settings, const HomeScreen());
+        case AppRouterNames.doctorPanel:
+        return _animatedRoute(settings, const DoctorPanelScreen());
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(

@@ -9,4 +9,5 @@ class AppRouterNames {
 
   static const String successfully = 'successfully screen';
   static const String home = 'home screen';
+  static const String doctorPanel = 'doctor panel screen';
 }

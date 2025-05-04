@@ -9,8 +9,11 @@ abstract class BaseAuthRepository {
   });
 
   Future<Either<Failure, void>> register({
+    required String name,
+    required String phone,
     required String email,
     required String password,
+    required String role,
   });
 
 

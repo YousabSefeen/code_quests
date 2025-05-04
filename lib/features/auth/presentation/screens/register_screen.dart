@@ -30,7 +30,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final emailAlreadyInUseError =
       'This email address is already in use. If it’s your account, try logging in.';
 
-  late TextEditingController userNameController;
+  late TextEditingController nameController;
 
   late TextEditingController phoneController;
 
@@ -41,7 +41,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   late TextEditingController confirmPasswordController;
 
   void _initializeControllerFields() {
-    userNameController = TextEditingController();
+    nameController = TextEditingController();
 
     phoneController = TextEditingController();
 
@@ -53,7 +53,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   void _disposeControllerFields() {
-    userNameController.dispose();
+    nameController.dispose();
 
     phoneController.dispose();
 
@@ -133,7 +133,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                               children: <Widget>[
                                 RegisterFormFields(
-                                  userNameController: userNameController,
+                                  userNameController: nameController,
                                   phoneController: phoneController,
                                   emailController: emailController,
                                   passwordController: passwordController,
@@ -227,7 +227,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     FocusManager.instance.primaryFocus?.unfocus();
     final provider = context.read<RegisterCubit>();
     final errorMsg = provider.validateRegistrationInputs(
-      userName: userNameController.text,
+      userName: nameController.text,
       phoneNumber: phoneController.text,
       email: emailController.text,
       password: passwordController.text,
@@ -237,6 +237,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       AppAlerts.showErrorSnackBar(context, errorMsg);
     } else {
       provider.register(
+        name: nameController.text,phone: phoneController.text,
           email: emailController.text, password: passwordController.text);
     }
   }

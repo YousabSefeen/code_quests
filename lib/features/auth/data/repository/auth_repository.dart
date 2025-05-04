@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_task/features/auth/data/models/user_model.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import '../../../../core/error/failure.dart';
@@ -19,16 +21,47 @@ class AuthRepository extends BaseAuthRepository {
   }
 
   @override
-  Future<Either<Failure, void>> register(
-      {required String email, required String password}) async {
+  Future<Either<Failure, void>> register({required String name,
+    required String phone,
+    required String email,
+    required String password,
+    required String role,
+  }) async {
     try {
-      await FirebaseAuth.instance
+      final UserCredential userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
-
+         await _saveUserDataToFirestore(uid: userCredential.user!.uid, name: name, email: email, phone: phone, role: role);
       return right(null);
     } catch (e) {
       return left(ServerFailure(catchError: e));
     }
+  }
+
+  Future<void> _saveUserDataToFirestore({
+    required String uid,
+    required String name,
+    required String email,
+    required String phone,
+    required String role,
+  }) async {
+    try {
+      await FirebaseFirestore.instance.collection('users').doc(uid).set(UserModel(
+            name: name,
+            phone: phone,
+            email: email,
+            role: role,
+            createdAt: FieldValue.serverTimestamp() ,
+          ).toJson());
+    }   catch (e) {
+      print('_saveUserDataToFirestore $e');
+    }
+    // await FirebaseFirestore.instance.collection('users').doc(uid).set({
+    //   'name': name,
+    //   'email': email,
+    //   'phone': phone,
+    //   'role': role,
+    //   'createdAt': FieldValue.serverTimestamp(),
+    // });
   }
 
   @override

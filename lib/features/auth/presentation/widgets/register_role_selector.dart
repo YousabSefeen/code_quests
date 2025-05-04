@@ -1,25 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/constants/themes/app_colors.dart';
 import '../../../../core/enum/user_type.dart';
+import '../controller/cubit/register_cubit.dart';
+import '../controller/states/register_state.dart';
 
-class RegisterRoleSelector extends StatefulWidget {
+class RegisterRoleSelector extends StatelessWidget {
   const RegisterRoleSelector({super.key});
-
-  @override
-  State<RegisterRoleSelector> createState() => _RegisterRoleSelectorState();
-}
-
-class _RegisterRoleSelectorState extends State<RegisterRoleSelector> {
-  UserType _selectedUserType = UserType.client;
-
-  void _selectUserType(UserType type) {
-    if (_selectedUserType != type) {
-      setState(() => _selectedUserType = type);
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,40 +18,41 @@ class _RegisterRoleSelectorState extends State<RegisterRoleSelector> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          GestureDetector(
-           onTap: (){
-             print('_selectedUserType ${_selectedUserType.name}');
-            },
-
-            child: Text(
-              'Registering as',
-              style: GoogleFonts.poppins(
-                fontSize: 15.sp,
-                color: AppColors.white,
-                letterSpacing: 1,
-                fontWeight: FontWeight.w700,
-              ),
+          Text(
+            'Registering as',
+            style: GoogleFonts.poppins(
+              fontSize: 15.sp,
+              color: AppColors.white,
+              letterSpacing: 1,
+              fontWeight: FontWeight.w700,
             ),
           ),
           SizedBox(height: 10.h),
-          Row(
-            children: [
-              Expanded(
-                child: _RoleOption(
-                  title: 'Client',
-                  isActive: _selectedUserType == UserType.client,
-                  onTap: () => _selectUserType(UserType.client),
+          BlocSelector<RegisterCubit, RegisterState, UserType>(
+            selector: (state) => state.userType,
+            builder: (context, userType) => Row(
+              children: [
+                Expanded(
+                  child: _RoleOption(
+                    title: 'Client',
+                    isActive: userType == UserType.client,
+                    onTap: () => context
+                        .read<RegisterCubit>()
+                        .toggleUserType(UserType.client),
+                  ),
                 ),
-              ),
-              SizedBox(width: 20.w),
-              Expanded(
-                child: _RoleOption(
-                  title: 'Doctor',
-                  isActive: _selectedUserType == UserType.doctor,
-                  onTap: () => _selectUserType(UserType.doctor),
+                SizedBox(width: 20.w),
+                Expanded(
+                  child: _RoleOption(
+                    title: 'Doctor',
+                    isActive: userType == UserType.doctor,
+                    onTap: () => context
+                        .read<RegisterCubit>()
+                        .toggleUserType(UserType.doctor),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ],
       ),
