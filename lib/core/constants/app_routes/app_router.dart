@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../../features/auth/presentation/screens/login_screen.dart';
 import '../../../features/auth/presentation/screens/register_screen.dart';
-import '../../../features/home/presentation/screens/doctor_panel_screen.dart';
+import '../../../features/home/presentation/screens/doctor_profile_screen.dart';
 import '../../../features/home/presentation/screens/home_screen.dart';
 import '../../animations/animation_route.dart';
 import 'app_router_names.dart';
@@ -23,7 +23,7 @@ class AppRouter {
       case AppRouterNames.home:
         return _animatedRoute(settings, const HomeScreen());
         case AppRouterNames.doctorPanel:
-        return _animatedRoute(settings, const DoctorPanelScreen());
+        return _animatedRoute(settings, const DoctorProfileScreen());
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(

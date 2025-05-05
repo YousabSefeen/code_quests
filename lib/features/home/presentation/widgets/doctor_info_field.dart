@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class DoctorInfoField extends StatelessWidget {
   final String label;
-  final TextEditingController controller;
+  final TextEditingController? controller;
   final TextInputType keyboardType;
   final int maxLines;
 
@@ -13,7 +13,7 @@ class DoctorInfoField extends StatelessWidget {
   const DoctorInfoField({
     super.key,
     required this.label,
-    required this.controller,
+      this.controller,
     this.keyboardType = TextInputType.text,
     this.maxLines = 1,
 

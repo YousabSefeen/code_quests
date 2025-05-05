@@ -12,6 +12,7 @@ import 'core/my_bloc_observer.dart';
 import 'core/services/server_locator.dart';
 import 'features/auth/presentation/controller/cubit/register_cubit.dart';
 import 'features/auth/presentation/screens/login_screen.dart';
+import 'features/home/presentation/controller/cubit/doctor_profile_cubit.dart';
 import 'features/home/presentation/screens/home_screen.dart';
 import 'firebase_options.dart';
 
@@ -34,6 +35,9 @@ void main() async {
     ),
     BlocProvider<RegisterCubit>(
       create: (_) => RegisterCubit(authRepository: sl()),
+    ),
+    BlocProvider<DoctorProfileCubit>(
+      create: (_) => DoctorProfileCubit (),
     ),
   ], child: const MyApp()));
 }

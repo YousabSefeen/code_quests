@@ -1,21 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart'
     as picker;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_task/core/constants/themes/app_colors.dart';
+import 'package:flutter_task/features/home/presentation/controller/cubit/doctor_profile_cubit.dart';
+import 'package:flutter_task/features/home/presentation/widgets/doctor_availability_time_fields.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../core/utils/date_time_formatter.dart';
+import '../controller/states/doctor_profile_state.dart';
 import '../widgets/doctor_info_field.dart';
 
-class DoctorPanelScreen extends StatefulWidget {
-  const DoctorPanelScreen({super.key});
+class DoctorProfileScreen extends StatefulWidget {
+  const DoctorProfileScreen({super.key});
 
   @override
-  State<DoctorPanelScreen> createState() => _DoctorPanelScreenState();
+  State<DoctorProfileScreen> createState() => _DoctorProfileScreenState();
 }
 
-class _DoctorPanelScreenState extends State<DoctorPanelScreen> {
+class _DoctorProfileScreenState extends State<DoctorProfileScreen> {
   final _formKey = GlobalKey<FormState>();
 
   final _nameController = TextEditingController();
@@ -97,32 +101,8 @@ class _DoctorPanelScreenState extends State<DoctorPanelScreen> {
   }
 
   String time = DateFormat('hh:mm a').format(DateTime.now()).toString();
-  String? _startTime;
-  String? _endTime;
-  void _openTimePicker( {required bool isStartTime }) {
-    final headlineSmall = Theme.of(context).textTheme.headlineSmall;
 
-    picker.DatePicker.showTime12hPicker(
-      context,
-      theme: picker.DatePickerTheme(
-        containerHeight: MediaQuery.sizeOf(context).height * 0.24,
-        headerColor: AppColors.darkBlue,
-        backgroundColor: AppColors.white,
-        itemStyle: headlineSmall!.copyWith(color: Colors.black),
-        doneStyle: headlineSmall,
-        cancelStyle: headlineSmall,
-      ),
-      showTitleActions: true,
-      onConfirm: (newTime) {
-    final timeString=DateTimeFormatter.timeString(newTime);
-     isStartTime? _startTime=timeString:_endTime=timeString;
 
-       print('date: $time');
-
-      },
-      currentTime: DateFormat('hh:mm a').parse(time),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -163,34 +143,8 @@ class _DoctorPanelScreenState extends State<DoctorPanelScreen> {
                   onPressed: _openDaySelectionDialog,
                 ),
               ),
-              Row(
-                spacing: 7,
-                children: [
-                  Expanded(
-                    child: DoctorInfoField(
-                      label: 'Start Time',
-                      hintText: _startTime??'Select Time',
-                      controller: _availableFromController,
-                      suffixIcon: IconButton(
-                        icon: const Icon(Icons.access_alarm_outlined),
-                        onPressed: ()=>_openTimePicker(isStartTime: true),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: DoctorInfoField(
-                      label: 'End Time',
-                      hintText: _endTime?? 'Select Time',
-                      controller: _availableToController,
+                   const DoctorAvailabilityTimeFields(),
 
-                      suffixIcon: IconButton(
-                        icon: const Icon(Icons.access_alarm_outlined),
-                        onPressed: ()=>_openTimePicker(isStartTime: false),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
               DoctorInfoField(
                 label: 'Fees',
                 controller: _feesController,
