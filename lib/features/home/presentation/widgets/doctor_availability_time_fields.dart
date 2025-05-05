@@ -20,9 +20,9 @@ class DoctorAvailabilityTimeFields extends StatelessWidget {
       children: [
         Expanded(
           child: BlocSelector<DoctorProfileCubit, DoctorProfileState, String?>(
-            selector: (state) => state.startTime,
+            selector: (state) => state.availableFromTime,
             builder: (context, startTime) => DoctorInfoField(
-              label: 'Start Time',
+              label: 'Available From',
               hintText: startTime ?? 'Select Time',
               suffixIcon: IconButton(
                 icon: const Icon(Icons.access_alarm_outlined),
@@ -34,9 +34,9 @@ class DoctorAvailabilityTimeFields extends StatelessWidget {
         ),
         Expanded(
           child: BlocSelector<DoctorProfileCubit, DoctorProfileState, String?>(
-            selector: (state) => state.endTime,
+            selector: (state) => state.availableToTime,
             builder: (context, endTime) => DoctorInfoField(
-              label: 'End Time',
+              label: 'Available To',
               hintText: endTime ?? 'Select Time',
               suffixIcon: IconButton(
                 icon: const Icon(Icons.access_alarm_outlined),
@@ -67,9 +67,9 @@ class DoctorAvailabilityTimeFields extends StatelessWidget {
       ),
       showTitleActions: true,
       onConfirm: (newTime) {
-        context.read<DoctorProfileCubit>().setTime(
-              DateTimeFormatter.timeString(newTime),
-              isStart: isStartTime,
+        context.read<DoctorProfileCubit>().updateAvailableTime(
+              DateTimeFormatter.timeString(newTime), isStartTime: isStartTime,
+
             );
       },
       currentTime: DateFormat('hh:mm a').parse(time),

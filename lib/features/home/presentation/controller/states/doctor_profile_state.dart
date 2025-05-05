@@ -1,29 +1,36 @@
-
-
 class DoctorProfileState {
-  final Set<String> selectedDays;
-  final String? startTime;
-  final String? endTime;
+  final List<String> tempSelectedDays;
+  final List<String> confirmedWorkingDays;
+  final String? availableFromTime;
+  final String? availableToTime;
 
   DoctorProfileState({
-    required this.selectedDays,
-    required this.startTime,
-    required this.endTime,
+    required this.tempSelectedDays,
+    required this.confirmedWorkingDays,
+    required this.availableFromTime,
+    required this.availableToTime,
   });
 
   factory DoctorProfileState.initial() {
-    return DoctorProfileState(selectedDays: {}, startTime: null, endTime: null);
+    return DoctorProfileState(
+      tempSelectedDays: [],
+      confirmedWorkingDays: [],
+      availableFromTime: null,
+      availableToTime: null,
+    );
   }
 
   DoctorProfileState copyWith({
-    Set<String>? selectedDays,
-    String? startTime,
-    String? endTime,
+    List<String>? tempSelectedDays,
+    List<String>? confirmedWorkingDays,
+    String? availableFromTime,
+    String? availableToTime,
   }) {
     return DoctorProfileState(
-      selectedDays: selectedDays ?? this.selectedDays,
-      startTime: startTime ?? this.startTime,
-      endTime: endTime ?? this.endTime,
+      tempSelectedDays: tempSelectedDays ?? this.tempSelectedDays,
+      confirmedWorkingDays: confirmedWorkingDays ?? this.confirmedWorkingDays,
+      availableFromTime: availableFromTime ?? this.availableFromTime,
+      availableToTime: availableToTime ?? this.availableToTime,
     );
   }
 }
