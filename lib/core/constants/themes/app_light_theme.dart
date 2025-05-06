@@ -11,7 +11,7 @@ class AppLightTheme {
 
     primarySwatch: Colors.blue,
     unselectedWidgetColor: Colors.red,
-    scaffoldBackgroundColor: AppColors.customWhite,
+    scaffoldBackgroundColor: AppColors.white,
     secondaryHeaderColor: const Color(0xffe85d04),
     appBarTheme: AppBarTheme(
       backgroundColor: AppColors.customWhite,

@@ -5,6 +5,7 @@ import 'package:flutter_task/features/auth/data/models/user_model.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import '../../../../core/error/failure.dart';
+import '../../../../core/utils/date_time_formatter.dart';
 import 'base_auth_repository.dart';
 
 class AuthRepository extends BaseAuthRepository {
@@ -30,14 +31,14 @@ class AuthRepository extends BaseAuthRepository {
     try {
       final UserCredential userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
-         await _saveUserDataToFirestore(uid: userCredential.user!.uid, name: name, email: email, phone: phone, role: role);
+         await _uploadUserData(uid: userCredential.user!.uid, name: name, email: email, phone: phone, role: role);
       return right(null);
     } catch (e) {
       return left(ServerFailure(catchError: e));
     }
   }
 
-  Future<void> _saveUserDataToFirestore({
+  Future<void> _uploadUserData({
     required String uid,
     required String name,
     required String email,
@@ -50,7 +51,7 @@ class AuthRepository extends BaseAuthRepository {
             phone: phone,
             email: email,
             role: role,
-            createdAt: FieldValue.serverTimestamp() ,
+            createdAt: DateTimeFormatter.dateAndTimeNowS() ,
           ).toJson());
     }   catch (e) {
       print('_saveUserDataToFirestore $e');

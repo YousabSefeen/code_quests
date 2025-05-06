@@ -30,14 +30,14 @@ void main() async {
     ),
   ]);
   runApp(MultiBlocProvider(providers: [
-    BlocProvider<LoginCubit>(
-      create: (_) => LoginCubit(authRepository: sl()),
+    BlocProvider (
+      create: (_) =>sl<LoginCubit>()    ,
     ),
-    BlocProvider<RegisterCubit>(
-      create: (_) => RegisterCubit(authRepository: sl()),
+    BlocProvider (
+      create: (_) => sl<RegisterCubit>(),
     ),
-    BlocProvider<DoctorProfileCubit>(
-      create: (_) => DoctorProfileCubit (),
+    BlocProvider (
+      create: (_) => sl<DoctorProfileCubit>(),
     ),
   ], child: const MyApp()));
 }

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_task/features/home/presentation/widgets/doctor_availability_time_fields.dart';
-import 'package:intl/intl.dart';
 
 import '../widgets/doctor_availability_days_field.dart';
+import '../widgets/doctor_availability_time_fields.dart';
 import '../widgets/doctor_info_field.dart';
+import '../widgets/doctor_profile_image.dart';
 
 class DoctorProfileScreen extends StatefulWidget {
   const DoctorProfileScreen({super.key});
@@ -23,14 +23,14 @@ class _DoctorProfileScreenState extends State<DoctorProfileScreen> {
 
   final _feesController = TextEditingController();
 
-
-
-
-
-
-
-
-
+  void _submit() {
+    if (_formKey.currentState!.validate()) {
+      print('Doctor Data: validate');
+      // يمكنك هنا إرسال البيانات إلى Cloud Firestore
+    } else {
+      print('Doctor Data: Not validate');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,6 +42,8 @@ class _DoctorProfileScreenState extends State<DoctorProfileScreen> {
           key: _formKey,
           child: ListView(
             children: [
+              const Align(
+                  alignment: Alignment.topCenter, child: DoctorProfileImage()),
               DoctorInfoField(
                 label: 'Name',
                 hintText: 'Enter your full name',
@@ -66,7 +68,6 @@ class _DoctorProfileScreenState extends State<DoctorProfileScreen> {
               ),
               DoctorAvailabilityDaysField(),
               const DoctorAvailabilityTimeFields(),
-
               DoctorInfoField(
                 label: 'Fees',
                 hintText: 'Enter your consultation fees',
@@ -77,8 +78,10 @@ class _DoctorProfileScreenState extends State<DoctorProfileScreen> {
               ElevatedButton(
                 onPressed: (){
 
+                  _submit();
+                  //context.read<DoctorProfileCubit>().uploadDoctorProfile();
                 },
-                child: const Text('Submit'),
+                child: const Text('uploadDoctorProfile'),
               ),
             ],
           ),

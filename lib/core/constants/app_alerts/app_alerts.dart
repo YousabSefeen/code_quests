@@ -72,28 +72,5 @@ class AppAlerts {
     );
   }
 
-  static customGeneralDialog(
-      {required BuildContext context, required Widget body}) {
-    showGeneralDialog(
-      context: context,
-      barrierDismissible: false,
-      // اغلاق عند الضغط بالخارج
-      barrierLabel: "Barrier",
-      // اسم الحاجز (اختياري)
-      barrierColor: Colors.grey.shade500,
-      // لون خلفية شفافة
-      transitionDuration: const Duration(seconds: 20),
-      // مدة الانيميشن
-      pageBuilder: (context, animation, secondaryAnimation) => body,
-      transitionBuilder: (context, animation, secondaryAnimation, child) {
-        return ScaleTransition(
-          scale: CurvedAnimation(
-            parent: animation,
-            curve: Curves.easeOutBack,
-          ),
-          child: child,
-        );
-      },
-    );
-  }
+
 }

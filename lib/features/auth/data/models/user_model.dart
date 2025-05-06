@@ -9,7 +9,7 @@ class UserModel {
   final String phone;
   final String email;
   final String role;
-  final FieldValue createdAt;
+  final String createdAt;
 
   UserModel({
     required this.name,
@@ -19,10 +19,9 @@ class UserModel {
     required this.createdAt,
   });
 
-  /// من JSON إلى كائن
+
   factory UserModel.fromJson(Map<String, dynamic> json) =>
       _$UserModelFromJson(json);
 
-  /// من كائن إلى JSON
   Map<String, dynamic> toJson() => _$UserModelToJson(this);
 }

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -6,11 +7,15 @@ import 'package:flutter_task/core/constants/app_routes/app_router.dart';
 import 'package:flutter_task/core/constants/app_routes/app_router_names.dart';
 import 'package:flutter_task/features/auth/presentation/controller/cubit/login_cubit.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     print('HomeScreen.build');
@@ -36,7 +41,6 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
             ),
-            
             ListTile(
               leading: Icon(Icons.manage_accounts,size: 16.sp,color: Colors.black),
               title: const Text('Doctor Panel') ,
@@ -71,12 +75,22 @@ class HomeScreen extends StatelessWidget {
             ElevatedButton(
                 onPressed: ()=> getDummySpecialistsToFirebase(),
                 child: Text('GetData')),
+            GestureDetector(
+              onTap: () {},
+              child: Container(
+                width: 400,
+                height: 300,
+                child: Text(
+                  '${FirebaseAuth.instance.currentUser!.uid}',
+                  style: TextStyle(fontSize: 20, color: Colors.white),
+                ),
+              ),
+            )
           ],
         ),
       ),
     );
   }
-
 
   Future<void> uploadDummySpecialistsToFirebase() async {
 
@@ -97,6 +111,7 @@ class HomeScreen extends StatelessWidget {
 
 
   }
+
   Future<void> getDummySpecialistsToFirebase() async {
     try {
       final firestore = FirebaseFirestore.instance;
