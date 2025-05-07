@@ -1,12 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_task/core/constants/app_routes/app_router.dart';
-import 'package:flutter_task/core/constants/app_routes/app_router_names.dart';
-import 'package:flutter_task/features/auth/presentation/controller/cubit/login_cubit.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_task/core/constants/app_assets/app_assets.dart';
+import 'package:flutter_task/features/home/presentation/controller/cubit/doctor_profile_cubit.dart';
+import 'package:flutter_task/features/home/presentation/widgets/appointment_booking_button.dart';
+import 'package:flutter_task/features/home/presentation/widgets/custom_drawer.dart';
+import 'package:flutter_task/features/home/presentation/widgets/doctor_list_view.dart';
+import 'package:flutter_task/features/home/presentation/widgets/doctor_location_display.dart';
+import 'package:flutter_task/features/home/presentation/widgets/doctor_profile_header.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+import '../widgets/doctor_profile_card.dart';
+import '../widgets/info_icon_with_text.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -18,99 +23,22 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
+    final height = MediaQuery.sizeOf(context).height;
+    final width = MediaQuery.sizeOf(context).width;
     print('HomeScreen.build');
     return Scaffold(
-      drawer: Drawer(
-        width: 230,
-        child: Column(
-          spacing: 20,
-          children: [
-            Container(
-              height: 200,
-              width: double.infinity,
-              color: Colors.black,
-              child: Center(
-                child: Text(
-                  'MediLink',
-                  style: GoogleFonts.poppins(
-                    fontSize: 36.sp,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-
-                  ),
-                ),
-              ),
-            ),
-            ListTile(
-              leading: Icon(Icons.manage_accounts,size: 16.sp,color: Colors.black),
-              title: const Text('Doctor Panel') ,
-              trailing: Icon(Icons.arrow_forward_ios,size: 18.sp,color: Colors.blue),
-              onTap: () {
-                Navigator.pop(context);
-                AppRouter.pushNamed(context, AppRouterNames.doctorPanel);
-              },
-            )
-          ],
-        ),
-      ),
-      appBar: AppBar(
-        title: Text('Home Screen'),
-      ),
-      body: Center(
-        child: Column(
-          spacing: 40,
-          children: [
-            ElevatedButton(
-                onPressed: () {
-                  context.read<LoginCubit>().logout();
-                  AppRouter.pushNamedAndRemoveUntil(context, AppRouterNames.login);
-
-              },
-                child: Text('Logout'),
-            ),
-
-            ElevatedButton(
-                onPressed:()=>uploadDummySpecialistsToFirebase(),
-                child: Text('UploadData')),
-            ElevatedButton(
-                onPressed: ()=> getDummySpecialistsToFirebase(),
-                child: Text('GetData')),
-            GestureDetector(
-              onTap: () {},
-              child: Container(
-                width: 400,
-                height: 300,
-                child: Text(
-                  '${FirebaseAuth.instance.currentUser!.uid}',
-                  style: TextStyle(fontSize: 20, color: Colors.white),
-                ),
-              ),
-            )
-          ],
-        ),
+      drawer: const CustomDrawer(),
+      appBar: AppBar(title: const Text('Home Screen')),
+     // body:  const DoctorListView(),
+      body:  Center(
+        child: ElevatedButton(onPressed: (){
+          context.read<DoctorProfileCubit>().getDoctors();
+        }, child: Text('data')),
       ),
     );
   }
 
-  Future<void> uploadDummySpecialistsToFirebase() async {
 
-    try {
-      final firestore = FirebaseFirestore.instance;
-      final specialistsCollection = firestore.collection('specialists');
-
-     final response= await specialistsCollection.add({
-        'userName':'user',
-        'phoneNumber':'01227155559',
-        'country':'egypt',
-      });
-      print('Response $response');
-    } catch (e) {
-      print('Failed to upload   $e');
-    }
-
-
-
-  }
 
   Future<void> getDummySpecialistsToFirebase() async {
     try {
@@ -126,3 +54,4 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 }
+

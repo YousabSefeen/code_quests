@@ -13,6 +13,7 @@ import 'core/services/server_locator.dart';
 import 'features/auth/presentation/controller/cubit/register_cubit.dart';
 import 'features/auth/presentation/screens/login_screen.dart';
 import 'features/home/presentation/controller/cubit/doctor_profile_cubit.dart';
+import 'features/home/presentation/screens/doctor_profile_screen.dart';
 import 'features/home/presentation/screens/home_screen.dart';
 import 'firebase_options.dart';
 

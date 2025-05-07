@@ -8,7 +8,7 @@ import 'doctor_info_field.dart';
 class DoctorAvailabilityDaysField extends StatelessWidget {
   DoctorAvailabilityDaysField({super.key});
 
-  final List<String> _weekDays = [
+    final List<String> _weekDays = [
     'Saturday',
     'Sunday',
     'Monday',
@@ -22,17 +22,25 @@ class DoctorAvailabilityDaysField extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocSelector<DoctorProfileCubit, DoctorProfileState, List<String>>(
       selector: (state) => state.confirmedWorkingDays,
-      builder: (context, confirmedDays) => DoctorInfoField(
-        label: 'Working Days',
+      builder: (context, confirmedDays) {
+        return DoctorInfoField(
+          label: 'Working Days',
         hintText: confirmedDays.isEmpty
             ? 'Select Working Days'
             : confirmedDays.join(', '),
-        maxLines: 2,
+          validator: (_) {
+            if (confirmedDays.isEmpty) {
+              return 'Please select at least one working day.';
+            }
+            return null;
+          },
+          maxLines: 2,
         suffixIcon: IconButton(
           icon: const Icon(Icons.calendar_month_outlined),
           onPressed: () => _showDaySelectionDialog(context),
         ),
-      ),
+        );
+      },
     );
   }
 

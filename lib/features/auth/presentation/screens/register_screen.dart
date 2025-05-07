@@ -6,7 +6,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_task/core/enum/auth_state.dart';
 import 'package:flutter_task/features/auth/presentation/controller/cubit/register_cubit.dart';
 import 'package:flutter_task/features/auth/presentation/widgets/register_role_selector.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/animations/animated_gradient_background.dart';
 import '../../../../core/constants/app_alerts/app_alerts.dart';
@@ -140,9 +139,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   confirmPasswordController:
                                       confirmPasswordController,
                                 ),
-                               //*****
-
-                               const RegisterRoleSelector(),
+                                const RegisterRoleSelector(),
 
 
                                 CustomButton(

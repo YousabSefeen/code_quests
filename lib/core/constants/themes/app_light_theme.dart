@@ -11,14 +11,14 @@ class AppLightTheme {
 
     primarySwatch: Colors.blue,
     unselectedWidgetColor: Colors.red,
-    scaffoldBackgroundColor: AppColors.white,
+    scaffoldBackgroundColor: AppColors.customWhite,
     secondaryHeaderColor: const Color(0xffe85d04),
     appBarTheme: AppBarTheme(
-      backgroundColor: AppColors.customWhite,
+      backgroundColor: AppColors.darkBlue,
       elevation: 0,
       titleTextStyle: GoogleFonts.permanentMarker(
         textStyle: TextStyle(
-            fontSize: 22.sp, color: AppColors.customDarkBlue, letterSpacing: 2),
+            fontSize: 22.sp, color: AppColors.white, letterSpacing: 2),
       ),
       centerTitle: true,
       iconTheme: IconThemeData(color: AppColors.customDarkBlue, size: 25.sp),
@@ -67,10 +67,13 @@ class AppLightTheme {
     listTileTheme: ListTileThemeData(
       titleTextStyle: GoogleFonts.caladea(
           textStyle: TextStyle(
-              fontSize: 16.sp,
-              color: Colors.black,
+              fontSize: 18.sp,
+              color: Colors.blue,
               fontWeight: FontWeight.w900,
-              letterSpacing: 1.5)),
+              letterSpacing: 2)),
+      subtitleTextStyle: TextStyle(
+          fontSize: 14.sp,color: Colors.black54,height: 1.2,fontWeight: FontWeight.w500
+      )
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
         style: ButtonStyle(

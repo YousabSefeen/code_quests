@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_task/core/constants/themes/app_colors.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/animations/animated_fade_transition.dart';
@@ -59,7 +60,7 @@ class DeveloperNoteDialog extends StatelessWidget {
               style: ButtonStyle(
 
                 shape:  WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
-                backgroundColor: const WidgetStatePropertyAll(Color(0xff66BB6A))
+                backgroundColor:   WidgetStatePropertyAll(AppColors.green),
               ),
               onPressed: () => Navigator.of(context).pop(),
               child: const Text('تم'),
@@ -73,7 +74,7 @@ class DeveloperNoteDialog extends StatelessWidget {
   Container _dialogHeader() => Container(
     width: double.infinity,
         decoration: BoxDecoration(
-          color: Colors.red,
+          color:AppColors.red,
           borderRadius: BorderRadius.only(
               topRight: Radius.circular(12.r), topLeft: Radius.circular(12.r)),
         ),

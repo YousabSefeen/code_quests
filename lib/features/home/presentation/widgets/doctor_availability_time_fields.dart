@@ -17,17 +17,26 @@ class DoctorAvailabilityTimeFields extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       spacing: 7,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Expanded(
           child: BlocSelector<DoctorProfileCubit, DoctorProfileState, String?>(
             selector: (state) => state.availableFromTime,
             builder: (context, startTime) => DoctorInfoField(
               label: 'Available From',
-              hintText: startTime ?? 'Select Time',
+              hintText: startTime??'Select Time',
+              validator: (_) {
+                if (startTime == null) {
+                  return 'Please select the start time of availability';
+                }
+                return null;
+              },
               suffixIcon: IconButton(
                 icon: const Icon(Icons.access_alarm_outlined),
-                onPressed: () =>
-                    _openTimePicker(context: context, isStartTime: true),
+                onPressed: () => _openTimePicker(
+                  context: context,
+                  isStartTime: true,
+                ),
               ),
             ),
           ),
@@ -37,7 +46,13 @@ class DoctorAvailabilityTimeFields extends StatelessWidget {
             selector: (state) => state.availableToTime,
             builder: (context, endTime) => DoctorInfoField(
               label: 'Available To',
-              hintText: endTime ?? 'Select Time',
+              hintText:endTime?? 'Select Time',
+              validator: (_) {
+                if (endTime == null) {
+                  return 'Please select the end time of availability';
+                }
+                return null;
+              },
               suffixIcon: IconButton(
                 icon: const Icon(Icons.access_alarm_outlined),
                 onPressed: () =>
@@ -50,8 +65,10 @@ class DoctorAvailabilityTimeFields extends StatelessWidget {
     );
   }
 
-  void _openTimePicker(
-      {required BuildContext context, required bool isStartTime}) {
+  void _openTimePicker({
+    required BuildContext context,
+    required bool isStartTime,
+  }) {
     String time = DateFormat('hh:mm a').format(DateTime.now()).toString();
     final headlineSmall = Theme.of(context).textTheme.headlineSmall;
 

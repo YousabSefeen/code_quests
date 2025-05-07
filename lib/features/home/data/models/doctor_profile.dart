@@ -4,6 +4,7 @@ part 'doctor_profile.g.dart';
 
 @JsonSerializable()
 class DoctorProfile {
+  final String imageUrl;
   final String name;
   final String specialization;
   final String bio;
@@ -15,6 +16,7 @@ class DoctorProfile {
   final int fees;
 
   DoctorProfile({
+    required this.imageUrl,
     required this.name,
     required this.specialization,
     required this.bio,

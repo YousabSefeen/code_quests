@@ -9,7 +9,7 @@ class DoctorInfoField extends StatelessWidget {
 
   final String? hintText;
   final Widget? suffixIcon;
-
+  final FormFieldValidator<String>? validator;
   const DoctorInfoField({
     super.key,
     required this.label,
@@ -19,6 +19,7 @@ class DoctorInfoField extends StatelessWidget {
 
     this.hintText,
     this.suffixIcon,
+    this.validator
   });
 
   @override
@@ -34,12 +35,7 @@ class DoctorInfoField extends StatelessWidget {
             readOnly: suffixIcon!=null,
             keyboardType: keyboardType,
             maxLines: maxLines,
-            validator: (value) {
-              if (value == null || value.trim().isEmpty) {
-                return 'Please enter $label';
-              }
-              return null;
-            },
+          validator:   validator,
             decoration: InputDecoration(
               hintText: hintText,
               suffixIcon: suffixIcon,

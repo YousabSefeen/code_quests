@@ -31,6 +31,7 @@ dependencies:
 #  # Packages that help create models
   json_annotation: ^4.9.0
   flutter_datetime_picker_plus: ^2.2.0
+  lottie: ^3.3.1
 dev_dependencies:
   flutter_test:
     sdk: flutter

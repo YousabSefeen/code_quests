@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_task/features/home/data/models/doctor_profile.dart';
 
@@ -36,41 +37,56 @@ class DoctorProfileCubit extends Cubit<DoctorProfileState> {
     emit(state.copyWith(confirmedWorkingDays: state.tempSelectedDays));
   }
 
- Future<void> uploadDoctorProfile() async {
 
 
-   final response=   await doctorRepository.uploadDoctorProfile(DoctorProfile(
-      name: 'Yousab 97',
-      specialization: 'specialization',
-      bio: 'Experienced cardiologist with over 10 years in treating heart-related conditions.',
-      location: 'Cairo, Egypt',
-      workingDays: [ 'Saturday',
-        'Sunday',
-        'Monday',],
-      availableFrom: '05:20 Ap',
-      availableTo: '06:50 Ap',
-      fees: 97,
-    ));
-   response.fold((failure){
-     print('DoctorProfileCubit.uploadDoctorProfile failure== $failure');
-   }, (success){
-     print('DoctorProfileCubit.uploadDoctorProfile == success');
+
+
+  Future<void> uploadDoctorProfile({
+    required String imageUrl,
+    required String name,
+    required String specialization,
+    required String bio,
+    required String location,
+    required int fees,
+  }) async {
+    final response = await doctorRepository.uploadDoctorProfile(
+      DoctorProfile(
+        imageUrl: imageUrl,
+        name: name,
+        specialization: specialization,
+        bio: bio,
+        location: location,
+        workingDays: state.confirmedWorkingDays,
+        availableFrom: state.availableFromTime,
+        availableTo: state.availableToTime,
+        fees: fees,
+      ),
+    );
+    response.fold((failure) {
+      print('DoctorProfileCubit.uploadDoctorProfile failure== $failure');
+    }, (success) {
+      print('DoctorProfileCubit.uploadDoctorProfile == success');
     });
   }
+//TODO ********************************************************************************************************************************
+  List<DoctorProfile> doctors = [];
+
   Future<void>  getDoctors()async{
     try {
 
-      final QuerySnapshot<Map<String, dynamic>> doctorsSnapshot =
+      // final QuerySnapshot<Map<String, dynamic>> doctorsSnapshot =
+      // await FirebaseFirestore.instance.collection('doctors').get();
+
+      // for (var doc in doctorsSnapshot.docs) {
+      //
+      // }
+      final QuerySnapshot<Map<String, dynamic>> snapshot =
       await FirebaseFirestore.instance.collection('doctors').get();
 
-      for (var doc in doctorsSnapshot.docs) {
-        print('Doctor ID: ${doc.id}');
-        print('Doctor Data: ${doc.data()}');
-      }
-      // final QuerySnapshot<Map<String, dynamic>> doctors=  await FirebaseFirestore.instance
-      //     .collection('doctors').get()  ;
-      //
-      // print('DoctorProfileCubit.getDoctors==  $doctors');
+      doctors = snapshot.docs.map((doc) {
+        return DoctorProfile.fromJson(doc.data());
+      }).toList();
+      print('Number One== \n ${doctors[0].fees} ');
     }  catch (e) {
       print('DoctorProfileCubit.catch $e');
     }
