@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_task/core/constants/app_assets/app_assets.dart';
-import 'package:flutter_task/features/home/presentation/widgets/appointment_booking_button.dart';
-import 'package:flutter_task/features/home/presentation/widgets/doctor_location_display.dart';
-import 'package:flutter_task/features/home/presentation/widgets/doctor_profile_header.dart';
+
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../widgets/info_icon_with_text.dart';
+import '../../../doctor_list/presentation/widgets/appointment_booking_button.dart';
+import 'doctor_location_display.dart';
+import 'doctor_profile_header.dart';
 
 class DoctorProfileCard extends StatelessWidget {
   const DoctorProfileCard({super.key});

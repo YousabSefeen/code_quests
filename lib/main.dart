@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_task/features/auth/presentation/controller/cubit/login_cubit.dart';
+import 'package:flutter_task/features/doctor_list/presentation/screen/doctor_list_view_screen.dart';
 import 'core/constants/app_routes/app_router.dart';
 import 'core/constants/themes/app_dark_theme.dart';
 import 'core/constants/themes/app_light_theme.dart';
@@ -12,9 +13,9 @@ import 'core/my_bloc_observer.dart';
 import 'core/services/server_locator.dart';
 import 'features/auth/presentation/controller/cubit/register_cubit.dart';
 import 'features/auth/presentation/screens/login_screen.dart';
-import 'features/home/presentation/controller/cubit/doctor_profile_cubit.dart';
-import 'features/home/presentation/screens/doctor_profile_screen.dart';
-import 'features/home/presentation/screens/home_screen.dart';
+import 'features/doctor_list/presentation/controller/cubit/doctor_list_cubit.dart';
+import 'features/doctor_profile/presentation/controller/cubit/doctor_profile_cubit.dart';
+
 import 'firebase_options.dart';
 
 void main() async {
@@ -32,13 +33,16 @@ void main() async {
   ]);
   runApp(MultiBlocProvider(providers: [
     BlocProvider (
-      create: (_) =>sl<LoginCubit>()    ,
+      create: (_) =>serviceLocator<LoginCubit>()    ,
     ),
     BlocProvider (
-      create: (_) => sl<RegisterCubit>(),
+      create: (_) => serviceLocator<RegisterCubit>(),
     ),
     BlocProvider (
-      create: (_) => sl<DoctorProfileCubit>(),
+      create: (_) => serviceLocator<DoctorProfileCubit>(),
+    ),
+    BlocProvider (
+      create: (_) => serviceLocator<DoctorListCubit>(),
     ),
   ], child: const MyApp()));
 }
@@ -60,7 +64,7 @@ class MyApp extends StatelessWidget {
         darkTheme: AppDarkTheme.theme,
         themeMode: ThemeMode.light,
         onGenerateRoute: AppRouter.generateRoute,
-        home: FirebaseAuth.instance.currentUser  !=null ? const HomeScreen():const LoginScreen(),
+        home: FirebaseAuth.instance.currentUser  !=null ? const DoctorListViewScreen():const LoginScreen(),
       ),
     );
   }

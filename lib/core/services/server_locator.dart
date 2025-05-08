@@ -1,14 +1,18 @@
 
 import 'package:flutter_task/features/auth/presentation/controller/cubit/login_cubit.dart';
-import 'package:flutter_task/features/home/presentation/controller/cubit/doctor_profile_cubit.dart';
+
 import 'package:get_it/get_it.dart';
 
 import '../../features/auth/data/repository/auth_repository.dart';
 import '../../features/auth/presentation/controller/cubit/register_cubit.dart';
-import '../../features/home/data/repository/doctor_profile_repository.dart';
+import '../../features/doctor_list/data/repository/doctor_list_repository.dart';
+import '../../features/doctor_list/presentation/controller/cubit/doctor_list_cubit.dart';
+import '../../features/doctor_profile/data/repository/doctor_profile_repository.dart';
+import '../../features/doctor_profile/presentation/controller/cubit/doctor_profile_cubit.dart';
 
 
-final sl = GetIt.instance;
+
+final serviceLocator = GetIt.instance;
 
 class ServicesLocator {
   void init() {
@@ -16,34 +20,30 @@ class ServicesLocator {
     //******************************* sl.registerLazySingleton<ApiServices>(() => ApiServices());
 
     /// خدمات الدفع Paymob
-    sl.registerFactory<LoginCubit>(
-        () => LoginCubit(authRepository: sl()));
+    serviceLocator.registerFactory<LoginCubit>(
+        () => LoginCubit(authRepository: serviceLocator()),
+    );
 
-    sl.registerFactory<RegisterCubit>(
-        () => RegisterCubit(authRepository: sl()));
+    serviceLocator.registerFactory<RegisterCubit>(
+        () => RegisterCubit(authRepository: serviceLocator()),
+    );
 
 
 
-    sl.registerFactory<DoctorProfileCubit>(
-            () => DoctorProfileCubit(doctorRepository: sl() ));
+    serviceLocator.registerFactory<DoctorProfileCubit>(
+            () => DoctorProfileCubit(doctorRepository: serviceLocator() ),
+    );
+    serviceLocator.registerFactory<DoctorListCubit>(
+            () => DoctorListCubit( doctorListRepository: serviceLocator() ),
+    );
 
     // sl.registerLazySingleton<RegisterProvider>(
     //     () => RegisterProvider(authRepository: sl()));
 //TODO Repository
-    sl.registerLazySingleton<AuthRepository>(() => AuthRepository());
-    sl.registerLazySingleton<DoctorProfileRepository>(() => DoctorProfileRepository());
+    serviceLocator.registerLazySingleton<AuthRepository>(() => AuthRepository());
+    serviceLocator.registerLazySingleton<DoctorProfileRepository>(() => DoctorProfileRepository());
+    serviceLocator.registerLazySingleton<DoctorListRepository>(() => DoctorListRepository());
 
-    //   /// مزود الحالة Paymob
-    //   sl.registerFactory(() => PaymobPaymentProvider(paymobRepository: sl()));
-    //
-    //   /// خدمات الدفع stripe
-    //   sl.registerLazySingleton<StripeServices>(
-    //       () => StripeServices(apiServices: sl()));
-    //   sl.registerLazySingleton<StripeRepo>(
-    //       () => StripeRepo(stripeServices: sl()));
-    //
-    //   /// مزود الحالة stripe
-    //   sl.registerFactory(() => StripePaymentProvider(stripeRepo: sl()));
-    // }
+
   }
 }

@@ -2,13 +2,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_task/core/error/failure.dart';
-import 'package:flutter_task/features/home/data/models/doctor_profile.dart';
-import 'package:flutter_task/features/home/data/repository/doctor_profile_repository_base.dart';
+
+import '../models/doctor_model.dart';
+import 'doctor_profile_repository_base.dart';
+
 
 class DoctorProfileRepository extends DoctorProfileRepositoryBase {
   @override
   Future<Either<Failure, void>> uploadDoctorProfile(
-      DoctorProfile doctorProfile) async {
+      DoctorModel doctorProfile) async {
     try {
       final uid = FirebaseAuth.instance.currentUser!.uid;
       await FirebaseFirestore.instance

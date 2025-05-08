@@ -40,7 +40,7 @@ class CustomDrawer extends StatelessWidget {
             trailing: Icon(Icons.arrow_forward_ios,size: 18.sp,color: Colors.blue),
             onTap: () {
               Navigator.pop(context);
-              AppRouter.pushNamed(context, AppRouterNames.doctorPanel);
+              AppRouter.pushNamed(context, AppRouterNames.doctorProfile);
             },
           ),
           ElevatedButton(

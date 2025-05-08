@@ -1,9 +1,9 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'doctor_profile.g.dart';
+part 'doctor_model.g.dart';
 
 @JsonSerializable()
-class DoctorProfile {
+class DoctorModel {
   final String imageUrl;
   final String name;
   final String specialization;
@@ -15,7 +15,7 @@ class DoctorProfile {
   final String? availableTo;
   final int fees;
 
-  DoctorProfile({
+  DoctorModel({
     required this.imageUrl,
     required this.name,
     required this.specialization,
@@ -26,7 +26,7 @@ class DoctorProfile {
     required this.availableTo,
     required this.fees,
   });
-  factory DoctorProfile.fromJson(Map<String, dynamic> json) =>
+  factory DoctorModel.fromJson(Map<String, dynamic> json) =>
       _$DoctorProfileFromJson(json);
 
   Map<String, dynamic> toJson() => _$DoctorProfileToJson(this);

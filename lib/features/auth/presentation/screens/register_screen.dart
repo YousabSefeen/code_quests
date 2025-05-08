@@ -197,7 +197,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   void _navigateToEmailVerification(BuildContext context) =>
       SchedulerBinding.instance.addPostFrameCallback(
-        (_) => AppRouter.pushNamed(context, AppRouterNames.home),
+        (_) => AppRouter.pushNamed(context, AppRouterNames.doctorListView),
       );
 
   void _handleRegisterError({

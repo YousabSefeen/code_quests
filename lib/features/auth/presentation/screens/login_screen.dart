@@ -166,7 +166,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _navigateToHomeScreen(BuildContext context) =>
-      AppRouter.pushNamedAndRemoveUntil(context, AppRouterNames.home);
+      AppRouter.pushNamedAndRemoveUntil(context, AppRouterNames.doctorListView);
 
 
 

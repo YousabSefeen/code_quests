@@ -60,7 +60,7 @@ class AppDarkTheme {
         ),
       ),
       titleLarge: GoogleFonts.raleway(
-        // Used in home(title Collection And Best Selling)
+        // Used in doctor_profile(title Collection And Best Selling)
         // Used in Product detailsScree(Description )
         textStyle: TextStyle(
           fontSize: 27.sp,

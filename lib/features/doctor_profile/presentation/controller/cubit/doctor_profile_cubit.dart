@@ -1,9 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_task/features/home/data/models/doctor_profile.dart';
 
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+
+import '../../../data/models/doctor_model.dart';
 import '../../../data/repository/doctor_profile_repository.dart';
 import '../states/doctor_profile_state.dart';
 
@@ -50,7 +51,7 @@ class DoctorProfileCubit extends Cubit<DoctorProfileState> {
     required int fees,
   }) async {
     final response = await doctorRepository.uploadDoctorProfile(
-      DoctorProfile(
+      DoctorModel(
         imageUrl: imageUrl,
         name: name,
         specialization: specialization,
@@ -68,29 +69,7 @@ class DoctorProfileCubit extends Cubit<DoctorProfileState> {
       print('DoctorProfileCubit.uploadDoctorProfile == success');
     });
   }
-//TODO ********************************************************************************************************************************
-  List<DoctorProfile> doctors = [];
 
-  Future<void>  getDoctors()async{
-    try {
-
-      // final QuerySnapshot<Map<String, dynamic>> doctorsSnapshot =
-      // await FirebaseFirestore.instance.collection('doctors').get();
-
-      // for (var doc in doctorsSnapshot.docs) {
-      //
-      // }
-      final QuerySnapshot<Map<String, dynamic>> snapshot =
-      await FirebaseFirestore.instance.collection('doctors').get();
-
-      doctors = snapshot.docs.map((doc) {
-        return DoctorProfile.fromJson(doc.data());
-      }).toList();
-      print('Number One== \n ${doctors[0].fees} ');
-    }  catch (e) {
-      print('DoctorProfileCubit.catch $e');
-    }
-  }
   Future<void> createDoctorAppointment({required String doctorId })async{
     final appointmentId = FirebaseFirestore.instance.collection('appointments').doc().id;
 
