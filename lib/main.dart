@@ -42,7 +42,7 @@ void main() async {
       create: (_) => serviceLocator<DoctorProfileCubit>(),
     ),
     BlocProvider (
-      create: (_) => serviceLocator<DoctorListCubit>(),
+      create: (_) => serviceLocator<DoctorListCubit>()..getDoctorList(),
     ),
   ], child: const MyApp()));
 }

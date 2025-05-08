@@ -1,29 +1,35 @@
-import '../../../../doctor_profile/data/models/doctor_model.dart';
+import 'package:equatable/equatable.dart';
 
-class DoctorListState {
-  final List<DoctorModel> doctors;
-  final bool isLoading;
-  final String? errorMessage;
+import '../../../../../core/enum/request_state.dart';
+import '../../../data/models/doctor_list_model.dart';
 
-  DoctorListState({
-    required this.doctors,
-    required this.isLoading,
-    this.errorMessage,
+class DoctorListState extends Equatable {
+  final List<DoctorListModel> doctorList;
+  final RequestState doctorListState;
+  final String  doctorListError;
+
+  const DoctorListState({
+    this.doctorList = const [],
+    this.doctorListState = RequestState.loading,
+    this.doctorListError = '',
   });
 
-  factory DoctorListState.initial() {
-    return DoctorListState(doctors: [], isLoading: false);
-  }
-
   DoctorListState copyWith({
-    List<DoctorModel>? doctors,
-    bool? isLoading,
-    String? errorMessage,
+    List<DoctorListModel>? doctorList,
+    RequestState? doctorListState,
+    String? doctorListError,
   }) {
     return DoctorListState(
-      doctors: doctors ?? this.doctors,
-      isLoading: isLoading ?? this.isLoading,
-      errorMessage: errorMessage,
+      doctorList: doctorList ?? this.doctorList,
+      doctorListState: doctorListState ?? this.doctorListState,
+      doctorListError: doctorListError ?? this.doctorListError,
     );
   }
+
+  @override
+  List<Object > get props => [
+        doctorList,
+        doctorListState,
+        doctorListError,
+      ];
 }
