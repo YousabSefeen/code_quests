@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_task/features/doctor_list/presentation/controller/states/doctor_list_state.dart';
 
-import '../../../../doctor_profile/data/models/doctor_model.dart';
+import '../../../data/models/doctor_list_model.dart';
 import '../../../data/repository/doctor_list_repository.dart';
 
 class DoctorListCubit extends Cubit<DoctorListState> {
@@ -12,29 +12,38 @@ class DoctorListCubit extends Cubit<DoctorListState> {
   DoctorListCubit({required this.doctorListRepository})
       : super(DoctorListState.initial());
 
-  //TODO ********************************************************************************************************************************
-  List<DoctorModel> doctors = [];
+
+  List<DoctorListModel> doctors = [];
 
   Future<void>  getDoctors()async{
     try {
 
-      final QuerySnapshot<Map<String, dynamic>> doctorsSnapshot =
+      // final QuerySnapshot<Map<String, dynamic>> doctorsSnapshot =
+      // await FirebaseFirestore.instance.collection('doctors').get();
+
+      // for (var doc in doctorsSnapshot.docs) {
+      //
+      // }
+      final QuerySnapshot<Map<String, dynamic>> snapshot =
       await FirebaseFirestore.instance.collection('doctors').get();
 
-      for (var doc in doctorsSnapshot.docs) {
-print('object  ${doc.id}');
-      }
+      doctors = snapshot.docs.map((doc) {
 
-      //TODO New Test
-      // final QuerySnapshot<Map<String, dynamic>> snapshot =
-      // await FirebaseFirestore.instance.collection('doctors').get();
-      //
-      // doctors = snapshot.docs.map((doc) {
-      //   return DoctorModel.fromJson(doc.data());
-      // }).toList();
-      // print('Number One== \n ${doctors[0].fees} ');
+
+
+        final combinedData =  {
+
+          'doctorId': doc.id,
+          'doctorModel': doc.data(), // assuming you have a nested `UserModel user` field
+        };
+        return DoctorListModel.fromJson(combinedData);
+      }).toList();
+      //   print('Number One== \n ${doctors[0].fees} ');
+      print('doctorId == \n ${doctors[0].doctorId} ');
+      print('doctorModel== \n ${doctors[0].doctorModel.bio} ');
     }  catch (e) {
       print('DoctorProfileCubit.catch $e');
     }
   }
+
 }

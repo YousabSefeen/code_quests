@@ -5,13 +5,8 @@ part of 'doctor_model.dart';
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
-/*
-{fees: 200, workingDays: [Saturday, Sunday, Monday], imageUrl: https://i.pinimg.com/736x/62/44/97/624497ea5ae28be78867dafce4834e1c.jpg, name: Sarah Ahmed,
- bio: Specialist in heart diseases and hypertension,
-with over 8 years of experience., specialization: Cardiologist, location: Cairo Heart Center, availableFrom: 05:00 PM, availableTo: 10:00 PM}
- */
-DoctorModel _$DoctorProfileFromJson(Map<String, dynamic> json) =>
-    DoctorModel(
+
+DoctorModel _$DoctorModelFromJson(Map<String, dynamic> json) => DoctorModel(
       imageUrl: json['imageUrl'] as String,
       name: json['name'] as String,
       specialization: json['specialization'] as String,
@@ -25,7 +20,7 @@ DoctorModel _$DoctorProfileFromJson(Map<String, dynamic> json) =>
       fees: (json['fees'] as num).toInt(),
     );
 
-Map<String, dynamic> _$DoctorProfileToJson(DoctorModel instance) =>
+Map<String, dynamic> _$DoctorModelToJson(DoctorModel instance) =>
     <String, dynamic>{
       'imageUrl': instance.imageUrl,
       'name': instance.name,

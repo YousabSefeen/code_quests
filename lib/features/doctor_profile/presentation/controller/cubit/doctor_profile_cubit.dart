@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_task/features/doctor_list/data/models/doctor_list_model.dart';
 
 
 import '../../../data/models/doctor_model.dart';

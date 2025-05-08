@@ -26,9 +26,42 @@ class _DoctorListViewScreenState extends State<DoctorListViewScreen> {
       appBar: AppBar(title: const Text('Home Screen')),
      // body:  const DoctorListView(),
       body:  Center(
-        child: ElevatedButton(onPressed: (){
-          context.read<DoctorListCubit>().getDoctors();
-        }, child: Text('data')),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          spacing: 20,
+          children: [
+
+
+
+         ElevatedButton(onPressed: ()async{
+           await  context.read<DoctorListCubit>().getDoctors();
+
+
+            }, child: Text('get Doctors')),
+
+            ElevatedButton(onPressed: ()async{
+
+
+                final doctors=  context.read<DoctorListCubit>().doctors;
+
+                print('******************************');
+
+                print(' ${doctors }');
+                print('******************************');
+                }, child: Text('doctor 1111')),
+
+            ElevatedButton(onPressed: ()async{
+
+
+              final doctors=  context.read<DoctorListCubit>().doctors;
+
+              print('******************************');
+              print(' ${doctors[1].doctorId}');
+              print(' ${doctors[1].doctorModel.name}');
+              print('******************************');
+            }, child: Text('doctor 222222')),
+          ],
+        ),
       ),
     );
   }
