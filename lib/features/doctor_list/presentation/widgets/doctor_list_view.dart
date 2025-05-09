@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_task/features/appointments/presentation/controller/cubit/appointment_cubit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../data/models/doctor_list_model.dart';
@@ -20,6 +22,7 @@ class DoctorListView extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
       itemBuilder: (context, index) {
         final doctor = doctorList[index];
+
         return Card(
           color: Colors.white,
           elevation: 4,
@@ -52,7 +55,7 @@ class DoctorListView extends StatelessWidget {
                   ),
                 ],
               ),
-              const AppointmentBookingButton(),
+                AppointmentBookingButton(doctorId: doctor.doctorId),
             ],
           ),
         );

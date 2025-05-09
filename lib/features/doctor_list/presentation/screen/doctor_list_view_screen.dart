@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_task/core/enum/request_state.dart';
 import 'package:flutter_task/features/doctor_list/presentation/widgets/doctor_list_view.dart';
+import 'package:intl/intl.dart';
 
 import '../controller/cubit/doctor_list_cubit.dart';
 import '../controller/states/doctor_list_state.dart';
@@ -22,8 +24,16 @@ class _DoctorListViewScreenState extends State<DoctorListViewScreen> {
     print('_DoctorListViewScreenState.build');
     return Scaffold(
       drawer: const CustomDrawer(),
-      appBar: AppBar(title: const Text('Home Screen')),
-     // body:  const DoctorListView(),
+    //  appBar: AppBar(title: const Text('Home Screen')),
+      appBar: AppBar(title:   Text('${FirebaseAuth.instance.currentUser!.uid}',style: TextStyle(
+        fontSize: 16
+      ),)),
+
+
+
+
+
+
       body: BlocBuilder<DoctorListCubit, DoctorListState>(
         buildWhen: (previous, current) =>
             previous.doctorListState != current.doctorListState,

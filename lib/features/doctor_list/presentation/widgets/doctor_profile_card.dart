@@ -46,7 +46,7 @@ class DoctorProfileCard extends StatelessWidget {
               ),
             ],
           ),
-          const AppointmentBookingButton(),
+          const AppointmentBookingButton(doctorId: '',),
         ],
       ),
     );

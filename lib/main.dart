@@ -11,6 +11,7 @@ import 'core/constants/themes/app_dark_theme.dart';
 import 'core/constants/themes/app_light_theme.dart';
 import 'core/my_bloc_observer.dart';
 import 'core/services/server_locator.dart';
+import 'features/appointments/presentation/controller/cubit/appointment_cubit.dart';
 import 'features/auth/presentation/controller/cubit/register_cubit.dart';
 import 'features/auth/presentation/screens/login_screen.dart';
 import 'features/doctor_list/presentation/controller/cubit/doctor_list_cubit.dart';
@@ -42,7 +43,12 @@ void main() async {
       create: (_) => serviceLocator<DoctorProfileCubit>(),
     ),
     BlocProvider (
-      create: (_) => serviceLocator<DoctorListCubit>()..getDoctorList(),
+     create: (_) => serviceLocator<DoctorListCubit>()..getDoctorList(),
+      ///  create: (_) => serviceLocator<DoctorListCubit>() ,
+    ),
+    BlocProvider (
+     create: (_) => serviceLocator<AppointmentCubit>() ,
+      ///  create: (_) => serviceLocator<DoctorListCubit>() ,
     ),
   ], child: const MyApp()));
 }

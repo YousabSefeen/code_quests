@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 
+import 'package:flutter_task/core/constants/app_alerts/app_alerts.dart';
+
 import '../../../../core/constants/themes/app_colors.dart';
+import '../../../appointments/presentation/widgets/doctor_booking_availability_dialog.dart';
+
 
 class AppointmentBookingButton extends StatelessWidget {
-  const AppointmentBookingButton({super.key});
+  final String doctorId;
+
+  const AppointmentBookingButton({super.key, required this.doctorId});
 
   @override
   Widget build(BuildContext context) {
@@ -23,9 +29,17 @@ class AppointmentBookingButton extends StatelessWidget {
           foregroundColor: WidgetStatePropertyAll(AppColors.white),
           overlayColor: const WidgetStatePropertyAll(Colors.grey),
         ),
-        onPressed: () {},
+        onPressed: () {
+          AppAlerts.customDialog(
+              context: context,
+              body: DoctorBookingAvailabilityDialog(doctorId: doctorId));
+          // AppRouter.push(
+          //     context, DoctorBookingAvailabilityScreen(doctorId: doctorId));
+        },
         child: const Text('View Availability & Book'),
       ),
     );
   }
 }
+
+

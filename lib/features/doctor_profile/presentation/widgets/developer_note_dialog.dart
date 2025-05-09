@@ -30,10 +30,11 @@ class DeveloperNoteDialog extends StatelessWidget {
       child: AnimatedFadeTransition(
 
         child: AlertDialog(
+
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r)),
           backgroundColor: Colors.white,
-          contentPadding: const EdgeInsets.all(0),
+
           content: Column(
             mainAxisSize: MainAxisSize.min,
             spacing: 16,

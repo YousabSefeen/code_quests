@@ -3,6 +3,8 @@ import 'package:flutter_task/features/auth/presentation/controller/cubit/login_c
 
 import 'package:get_it/get_it.dart';
 
+import '../../features/appointments/data/repository/appointment_repository.dart';
+import '../../features/appointments/presentation/controller/cubit/appointment_cubit.dart';
 import '../../features/auth/data/repository/auth_repository.dart';
 import '../../features/auth/presentation/controller/cubit/register_cubit.dart';
 import '../../features/doctor_list/data/repository/doctor_list_repository.dart';
@@ -37,12 +39,17 @@ class ServicesLocator {
             () => DoctorListCubit( doctorListRepository: serviceLocator() ),
     );
 
+    serviceLocator.registerFactory<AppointmentCubit>(
+            () => AppointmentCubit(appointmentRepository: serviceLocator(),  ),
+    );
+
     // sl.registerLazySingleton<RegisterProvider>(
     //     () => RegisterProvider(authRepository: sl()));
 //TODO Repository
     serviceLocator.registerLazySingleton<AuthRepository>(() => AuthRepository());
     serviceLocator.registerLazySingleton<DoctorProfileRepository>(() => DoctorProfileRepository());
     serviceLocator.registerLazySingleton<DoctorListRepository>(() => DoctorListRepository());
+    serviceLocator.registerLazySingleton<AppointmentRepository>(() => AppointmentRepository());
 
 
   }

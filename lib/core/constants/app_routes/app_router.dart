@@ -4,8 +4,8 @@ import 'package:flutter_task/features/doctor_list/presentation/screen/doctor_lis
 
 import '../../../features/auth/presentation/screens/login_screen.dart';
 import '../../../features/auth/presentation/screens/register_screen.dart';
+import '../../../features/doctor_list/presentation/widgets/appointment_booking_button.dart';
 import '../../../features/doctor_profile/presentation/screens/doctor_profile_screen.dart';
-
 import '../../animations/animation_route.dart';
 import 'app_router_names.dart';
 
@@ -25,6 +25,8 @@ class AppRouter {
         return _animatedRoute(settings, const DoctorProfileScreen());
       case AppRouterNames.doctorListView:
         return _animatedRoute(settings, const DoctorListViewScreen());
+      case AppRouterNames.doctorBookingAvailability:
+
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(
@@ -46,6 +48,8 @@ class AppRouter {
   static pushNamed(BuildContext context, String screenName,
           {Object? arguments}) =>
       Navigator.of(context).pushNamed(screenName, arguments: arguments);
+
+
 
   static pushNamedAndRemoveUntil(BuildContext context, String screenName,
           {Object? arguments}) =>
