@@ -33,11 +33,7 @@ class DoctorListView extends StatelessWidget {
           child: Column(
             spacing: 5,
             children: [
-              DoctorProfileHeader(
-                imageUrl: doctor.doctorModel.imageUrl,
-                name: doctor.doctorModel.name,
-                bio: doctor.doctorModel.bio,
-              ),
+              DoctorProfileHeader(doctorInfo: doctor.doctorModel),
               DoctorLocationDisplay(location: doctor.doctorModel.location),
               const SizedBox(),
               ConsultationFeeAndWaitRow(

@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 
+import '../../../doctor_profile/data/models/doctor_model.dart';
+
 class DoctorProfileHeader extends StatelessWidget {
-  final String imageUrl;
-  final String name;
-  final String bio;
+  final DoctorModel doctorInfo;
 
   const DoctorProfileHeader(
-      {super.key,
-      required this.imageUrl,
-      required this.name,
-      required this.bio});
+      {super.key, required this.doctorInfo});
 
   @override
   Widget build(BuildContext context) {
@@ -17,10 +14,10 @@ class DoctorProfileHeader extends StatelessWidget {
       contentPadding: EdgeInsets.zero,
       leading: CircleAvatar(
         radius: 40,
-        backgroundImage: NetworkImage(imageUrl),
+        backgroundImage: NetworkImage(doctorInfo.imageUrl),
       ),
-      title: Text(name),
-      subtitle: Text(bio),
+      title: Text(doctorInfo.name),
+      subtitle: Text(doctorInfo.bio),
     );
   }
 }
