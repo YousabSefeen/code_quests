@@ -117,16 +117,13 @@ class CustomDateTimeLine extends StatelessWidget {
 
 
                  //*********************************************
-                 List<String> bookedTimes =   ['05:00 PM', '07:00 PM'];
+                List<String> bookedHours = ['05:00 PM', '07:00 PM'];
 
+                final availableHours = slots.where((slot) =>
+                 !bookedHours.contains(slot)).toList();
 
-
-                 final availableSlots = slots.where((slot) => !bookedTimes.contains(slot)).toList();
-
-
-
-                      print('availableSlots $availableSlots');
-          }, child: Text('Tester')),
+                print('availableSlots $availableHours');
+              }, child: Text('Tester')),
           ElevatedButton(
               onPressed: () async{
 
@@ -148,21 +145,58 @@ class CustomDateTimeLine extends StatelessWidget {
               child: Text('data'),
           ),
 
+               ElevatedButton(onPressed: ()async{
 
+                 final allDoctorTimeSlots = generateHourlyTimeSlots(
+                   startTime: doctor.doctorModel.availableFrom!,
+                   endTime: doctor.doctorModel.availableTo!,
+                 );
+
+                 final appointmentsSnapshot = await FirebaseFirestore.instance
+                     .collection('appointments')
+                     .where('doctorId', isEqualTo: doctor.doctorId)
+                     .where('date', isEqualTo: '01/01/2000')
+                     .get();
+
+                 final reservedTimeSlots = appointmentsSnapshot.docs
+                     .map((doc) => doc['time'] as String)
+                     .toList();
+
+                 final availableDoctorTimeSlots = filterAvailableTimeSlots(
+                   totalTimeSlots: allDoctorTimeSlots,
+                   reservedTimeSlots: reservedTimeSlots,
+                 );
+                 print('availableDoctorTimeSlots  $availableDoctorTimeSlots');
+              }, child: Text('fffffffffffffffffffffffffffffffff')),
 
         ],
       ),
     );
   }
-  List<String> generateSlots(DateTime from, DateTime to, Duration step) {
 
+  List<String> generateHourlyTimeSlots({
+    required String startTime,
+    required String endTime,
+  }) {
+    final DateFormat timeFormatter = DateFormat('hh:mm a');
+    DateTime currentTime = timeFormatter.parse(startTime);
+    final DateTime endTimeParsed = timeFormatter.parse(endTime);
 
-    final format = DateFormat.jm();
-    List<String> slots = [];
-    while (from.isBefore(to)) {
-      slots.add(format.format(from));
-      from = from.add(step);
+    List<String> hourlySlots = [];
+    while (currentTime.isBefore(endTimeParsed)) {
+      hourlySlots.add(timeFormatter.format(currentTime));
+      currentTime = currentTime.add(const Duration(hours: 1));
     }
-    return slots;
+
+    return hourlySlots;
+  }
+
+  List<String> filterAvailableTimeSlots({
+    required List<String> totalTimeSlots,
+    required List<String> reservedTimeSlots,
+  }) {
+    return totalTimeSlots
+        .where((slot) => !reservedTimeSlots.contains(slot))
+        .toList();
   }
 }
