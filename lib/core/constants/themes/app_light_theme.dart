@@ -125,69 +125,40 @@ class AppLightTheme {
       color: AppColors.customLightBlue,
       thickness: 2,
     ),
+
+    ///
+    ///
     textTheme: TextTheme(
-      bodySmall: TextStyle(
-        //Email Verification Body
-        fontSize: 13.sp,
-        height: 2.2,
-        fontWeight: FontWeight.w400,
-        color: Colors.black,
-      ),
-
-      bodyMedium: TextStyle(
-
-        fontSize: 14.sp,
-        height: 2.2,
+      headlineMedium: TextStyle(
+        // style for ... (used in *DoctorAvailabilityTimeFields*  )
+        fontSize: 15.sp,
+        color: Colors.black38,
         fontWeight: FontWeight.w600,
-        color: Colors.blue,
+        height: 1,
       ),
-      labelSmall: TextStyle(
-        fontSize:14.sp,
-        letterSpacing: 0.08,
-        color: Colors.black,
-        fontWeight: FontWeight.w800,
-      ),
-      labelMedium:   TextStyle(
-        fontSize: 20.sp,
-        fontWeight: FontWeight.w800,
-        color: Colors.black87,
-      ),
-      // headlineLarge: TextStyle(
-      //   //use in   (TimePicker)
-      //   color: Colors.black,
-      //   fontWeight: FontWeight.bold,
-      //   fontSize: 18.sp,
-      // ),
       headlineSmall: TextStyle(
-        //use in AddScreen (TimePicker)
+        // style for ... (used in *DoctorAvailabilityTimeFields*  )
         color: Colors.white,
         fontSize: 17.sp,
         fontWeight: FontWeight.w700,
       ),
-      labelLarge: TextStyle(fontSize: 15.sp,fontWeight: FontWeight.w400,color: Colors.black),
-      titleMedium: GoogleFonts.permanentMarker(
-        //TODO:Uses of texts( LogoText )
-        textStyle: TextStyle(
-          fontWeight: FontWeight.w900,
-          fontSize: 22.sp,
-          color: const Color(0xff164863),
-          letterSpacing: 2,
-        ),
-      ),
+
+      labelMedium:   TextStyle(
+          // style for ... (used in *CustomDateTimeLine*  )
+          fontSize: 12.sp,
+          color: Colors.white,
+          fontWeight: FontWeight.w400),
+
+      ///*******************************************************
+
       titleLarge: GoogleFonts.caladea(
-          //TODO:Uses of texts( CustomAuthField(*labelStyle*) )
+          //TODO:  لم يستخدم بعد
           textStyle: TextStyle(
         fontSize: 20.sp,
         fontWeight: FontWeight.w700,
         color: const Color(0xff164863),
         letterSpacing: 1.5,
       )),
-      titleSmall: TextStyle(
-        //TODO:Uses of texts( CustomAuthField(*style*) )
-        fontSize: 18.sp,
-        color: Colors.black,
-        fontWeight: FontWeight.w700,
-      ),
     ),
   );
 }

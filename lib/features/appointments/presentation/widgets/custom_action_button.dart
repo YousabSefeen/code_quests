@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 
 
@@ -28,12 +30,12 @@ class CustomActionButton extends StatelessWidget {
         ),
         backgroundColor: WidgetStatePropertyAll(backgroundColor),
         foregroundColor: WidgetStatePropertyAll(textColor),
-        textStyle: const WidgetStatePropertyAll(
-          TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
+        textStyle:   WidgetStatePropertyAll(
+           GoogleFonts.raleway(fontSize: 15.sp, fontWeight: FontWeight.w800),
         ),
         shape: WidgetStatePropertyAll(
           RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(12),
             side: BorderSide(color: borderColor),
           ),
         ),

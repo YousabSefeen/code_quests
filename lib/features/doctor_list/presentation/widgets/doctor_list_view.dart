@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_task/features/appointments/presentation/controller/cubit/appointment_cubit.dart';
+import 'package:flutter_task/core/constants/app_routes/app_router.dart';
+import 'package:flutter_task/core/constants/app_routes/app_router_names.dart';
+import 'package:flutter_task/core/constants/themes/app_colors.dart';
+import 'package:flutter_task/features/appointments/presentation/widgets/custom_action_button.dart';
+import 'package:flutter_task/features/appointments/presentation/widgets/doctor_booking_availability_dialog.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../data/models/doctor_list_model.dart';
-import 'appointment_booking_button.dart';
 import 'doctor_location_display.dart';
 import 'doctor_profile_header.dart';
 import 'info_icon_with_text.dart';
@@ -21,7 +23,7 @@ class DoctorListView extends StatelessWidget {
       physics: const BouncingScrollPhysics(),
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
       itemBuilder: (context, index) {
-        final doctor = doctorList[index];
+        final DoctorListModel doctor = doctorList[index];
 
         return Card(
           color: Colors.white,
@@ -55,7 +57,22 @@ class DoctorListView extends StatelessWidget {
                   ),
                 ],
               ),
-                AppointmentBookingButton(doctorId: doctor.doctorId),
+              Container(
+                width: double.infinity,
+                margin: const EdgeInsets.symmetric(horizontal: 4),
+                child: CustomActionButton(
+                  text: 'View Availability & Book',
+                  onPressed: () => AppRouter.pushNamed(
+                      context,
+                      AppRouterNames.appointmentBooking,
+                      arguments: doctor,
+                    ),
+                  backgroundColor: AppColors.green,
+                  textColor: AppColors.white,
+                  borderColor: Colors.transparent,
+                ),
+              ),
+              // AppointmentBookingButton(doctorId: doctor.doctorId),
             ],
           ),
         );

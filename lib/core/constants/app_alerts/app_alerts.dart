@@ -67,9 +67,9 @@ class AppAlerts {
   static customDialog({required BuildContext context, required Widget body}) {
     showDialog(
       context: context,
-       barrierDismissible: false,
 
-      builder: (ccc) => body,
+
+      builder: (context) => body,
     );
   }
 

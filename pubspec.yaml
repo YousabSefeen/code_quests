@@ -23,13 +23,14 @@ dependencies:
   dartz: ^0.10.1
   get_it: ^8.0.3
   flutter_screenutil: ^5.9.3
-  intl: ^0.20.2
+  intl: ^0.19.0
   google_fonts: ^6.2.1
   font_awesome_flutter: ^10.8.0
   animate_do: ^4.2.0
   cached_network_image: ^3.4.1
 #  # Packages that help create models
   json_annotation: ^4.9.0
+  easy_date_timeline: ^2.0.9
   flutter_datetime_picker_plus: ^2.2.0
   lottie: ^3.3.1
   equatable: ^2.0.7

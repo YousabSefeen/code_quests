@@ -6,6 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_task/features/auth/presentation/controller/cubit/login_cubit.dart';
 import 'package:flutter_task/features/doctor_list/presentation/screen/doctor_list_view_screen.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:intl/intl.dart';
 import 'core/constants/app_routes/app_router.dart';
 import 'core/constants/themes/app_dark_theme.dart';
 import 'core/constants/themes/app_light_theme.dart';
@@ -21,6 +23,7 @@ import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+    await initializeDateFormatting('en_US' );
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
@@ -43,12 +46,12 @@ void main() async {
       create: (_) => serviceLocator<DoctorProfileCubit>(),
     ),
     BlocProvider (
-     create: (_) => serviceLocator<DoctorListCubit>()..getDoctorList(),
-      ///  create: (_) => serviceLocator<DoctorListCubit>() ,
+        create: (_) => serviceLocator<DoctorListCubit>()..getDoctorList(),
+      /// create: (_) => serviceLocator<DoctorListCubit>() ,
     ),
     BlocProvider (
      create: (_) => serviceLocator<AppointmentCubit>() ,
-      ///  create: (_) => serviceLocator<DoctorListCubit>() ,
+
     ),
   ], child: const MyApp()));
 }
@@ -70,7 +73,36 @@ class MyApp extends StatelessWidget {
         darkTheme: AppDarkTheme.theme,
         themeMode: ThemeMode.light,
         onGenerateRoute: AppRouter.generateRoute,
-        home: FirebaseAuth.instance.currentUser  !=null ? const DoctorListViewScreen():const LoginScreen(),
+       home: FirebaseAuth.instance.currentUser  !=null ? const DoctorListViewScreen():const LoginScreen(),
+        //     home:  const Tes(),
+      ),
+    );
+  }
+}
+
+
+class Tes extends StatelessWidget {
+  const Tes({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('data'),
+      ),
+      body: Center(
+        child:  ElevatedButton(onPressed: (){
+
+          // تحويل الوقت الي (DateTime Type)
+
+
+          final DateTime time = DateFormat('hh:mm a').parse('08:00 AM');
+          final DateTime time2 = DateFormat('hh:mm a').parse('11:00 AM');
+
+          final c=time2.difference(time).inHours;
+
+            print(c);
+        }, child: Text('data')),
       ),
     );
   }
