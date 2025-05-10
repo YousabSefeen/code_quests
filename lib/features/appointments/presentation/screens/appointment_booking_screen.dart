@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_task/features/appointments/presentation/widgets/custom_date_time_line.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
+import 'package:flutter_task/features/appointments/presentation/widgets/custom_sliver_app_bar.dart';
+import 'package:flutter_task/features/doctor_profile/data/models/doctor_model.dart';
 
-import '../../../../core/utils/date_time_formatter.dart';
+import '../../../../core/constants/common_widgets/consultation_fee_and_wait_row.dart';
 import '../../../doctor_list/data/models/doctor_list_model.dart';
-import '../widgets/available_doctor_time_slots_grid.dart';
+import '../widgets/doctor_info_header.dart';
 
 class AppointmentBookingScreen extends StatefulWidget {
   const AppointmentBookingScreen({super.key});
@@ -21,60 +20,32 @@ class _AppointmentBookingScreenState extends State<AppointmentBookingScreen> {
   Widget build(BuildContext context) {
     final DoctorListModel doctor =
         ModalRoute.of(context)!.settings.arguments as DoctorListModel;
+
+    final DoctorModel doctorInfo = doctor.doctorModel;
     return Scaffold(
       backgroundColor: Colors.grey.shade50,
       body: SafeArea(
         child: CustomScrollView(
           slivers: [
-            SliverAppBar(
-              pinned: true,
-              expandedHeight: 200.0,
-              flexibleSpace: FlexibleSpaceBar(
-                background: Image.network(
-                  doctor.doctorModel.imageUrl,
-                  fit: BoxFit.fill,
-                ),
-              ),
-            ),
+            CustomSliverAppBar(
+                doctorName: doctorInfo.name,
+                doctorImage: doctorInfo.imageUrl,
+                specialization: doctorInfo.specialization),
             SliverList(
                 delegate: SliverChildListDelegate([
-              const SizedBox(height: 5),
-              Text(
-                doctor.doctorModel.name,
-                style: GoogleFonts.playpenSans(
-                  fontSize: 22.sp,
-                  color: Colors.black,
-                  fontWeight: FontWeight.w600,
-                  height: 1,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              Text(
-                ' ${doctor.doctorModel.specialization}',
-                style: GoogleFonts.poppins(
-                    fontSize: 15.sp,
-                    color: Colors.grey,
-                    fontWeight: FontWeight.w500,
-                    height: 1.9),
-                textAlign: TextAlign.center,
-              ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: Text(
-                  ' ${doctor.doctorModel.bio}',
-                  style: GoogleFonts.poppins(
-                      fontSize: 12.sp,
-                      color: Colors.grey,
-                      fontWeight: FontWeight.w500,
-                      height: 1.5),
-                  textAlign: TextAlign.center,
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: Column(
+                  spacing: 10,
+                  children: [
+                    const SizedBox(height: 5),
+                    DoctorInfoHeader(doctorInfo: doctorInfo),
+                    const SizedBox(height: 10),
+                    ConsultationFeeAndWaitRow(   fee: doctorInfo.fees.toString()),
+                    CustomDateTimeLine(doctor: doctor),
+                  ],
                 ),
               ),
-              const SizedBox(height: 30),
-
-
-                CustomDateTimeLine(doctor: doctor),
-
             ])),
           ],
         ),

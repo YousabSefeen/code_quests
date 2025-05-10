@@ -97,7 +97,7 @@ class AppLightTheme {
           ),
         )),
         foregroundColor: const WidgetStatePropertyAll(Colors.white),
-        overlayColor: MaterialStateProperty.all(const Color(0xff427D9D)),
+        overlayColor: const WidgetStatePropertyAll(Color(0xff427D9D)),
       ),
     ),
 
@@ -129,6 +129,8 @@ class AppLightTheme {
     ///
     ///
     textTheme: TextTheme(
+
+
       headlineMedium: TextStyle(
         // style for ... (used in *DoctorAvailabilityTimeFields*  )
         fontSize: 15.sp,
@@ -149,16 +151,41 @@ class AppLightTheme {
           color: Colors.white,
           fontWeight: FontWeight.w400),
 
+      titleMedium: GoogleFonts.playpenSans(
+        // style for ... (used in  DoctorList (info))
+        fontSize: 14.sp,
+        height: 2,
+        fontWeight: FontWeight.w700,
+        color: Colors.grey.shade600,
+      ),
+
+      bodySmall: TextStyle(
+        // style for ... (used in  AppointmentBookingScreen (CustomSliverAppBar))
+        fontSize: 18.sp,
+        color: Colors.white,
+        fontWeight: FontWeight.w500,
+      ),
+      bodyMedium: GoogleFonts.playpenSans(
+        // style for ... (used in  AppointmentBookingScreen (CustomSliverAppBar))
+        fontSize: 22.sp,
+        color: Colors.white,
+        fontWeight: FontWeight.w600,
+      ),
+         bodyLarge: GoogleFonts.poppins(
+           // style for ... (used in  AppointmentBookingScreen (doctorInfo))
+           fontSize: 16.sp,
+           letterSpacing: 0.05,
+           fontWeight: FontWeight.w700,
+           color: AppColors.softBlue,
+         ),
+      titleSmall: TextStyle(
+        fontSize: 14.sp,
+        fontWeight: FontWeight.w500,
+        color: Colors.grey,
+      ),
       ///*******************************************************
 
-      titleLarge: GoogleFonts.caladea(
-          //TODO:  لم يستخدم بعد
-          textStyle: TextStyle(
-        fontSize: 20.sp,
-        fontWeight: FontWeight.w700,
-        color: const Color(0xff164863),
-        letterSpacing: 1.5,
-      )),
+
     ),
   );
 }

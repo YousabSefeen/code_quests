@@ -3,13 +3,11 @@ import 'package:flutter_task/core/constants/app_routes/app_router.dart';
 import 'package:flutter_task/core/constants/app_routes/app_router_names.dart';
 import 'package:flutter_task/core/constants/themes/app_colors.dart';
 import 'package:flutter_task/features/appointments/presentation/widgets/custom_action_button.dart';
-import 'package:flutter_task/features/appointments/presentation/widgets/doctor_booking_availability_dialog.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../../../../core/constants/common_widgets/consultation_fee_and_wait_row.dart';
 import '../../data/models/doctor_list_model.dart';
 import 'doctor_location_display.dart';
 import 'doctor_profile_header.dart';
-import 'info_icon_with_text.dart';
 
 class DoctorListView extends StatelessWidget {
   final List<DoctorListModel> doctorList;
@@ -41,22 +39,11 @@ class DoctorListView extends StatelessWidget {
                 bio: doctor.doctorModel.bio,
               ),
               DoctorLocationDisplay(location: doctor.doctorModel.location),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  const SizedBox(width: 12),
-                  const InfoIconWithText(
-                    icon: FontAwesomeIcons.clockRotateLeft,
-                    title: 'Waiting Time',
-                    subtitle: '15 min',
-                  ),
-                  InfoIconWithText(
-                    icon: FontAwesomeIcons.dollarSign,
-                    title: 'Consultation Fee',
-                    subtitle: doctor.doctorModel.fees.toString(),
-                  ),
-                ],
+              const SizedBox(),
+              ConsultationFeeAndWaitRow(
+                  fee: doctor.doctorModel.fees.toString(),
               ),
+
               Container(
                 width: double.infinity,
                 margin: const EdgeInsets.symmetric(horizontal: 4),

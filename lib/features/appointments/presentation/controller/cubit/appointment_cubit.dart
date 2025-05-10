@@ -1,7 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_task/core/error/failure.dart';
-import 'package:intl/intl.dart';
 
 import '../../../../../core/enum/request_state.dart';
 import '../../../../../core/utils/date_time_formatter.dart';
@@ -55,38 +54,51 @@ class AppointmentCubit extends Cubit<AppointmentState> {
     );
   }
 
-  getAvailableDoctorTimeSlots({
+  Future<bool> checkIfDoctorWorksOnDate({
     required DateTime selectedDate,
-    required DoctorListModel doctor  ,
-
+    required List<String> doctorWorkingDays,
   }) async {
-
-    final selectedDateByUser =
-    DateTimeFormatter.convertSelectedDateToString(
-        selectedDate);
-
-
-    final allDoctorTimeSlots = TimeSlotHelper.generateHourlyTimeSlots(
-      startTime: doctor.doctorModel.availableFrom!,
-      endTime:  doctor.doctorModel.availableTo!,
+    final isAvailable = TimeSlotHelper.doesDoctorWorkOnDate(
+      selectedDate: selectedDate,
+      doctorWorkingDays: doctorWorkingDays,
     );
 
-    await getReservedTimeSlotsForDoctorOnDate(doctorId: doctor.doctorId, date: selectedDateByUser);
-
-
-
-    final availableDoctorTimeSlots = TimeSlotHelper.filterAvailableTimeSlots(
-      totalTimeSlots: allDoctorTimeSlots,
-      reservedTimeSlots: state.reservedTimeSlots,
-    );
-    //[01:00 PM, 02:00 PM, 03:00 PM, 04:00 PM, 06:00 PM, 08:00 PM]
-     print('availableDoctorTimeSlots $availableDoctorTimeSlots');
-
-     emit(state.copyWith(availableDoctorTimeSlots:availableDoctorTimeSlots));
-    //return availableDoctorTimeSlots;
+    emit(state.copyWith(isDoctorAvailable: isAvailable));
+    return isAvailable;
   }
 
+  Future<void> getAvailableDoctorTimeSlots({
+    required DateTime selectedDate,
+    required DoctorListModel doctor,
+  }) async {
+    final isDoctorAvailable = await checkIfDoctorWorksOnDate(
+      selectedDate: selectedDate,
+      doctorWorkingDays: doctor.doctorModel.workingDays,
+    );
 
+    if (!isDoctorAvailable) return;
 
+    final selectedDateFormatted = DateTimeFormatter.convertSelectedDateToString(
+      selectedDate,
+    );
 
+    final allTimeSlots = TimeSlotHelper.generateHourlyTimeSlots(
+      startTime: doctor.doctorModel.availableFrom!,
+      endTime: doctor.doctorModel.availableTo!,
+    );
+
+    await getReservedTimeSlotsForDoctorOnDate(
+      doctorId: doctor.doctorId,
+      date: selectedDateFormatted,
+    );
+
+    final availableTimeSlots = TimeSlotHelper.filterAvailableTimeSlots(
+      totalTimeSlots: allTimeSlots,
+      reservedTimeSlots: state.reservedTimeSlots,
+    );
+
+    print('Available Time Slots: $availableTimeSlots');
+
+    emit(state.copyWith(availableDoctorTimeSlots: availableTimeSlots));
+  }
 }

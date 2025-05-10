@@ -16,6 +16,8 @@ class AppointmentState extends Equatable {
 
 // new
   final List<String> availableDoctorTimeSlots;
+
+  final bool isDoctorAvailable;
   const AppointmentState({
     this.doctorAppointmentModel = const [],
     this.doctorAppointmentState = RequestState.loading,
@@ -24,6 +26,7 @@ class AppointmentState extends Equatable {
     this.reservedTimeSlotsState = RequestState.loading,
     this.reservedTimeSlotsError = '',
     this.availableDoctorTimeSlots = const [],
+    this.isDoctorAvailable=true,
   });
 
   AppointmentState copyWith({
@@ -34,6 +37,8 @@ class AppointmentState extends Equatable {
     RequestState? reservedTimeSlotsState,
     String? reservedTimeSlotsError,
     List<String>? availableDoctorTimeSlots,
+
+    bool? isDoctorAvailable
   }) {
     return AppointmentState(
       doctorAppointmentModel:
@@ -49,6 +54,7 @@ class AppointmentState extends Equatable {
           reservedTimeSlotsError ?? this.reservedTimeSlotsError,
       availableDoctorTimeSlots:
           availableDoctorTimeSlots ?? this.availableDoctorTimeSlots,
+        isDoctorAvailable:isDoctorAvailable?? this.isDoctorAvailable,
     );
   }
 
@@ -60,6 +66,6 @@ class AppointmentState extends Equatable {
         reservedTimeSlots,
         reservedTimeSlotsState,
         reservedTimeSlotsError,
-        availableDoctorTimeSlots,
+        availableDoctorTimeSlots,isDoctorAvailable,
       ];
 }
