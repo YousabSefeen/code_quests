@@ -1,11 +1,13 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_task/core/constants/themes/app_colors.dart';
+import 'package:flutter_task/core/utils/time_slot_helper.dart';
+import 'package:flutter_task/features/appointments/presentation/controller/cubit/appointment_cubit.dart';
+import 'package:flutter_task/features/appointments/presentation/widgets/available_doctor_time_slots_grid.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../core/utils/date_time_formatter.dart';
 import '../../../doctor_list/data/models/doctor_list_model.dart';
 
 class CustomDateTimeLine extends StatelessWidget {
@@ -15,12 +17,13 @@ class CustomDateTimeLine extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final deviceHeight = MediaQuery.sizeOf(context).height;
     final textTheme = Theme.of(context).textTheme;
 
     final activeTextStyle = textTheme.labelMedium;
 
     final inactiveDayStyle = activeTextStyle!.copyWith(color: Colors.black);
-
+    List<String> availableDoctorTimeSlots = [];
     return Padding(
       padding: const EdgeInsets.only(left: 10),
       child: Column(
@@ -53,14 +56,18 @@ class CustomDateTimeLine extends StatelessWidget {
                 monthPickerType: MonthPickerType.switcher,
               ),
               initialDate: DateTime.now(),
-              onDateChange: (selectedDateTime) {
-                final selectedDayName =
-                DateTimeFormatter.convertDateToNameDay(date: selectedDateTime);
+              onDateChange: (selectedDate) {
+                final isDoctorAvailable = TimeSlotHelper.doesDoctorWorkOnDate(
+                  selectedDate: selectedDate,
+                  doctorWorkingDays: doctor.doctorModel.workingDays,
+                );
 
-                final isDoctorAvailable =
-                doctor.doctorModel.workingDays.contains(selectedDayName);
-
-                print('📅 Doctor available on $selectedDayName: $isDoctorAvailable');
+                if (isDoctorAvailable) {
+                  context.read<AppointmentCubit>().getAvailableDoctorTimeSlots(
+                        selectedDate: selectedDate,
+                        doctor: doctor,
+                      );
+                }
               },
               activeColor: AppColors.softBlue,
               dayProps: EasyDayProps(
@@ -97,78 +104,34 @@ class CustomDateTimeLine extends StatelessWidget {
               ),
             ),
           ),
+          const AvailableDoctorTimeSlotsGrid(),
 
-          ElevatedButton(onPressed: (){
+          /*  BlocSelector<AppointmentCubit, AppointmentState, List<String>>(
+            selector: (state) => state.reservedTimeSlots,
+            builder: (context, reservedTimeSlots) => ElevatedButton(
+              onPressed: () async {
+                final allDoctorTimeSlots = generateHourlyTimeSlots(
+                  startTime: doctor.doctorModel.availableFrom!,
+                  endTime: doctor.doctorModel.availableTo!,
+                );
+                await context
+                    .read<AppointmentCubit>()
+                    .getReservedTimeSlotsForDoctorOnDate(
+                    doctorId: doctor.doctorId, date: '01/01/2000');
 
-
-
-                 final DateFormat format = DateFormat('hh:mm a');
-                   DateTime from = DateFormat('hh:mm a').parse(doctor.doctorModel.availableFrom!);
-                 final DateTime to = DateFormat('hh:mm a').parse(doctor.doctorModel.availableTo!);
-
-
-                 List<String> slots = [];
-                 while (from.isBefore(to)) {
-                   slots.add(format.format(from));
-                   from = from.add(const Duration(hours: 1));
-                 }
-                     print('slots  $slots');
-
-
-
-                 //*********************************************
-                List<String> bookedHours = ['05:00 PM', '07:00 PM'];
-
-                final availableHours = slots.where((slot) =>
-                 !bookedHours.contains(slot)).toList();
-
-                print('availableSlots $availableHours');
-              }, child: Text('Tester')),
-          ElevatedButton(
-              onPressed: () async{
-
-            final  appointmentsSnapshot=   await FirebaseFirestore.instance
-                    .collection('appointments')
-                    .where('doctorId', isEqualTo: doctor.doctorId)
-                    .where('date', isEqualTo: '01/01/2000')
-                    .get();
-
-                List<String> bookedTimes = appointmentsSnapshot.docs.map((doc) => doc['time'] as String).toList();
-                print('bookedTimes  $bookedTimes');// TODO  [05:00 PM, 07:00 PM]
-
-
-          //  final allSlots = generateSlots(from, to, Duration(minutes: 30));
-              //  context.read<AppointmentCubit>().getDoctorAppointments(doctorId: doctor.doctorId);
-
-                //  الدالة دي هتجيبي قائمة المواعيد ال بخصوص هذا الدكتور ومن خلالها المفروض اعمل فورلوب علي  هذه القائمة وبعد كدة هجيب اول جميع المواعيد التي تتطابق مع تلك التاريخ ومن ثم تقوم لي برجاع
+                availableDoctorTimeSlots = filterAvailableTimeSlots(
+                  totalTimeSlots: allDoctorTimeSlots,
+                  reservedTimeSlots: reservedTimeSlots,
+                );
+                //[01:00 PM, 02:00 PM, 03:00 PM, 04:00 PM, 06:00 PM, 08:00 PM]
+                print('availableDoctorTimeSlots $availableDoctorTimeSlots');
               },
-              child: Text('data'),
-          ),
+              child: Text('reservedTimeSlots $availableDoctorTimeSlots'),
+            ),
 
-               ElevatedButton(onPressed: ()async{
 
-                 final allDoctorTimeSlots = generateHourlyTimeSlots(
-                   startTime: doctor.doctorModel.availableFrom!,
-                   endTime: doctor.doctorModel.availableTo!,
-                 );
 
-                 final appointmentsSnapshot = await FirebaseFirestore.instance
-                     .collection('appointments')
-                     .where('doctorId', isEqualTo: doctor.doctorId)
-                     .where('date', isEqualTo: '01/01/2000')
-                     .get();
-
-                 final reservedTimeSlots = appointmentsSnapshot.docs
-                     .map((doc) => doc['time'] as String)
-                     .toList();
-
-                 final availableDoctorTimeSlots = filterAvailableTimeSlots(
-                   totalTimeSlots: allDoctorTimeSlots,
-                   reservedTimeSlots: reservedTimeSlots,
-                 );
-                 print('availableDoctorTimeSlots  $availableDoctorTimeSlots');
-              }, child: Text('fffffffffffffffffffffffffffffffff')),
-
+          ),*/
         ],
       ),
     );
@@ -200,3 +163,44 @@ class CustomDateTimeLine extends StatelessWidget {
         .toList();
   }
 }
+/*
+  ElevatedButton(onPressed: (){
+                 context.read<AppointmentCubit>().getDoctorAppointments(doctorId: doctor.doctorId);
+               }, child: Text('getDoctorAppointments')),
+               ElevatedButton(onPressed: ()async{
+
+                 final allDoctorTimeSlots = generateHourlyTimeSlots(
+                   startTime: doctor.doctorModel.availableFrom!,
+                   endTime: doctor.doctorModel.availableTo!,
+                 );
+
+                 final appointmentsSnapshot = await FirebaseFirestore.instance
+                     .collection('appointments')
+                     .where('doctorId', isEqualTo: doctor.doctorId)
+                     .where('date', isEqualTo: '01/01/2000')
+                     .get();
+
+                 final reservedTimeSlots = appointmentsSnapshot.docs
+                     .map((doc) => doc['time'] as String)
+                     .toList();
+
+
+
+                 final availableDoctorTimeSlots = filterAvailableTimeSlots(
+                   totalTimeSlots: allDoctorTimeSlots,
+                   reservedTimeSlots: reservedTimeSlots,
+                 );
+                 print('availableDoctorTimeSlots  $availableDoctorTimeSlots');
+              }, child: Text('fffffffffffffffffffffffffffffffff')),
+
+          ElevatedButton(onPressed: (){
+          //[05:00 PM, 07:00 PM]
+            final allDoctorTimeSlots = generateHourlyTimeSlots(
+              startTime: doctor.doctorModel.availableFrom!,
+              endTime: doctor.doctorModel.availableTo!,
+            );
+
+        final cc=    context.read<AppointmentCubit>().getReservedTimeSlotsForDoctorOnDate(doctorId:doctor.doctorId ,date: '01/01/2000');
+
+          }, child: Text('getReservedTimeSlotsForDoctorOnDate'))
+ */

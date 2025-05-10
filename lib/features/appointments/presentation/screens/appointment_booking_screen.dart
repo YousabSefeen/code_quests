@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 
 import '../../../../core/utils/date_time_formatter.dart';
 import '../../../doctor_list/data/models/doctor_list_model.dart';
+import '../widgets/available_doctor_time_slots_grid.dart';
 
 class AppointmentBookingScreen extends StatefulWidget {
   const AppointmentBookingScreen({super.key});

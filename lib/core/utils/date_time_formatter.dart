@@ -39,6 +39,14 @@ static String timeString(DateTime time)=>DateFormat('hh:mm a').format(time).toSt
     return DateTime(date.year, date.month, date.day, hour, minute);
   }
 
+
+  static String convertSelectedDateToString(DateTime selectedDateTime ){
+    DateTime date = DateTime.parse(selectedDateTime.toString());
+    String formattedDate = DateFormat('dd/MM/yyyy').format(date);
+
+
+    return formattedDate;
+  }
   static String convertDateToNameDay({required DateTime date}) =>
       DateFormat.EEEE('en_US').format(date);
 

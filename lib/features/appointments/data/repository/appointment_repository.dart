@@ -32,4 +32,24 @@ class AppointmentRepository extends AppointmentRepositoryBase {
       return left(ServerFailure(catchError: e));
     }
   }
+
+  @override
+  Future<Either<Failure, List<String>>> getReservedTimeSlotsForDoctorOnDate({required String doctorId, required String date})async {
+    try {
+      final appointmentsSnapshot = await FirebaseFirestore.instance
+          .collection('appointments')
+          .where('doctorId', isEqualTo: doctorId)
+          .where('date', isEqualTo: date)
+          .get();
+
+      final reservedTimeSlots = appointmentsSnapshot.docs
+          .map((doc) => doc['time'] as String)
+          .toList();
+
+      return right(reservedTimeSlots);
+    } catch (e) {
+      print('AppointmentRepository.getReservedTimeSlotsForDoctorOnDate ERROR: $e');
+      return left(ServerFailure(catchError: e));
+    }
+  }
 }
