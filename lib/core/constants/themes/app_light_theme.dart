@@ -61,7 +61,7 @@ class AppLightTheme {
               fontSize: 16.sp,
               fontWeight: FontWeight.w800,
               color: Colors.black,
-              letterSpacing: 1.2)),
+              letterSpacing: 1.2,),),
       position: PopupMenuPosition.under,
     ),
     listTileTheme: ListTileThemeData(
@@ -72,7 +72,7 @@ class AppLightTheme {
               fontWeight: FontWeight.w900,
               letterSpacing: 2)),
       subtitleTextStyle: TextStyle(
-          fontSize: 14.sp,color: Colors.black54,height: 1.2,fontWeight: FontWeight.w500
+          fontSize: 12.sp,color: Colors.black54,height: 1.5,fontWeight: FontWeight.w500
       )
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
@@ -134,7 +134,7 @@ class AppLightTheme {
       headlineMedium: TextStyle(
         // style for ... (used in *DoctorAvailabilityTimeFields*  )
         fontSize: 15.sp,
-        color: Colors.black38,
+        color: Colors.black,
         fontWeight: FontWeight.w600,
         height: 1,
       ),
@@ -149,7 +149,8 @@ class AppLightTheme {
           // style for ... (used in *CustomDateTimeLine*  )
           fontSize: 12.sp,
           color: Colors.white,
-          fontWeight: FontWeight.w400),
+          fontWeight: FontWeight.w400,
+      ),
 
       titleMedium: GoogleFonts.playpenSans(
         // style for ... (used in  DoctorList (info))
@@ -182,6 +183,12 @@ class AppLightTheme {
         fontSize: 14.sp,
         fontWeight: FontWeight.w500,
         color: Colors.grey,
+      ),
+      titleLarge: TextStyle(
+        fontSize: 14,
+        color: Colors.orange.shade800,
+        fontWeight: FontWeight.w500,
+        height: 1.4,
       ),
       ///*******************************************************
 

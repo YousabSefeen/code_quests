@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_task/core/constants/themes/app_colors.dart';
 import 'package:flutter_task/features/appointments/presentation/controller/cubit/appointment_cubit.dart';
 import 'package:flutter_task/features/appointments/presentation/widgets/available_doctor_time_slots_grid.dart';
+import 'package:flutter_task/features/appointments/presentation/widgets/doctor_not_available_message.dart';
 
 import '../../../doctor_list/data/models/doctor_list_model.dart';
 import '../controller/states/appointment_state.dart';
@@ -24,25 +25,26 @@ class CustomDateTimeLine extends StatelessWidget {
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      spacing: 10,
+
       children: [
 
 
         Text(
-          'Available Time',
-          style: textTheme.headlineMedium,
+          'Select Date',
+          style: textTheme.headlineMedium ,
           textAlign: TextAlign.start,
         ),
+      
         Container(
-          margin: EdgeInsets.only(right: 8),
+          margin: const EdgeInsets.only(top: 8, bottom: 17 ,right: 8),
           decoration: BoxDecoration(
-            color: AppColors.softBlue,
-            borderRadius: BorderRadius.circular(10)
-          ),
+              color: AppColors.customWhite,
+              borderRadius: BorderRadius.circular(10)),
           child: EasyDateTimeLine(
             headerProps: EasyHeaderProps(
-              selectedDateStyle: activeTextStyle.copyWith(fontSize: 15.sp),
-              monthStyle: activeTextStyle.copyWith(fontSize: 15.sp),
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              selectedDateStyle: activeTextStyle.copyWith(fontSize: 14.sp,color: Colors.black),
+              monthStyle: activeTextStyle.copyWith(fontSize: 14.sp,color: Colors.black),
               monthPickerType: MonthPickerType.switcher,
             ),
             initialDate: DateTime.now(),
@@ -56,7 +58,7 @@ class CustomDateTimeLine extends StatelessWidget {
             activeColor: AppColors.softBlue,
             dayProps: EasyDayProps(
               height: 70,
-              width: 50,
+              width: 40,
               activeDayStyle: DayStyle(
                 borderRadius: 10.r,
                 dayNumStyle: activeTextStyle,
@@ -88,14 +90,23 @@ class CustomDateTimeLine extends StatelessWidget {
             ),
           ),
         ),
+        
+        Text(
+          'Select Time',
+          style: textTheme.headlineMedium ,
+          textAlign: TextAlign.start,
+        ), 
+        const SizedBox(height: 5),
         BlocSelector<AppointmentCubit, AppointmentState, bool>(
           selector: (state) => state.isDoctorAvailable,
-          builder: (context, isDoctorAvailable) =>
-          isDoctorAvailable?     const AvailableDoctorTimeSlotsGrid() : Text('Doctor Not available for this day',style: TextStyle(
-            fontSize: 20,
-            color: Colors.red,
-          ),),
+          builder: (context, isDoctorAvailable) => isDoctorAvailable
+              ? const AvailableDoctorTimeSlotsGrid()
+              : const DoctorNotAvailableMessage(),
         ),
+
+
+
+
       ],
     );
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 import '../../../doctor_profile/data/models/doctor_model.dart';
 
@@ -17,7 +18,7 @@ class DoctorProfileHeader extends StatelessWidget {
         backgroundImage: NetworkImage(doctorInfo.imageUrl),
       ),
       title: Text(doctorInfo.name),
-      subtitle: Text(doctorInfo.bio),
+      subtitle: Text(doctorInfo.bio,maxLines: 3,overflow: TextOverflow.ellipsis),
     );
   }
 }

@@ -30,12 +30,16 @@ class DoctorInfoHeader extends StatelessWidget {
   RichText _customRichText(
       {required BuildContext context,
       required String title,
-      required String info}) {
+    required String info,
+  }) {
     final textTheme = Theme.of(context).textTheme;
     return RichText(
-        text: TextSpan(children: [
+        text: TextSpan(
+          children: [
       TextSpan(text: title, style: textTheme.bodyLarge),
       TextSpan(text: info, style: textTheme.titleSmall),
-    ]));
+        ],
+      ),
+    );
   }
 }

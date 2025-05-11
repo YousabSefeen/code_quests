@@ -24,6 +24,26 @@ class _AppointmentBookingScreenState extends State<AppointmentBookingScreen> {
     final DoctorModel doctorInfo = doctor.doctorModel;
     return Scaffold(
       backgroundColor: Colors.grey.shade50,
+
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: SizedBox(
+          width: double.infinity,
+          height: 50,
+          child: ElevatedButton(
+            onPressed: () {
+              // تنفيذ الحجز
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.deepOrange,
+            ),
+            child: const Text(
+              'Book Appointment',
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+          ),
+        ),
+      ),
       body: SafeArea(
         child: CustomScrollView(
           slivers: [
@@ -36,11 +56,10 @@ class _AppointmentBookingScreenState extends State<AppointmentBookingScreen> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8),
                 child: Column(
-                  spacing: 10,
+                  spacing: 20,
                   children: [
                     const SizedBox(height: 5),
                     DoctorInfoHeader(doctorInfo: doctorInfo),
-                    const SizedBox(height: 10),
                     ConsultationFeeAndWaitRow(   fee: doctorInfo.fees.toString()),
                     CustomDateTimeLine(doctor: doctor),
                   ],
