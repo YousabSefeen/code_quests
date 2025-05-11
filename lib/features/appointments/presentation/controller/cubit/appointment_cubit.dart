@@ -143,9 +143,10 @@ class AppointmentCubit extends Cubit<AppointmentState> {
   }
 
 
-  Future<List<Map<String, dynamic>>> fetchClientAppointmentsWithDoctorNames( ) async {
+  Future<List<Map<String, dynamic>>> fetchClientAppointmentsWithDoctorNames() async {
+    final clientId = FirebaseAuth.instance.currentUser!.uid;
 
-    final clientId=FirebaseAuth.instance.currentUser!.uid;
+    // جلب جميع المواعيد المرتبطة بالعميل
     final appointmentsSnapshot = await FirebaseFirestore.instance
         .collection('appointments')
         .where('clientId', isEqualTo: clientId)
@@ -166,18 +167,23 @@ class AppointmentCubit extends Cubit<AppointmentState> {
         .where(FieldPath.documentId, whereIn: doctorIds)
         .get();
 
-    // إنشاء خريطة doctorId -> name
-    final doctorIdToName = {
+    // إنشاء خريطة doctorId -> {name, imageUrl}
+    final doctorIdToData = {
       for (var doc in doctorsSnapshot.docs)
-        doc.id: doc.data()['name'] ?? 'Unknown'
+        doc.id: {
+          'name': doc.data()['name'] ?? 'Unknown',
+          'imageUrl': doc.data()['imageUrl'] ?? '',
+        }
     };
 
-    // إضافة الاسم لكل حجز
+    // إضافة الاسم والصورة لكل موعد
     for (var appointment in appointments) {
       final doctorId = appointment['doctorId'] as String;
-      appointment['name'] = doctorIdToName[doctorId]; // ✅ من مجموعة doctors
-    }
+      final doctorData = doctorIdToData[doctorId];
 
+      appointment['name'] = doctorData?['name'];
+      appointment['imageUrl'] = doctorData?['imageUrl'];
+    }
 
     print('AppointmentCubit.fetchClientAppointmentsWithDoctorNames\n ${appointments[0]}');
     return appointments;
