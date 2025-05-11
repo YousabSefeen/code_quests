@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_task/core/constants/app_strings/app_strings.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../themes/app_colors.dart';
@@ -77,10 +78,9 @@ class AppAlerts {
     showGeneralDialog(
       context: context,
       barrierDismissible: true,
-      barrierLabel: '',
+      barrierLabel: 'Book Appointment',
       transitionDuration: const Duration(milliseconds:800),
-      pageBuilder: (context, animation1, animation2) {
-        // إغلاق تلقائي بعد 2.5 ثانية
+      pageBuilder: (context, _, __) {
         Future.delayed(const Duration(milliseconds: 1200), () {
           if (!context.mounted) return;
           Navigator.of(context).pop();
@@ -95,15 +95,19 @@ class AppAlerts {
                 color: Colors.green,
                 borderRadius: BorderRadius.circular(16),
               ),
-              child: const Text(
-                'Book Appointment Successfully',
-                style: TextStyle(color: Colors.white, fontSize: 16),
+              child: Text(
+                AppStrings.successMessage,
+                style: GoogleFonts.poppins(
+                    color: Colors.white,
+                    fontSize: 15.sp,
+                    fontWeight: FontWeight.w500,
+                ),
               ),
             ),
           ),
         );
       },
-      transitionBuilder: (context, animation1, animation2, child) {
+      transitionBuilder: (context, animation1, _, child) {
         return ScaleTransition(
           scale: CurvedAnimation(
             parent: animation1,

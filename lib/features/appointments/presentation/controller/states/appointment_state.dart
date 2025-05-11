@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter_task/features/appointments/data/models/book_appointment_model.dart';
 
 import '../../../../../core/enum/lazy_request_state.dart';
 import '../../../../../core/enum/request_state.dart';
@@ -22,9 +21,6 @@ class AppointmentState extends Equatable {
   final bool isDoctorAvailable;
   final String? selectedTimeByUser;
 
-
-
-  final BookAppointmentModel? bookAppointmentModel;
   final LazyRequestState bookAppointmentState;
   final String bookAppointmentError;
 
@@ -38,7 +34,6 @@ class AppointmentState extends Equatable {
     this.availableDoctorTimeSlots = const [],
     this.isDoctorAvailable=true,
     this.selectedTimeByUser,
-    this.bookAppointmentModel,
     this.bookAppointmentState = LazyRequestState.lazy,
     this.bookAppointmentError = '',
   });
@@ -53,7 +48,6 @@ class AppointmentState extends Equatable {
     List<String>? availableDoctorTimeSlots,
     bool? isDoctorAvailable,
     String? selectedTimeByUser,
-    BookAppointmentModel? bookAppointmentModel,
     LazyRequestState? bookAppointmentState,
     String? bookAppointmentError,
   }) {
@@ -73,7 +67,6 @@ class AppointmentState extends Equatable {
           availableDoctorTimeSlots ?? this.availableDoctorTimeSlots,
         isDoctorAvailable:isDoctorAvailable?? this.isDoctorAvailable,
       selectedTimeByUser: selectedTimeByUser ?? this.selectedTimeByUser,
-      bookAppointmentModel: bookAppointmentModel ?? this.bookAppointmentModel,
       bookAppointmentState: bookAppointmentState ?? this.bookAppointmentState,
       bookAppointmentError: bookAppointmentError ?? this.bookAppointmentError,
     );
@@ -89,7 +82,6 @@ class AppointmentState extends Equatable {
         reservedTimeSlotsError,
         availableDoctorTimeSlots,isDoctorAvailable,
         selectedTimeByUser,
-        bookAppointmentModel,
         bookAppointmentState,
         bookAppointmentError,
       ];

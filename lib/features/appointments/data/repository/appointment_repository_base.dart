@@ -1,5 +1,4 @@
 import 'package:dartz/dartz.dart';
-import 'package:flutter_task/features/appointments/data/models/book_appointment_model.dart';
 
 import '../../../../core/error/failure.dart';
 import '../models/doctor_appointment_model.dart';

@@ -45,7 +45,7 @@ import '../widgets/doctor_info_header.dart';
               WidgetsBinding.instance.addPostFrameCallback((_) {
 
                   AppAlerts.showAppointmentSuccessDialog(context);
-                // تأخير التنقل بعد عرض الرسالة
+
                 Future.delayed(const Duration(milliseconds:2500), () {
                   if (!context.mounted) return;
                      AppRouter.pushNamedAndRemoveUntil(context, AppRouterNames.doctorListView);
@@ -58,17 +58,22 @@ import '../widgets/doctor_info_header.dart';
              }
 
              return ElevatedButton(
-               onPressed: values.value1 == ''
-                   ? null
-                   : ()  {
-                 context
-                     .read<AppointmentCubit>()
-                     .createAppointmentForDoctor(
-                     doctorId: doctor.doctorId);
-               },
+              // onPressed: values.value1 == ''
+              //     ? null
+              //     : ()  {
+              //   context
+              //       .read<AppointmentCubit>()
+              //       .createAppointmentForDoctor(
+              //       doctorId: doctor.doctorId);
+              // },
 
-               style: ButtonStyle(
-               backgroundColor:  WidgetStatePropertyAll( values.value1  =='' ?  Colors.grey.shade300:AppColors.softBlue),
+              onPressed: () {
+                context
+                    .read<AppointmentCubit>()
+                    .fetchClientAppointmentsWithDoctorNames();
+              },
+              style: ButtonStyle(
+                backgroundColor:  WidgetStatePropertyAll( values.value1  =='' ?  Colors.grey.shade300:AppColors.softBlue),
 
                foregroundColor: WidgetStatePropertyAll( values.value1  ==''?   Colors.black: Colors.white),
 

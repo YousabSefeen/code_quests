@@ -65,6 +65,8 @@ class AppointmentRepository extends AppointmentRepositoryBase {
           FirebaseFirestore.instance.collection('appointments').doc().id;
       final clientId = FirebaseAuth.instance.currentUser!.uid;
 
+
+
       await _saveAppointmentUnderDoctor(
         doctorId: doctorId,
         appointmentId: appointmentId,
@@ -89,7 +91,6 @@ class AppointmentRepository extends AppointmentRepositoryBase {
     }
   }
 
-  /// تقوم هذه الدالة بإنشاء وحفظ الموعد تحت الدكتور في الـ Subcollection الخاص به
   Future<void> _saveAppointmentUnderDoctor({
     required String doctorId,
     required String appointmentId,
@@ -110,7 +111,6 @@ class AppointmentRepository extends AppointmentRepositoryBase {
     });
   }
 
-  /// تقوم هذه الدالة بحفظ الموعد في الـ Collection العام للعيادات
   Future<void> _saveAppointmentGlobally({
     required String doctorId,
     required String appointmentId,

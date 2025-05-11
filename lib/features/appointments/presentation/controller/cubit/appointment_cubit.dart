@@ -1,4 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_task/features/appointments/data/models/appointment_model.dart';
 
 import '../../../../../core/enum/lazy_request_state.dart';
 import '../../../../../core/enum/request_state.dart';
@@ -137,5 +140,46 @@ class AppointmentCubit extends Cubit<AppointmentState> {
         (success) => emit(state.copyWith(
               bookAppointmentState: LazyRequestState.loaded,
             )));
+  }
+
+
+  Future<List<Map<String, dynamic>>> fetchClientAppointmentsWithDoctorNames( ) async {
+
+    final clientId=FirebaseAuth.instance.currentUser!.uid;
+    final appointmentsSnapshot = await FirebaseFirestore.instance
+        .collection('appointments')
+        .where('clientId', isEqualTo: clientId)
+        .orderBy('date')
+        .get();
+
+    final appointments = appointmentsSnapshot.docs.map((doc) => doc.data()).toList();
+
+    // تجميع doctorId بدون تكرار
+    final doctorIds = appointments
+        .map((appointment) => appointment['doctorId'] as String)
+        .toSet()
+        .toList();
+
+    // جلب بيانات الأطباء دفعة واحدة
+    final doctorsSnapshot = await FirebaseFirestore.instance
+        .collection('doctors')
+        .where(FieldPath.documentId, whereIn: doctorIds)
+        .get();
+
+    // إنشاء خريطة doctorId -> name
+    final doctorIdToName = {
+      for (var doc in doctorsSnapshot.docs)
+        doc.id: doc.data()['name'] ?? 'Unknown'
+    };
+
+    // إضافة الاسم لكل حجز
+    for (var appointment in appointments) {
+      final doctorId = appointment['doctorId'] as String;
+      appointment['name'] = doctorIdToName[doctorId]; // ✅ من مجموعة doctors
+    }
+
+
+    print('AppointmentCubit.fetchClientAppointmentsWithDoctorNames\n ${appointments[0]}');
+    return appointments;
   }
 }
