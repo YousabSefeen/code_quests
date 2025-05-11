@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_task/features/appointments/data/models/book_appointment_model.dart';
 
+import '../../../../../core/enum/lazy_request_state.dart';
 import '../../../../../core/enum/request_state.dart';
 import '../../../data/models/doctor_appointment_model.dart';
 
@@ -20,8 +21,11 @@ class AppointmentState extends Equatable {
 
   final bool isDoctorAvailable;
   final String? selectedTimeByUser;
+
+
+
   final BookAppointmentModel? bookAppointmentModel;
-  final RequestState bookAppointmentState;
+  final LazyRequestState bookAppointmentState;
   final String bookAppointmentError;
 
   const AppointmentState({
@@ -35,7 +39,7 @@ class AppointmentState extends Equatable {
     this.isDoctorAvailable=true,
     this.selectedTimeByUser,
     this.bookAppointmentModel,
-    this.bookAppointmentState = RequestState.loading,
+    this.bookAppointmentState = LazyRequestState.lazy,
     this.bookAppointmentError = '',
   });
 
@@ -50,7 +54,7 @@ class AppointmentState extends Equatable {
     bool? isDoctorAvailable,
     String? selectedTimeByUser,
     BookAppointmentModel? bookAppointmentModel,
-    RequestState? bookAppointmentState,
+    LazyRequestState? bookAppointmentState,
     String? bookAppointmentError,
   }) {
     return AppointmentState(

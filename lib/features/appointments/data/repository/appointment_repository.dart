@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_task/core/error/failure.dart';
 
 import '../models/doctor_appointment_model.dart';
@@ -51,5 +52,81 @@ class AppointmentRepository extends AppointmentRepositoryBase {
       print('AppointmentRepository.getReservedTimeSlotsForDoctorOnDate ERROR: $e');
       return left(ServerFailure(catchError: e));
     }
+  }
+
+  @override
+  Future<Either<Failure, void>> createAppointmentForDoctor({
+    required String doctorId,
+    required String date,
+    required String time,
+  }) async {
+    try {
+      final appointmentId =
+          FirebaseFirestore.instance.collection('appointments').doc().id;
+      final clientId = FirebaseAuth.instance.currentUser!.uid;
+
+      await _saveAppointmentUnderDoctor(
+        doctorId: doctorId,
+        appointmentId: appointmentId,
+        clientId: clientId,
+        date: date,
+        time: time,
+      );
+
+      await _saveAppointmentGlobally(
+        doctorId: doctorId,
+        appointmentId: appointmentId,
+        clientId: clientId,
+        date: date,
+        time: time,
+      );
+
+      return right(null);
+    } catch (e) {
+      print('AppointmentRepository.createAppointmentForDoctor ERROR: $e');
+
+      return left(ServerFailure(catchError: e));
+    }
+  }
+
+  /// تقوم هذه الدالة بإنشاء وحفظ الموعد تحت الدكتور في الـ Subcollection الخاص به
+  Future<void> _saveAppointmentUnderDoctor({
+    required String doctorId,
+    required String appointmentId,
+    required String clientId,
+    required String date,
+    required String time,
+  }) async {
+    await FirebaseFirestore.instance
+        .collection('doctors')
+        .doc(doctorId)
+        .collection('appointments')
+        .doc(appointmentId)
+        .set({
+      'clientId': clientId,
+      'date': date,
+      'time': time,
+      'status': 'pending',
+    });
+  }
+
+  /// تقوم هذه الدالة بحفظ الموعد في الـ Collection العام للعيادات
+  Future<void> _saveAppointmentGlobally({
+    required String doctorId,
+    required String appointmentId,
+    required String clientId,
+    required String date,
+    required String time,
+  }) async {
+    await FirebaseFirestore.instance
+        .collection('appointments')
+        .doc(appointmentId)
+        .set({
+      'doctorId': doctorId,
+      'clientId': clientId,
+      'date': date,
+      'time': time,
+      'status': 'pending',
+    });
   }
 }

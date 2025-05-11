@@ -1,7 +1,6 @@
-import 'package:dartz/dartz.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_task/core/error/failure.dart';
 
+import '../../../../../core/enum/lazy_request_state.dart';
 import '../../../../../core/enum/request_state.dart';
 import '../../../../../core/utils/date_time_formatter.dart';
 import '../../../../../core/utils/time_slot_helper.dart';
@@ -38,7 +37,7 @@ class AppointmentCubit extends Cubit<AppointmentState> {
   Future getReservedTimeSlotsForDoctorOnDate(
       {required String doctorId, required String date}) async {
     print('AppointmentCubit.getReservedTimeSlotsForDoctorOnDate');
-    final Either<Failure, List<String>> response = await appointmentRepository
+    final response = await appointmentRepository
         .getReservedTimeSlotsForDoctorOnDate(doctorId: doctorId, date: date);
 
     response.fold(
@@ -54,6 +53,10 @@ class AppointmentCubit extends Cubit<AppointmentState> {
     );
   }
 
+  String? selectedDateFormatted;
+
+  Future<String> getSelectedDate(DateTime selectedDate) async =>
+      DateTimeFormatter.convertSelectedDateToString(selectedDate);
   Future<bool> checkIfDoctorWorksOnDate({
     required DateTime selectedDate,
     required List<String> doctorWorkingDays,
@@ -78,7 +81,7 @@ class AppointmentCubit extends Cubit<AppointmentState> {
 
     if (!isDoctorAvailable) return;
 
-    final selectedDateFormatted = DateTimeFormatter.convertSelectedDateToString(
+    selectedDateFormatted = DateTimeFormatter.convertSelectedDateToString(
       selectedDate,
     );
 
@@ -89,7 +92,7 @@ class AppointmentCubit extends Cubit<AppointmentState> {
 
     await getReservedTimeSlotsForDoctorOnDate(
       doctorId: doctor.doctorId,
-      date: selectedDateFormatted,
+      date: selectedDateFormatted!,
     );
 
     final availableTimeSlots = TimeSlotHelper.filterAvailableTimeSlots(
@@ -102,21 +105,37 @@ class AppointmentCubit extends Cubit<AppointmentState> {
     emit(state.copyWith(availableDoctorTimeSlots: availableTimeSlots));
   }
 
+  void setUserTime(String selectedTime) => emit(
+        state.copyWith(selectedTimeByUser: selectedTime),
+      );
 
-  void  setUserTime(String selectedTime){
+  void deleteUserTimeSelected() {
+    emit(
+        state.copyWith(selectedTimeByUser: ''),
+      );
 
-
-     emit(state.copyWith(
-      selectedTimeByUser:selectedTime
-     ));
+    emit(
+      state.copyWith(bookAppointmentState: LazyRequestState.lazy),
+    );
   }
- void  deleteUserTimeSelected(){
 
-   emit(state.copyWith(
-       selectedTimeByUser:''
-   ));
-     }
-  ss(){
-    print('selectedUserTime  ${state.selectedTimeByUser}');
+  Future<void> createAppointmentForDoctor({required String doctorId}) async {
+
+
+    emit(state.copyWith(bookAppointmentState: LazyRequestState.loading));
+    final response = await appointmentRepository.createAppointmentForDoctor(
+      doctorId: doctorId,
+      date: selectedDateFormatted!,
+      time: state.selectedTimeByUser!,
+    );
+
+    response.fold(
+        (failure) => state.copyWith(
+              bookAppointmentState: LazyRequestState.error,
+              bookAppointmentError: failure.toString(),
+            ),
+        (success) => emit(state.copyWith(
+              bookAppointmentState: LazyRequestState.loaded,
+            )));
   }
 }

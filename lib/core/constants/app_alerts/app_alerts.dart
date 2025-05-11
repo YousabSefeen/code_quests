@@ -73,5 +73,45 @@ class AppAlerts {
     );
   }
 
+ static void showAppointmentSuccessDialog(BuildContext context) {
+    showGeneralDialog(
+      context: context,
+      barrierDismissible: true,
+      barrierLabel: '',
+      transitionDuration: const Duration(milliseconds:800),
+      pageBuilder: (context, animation1, animation2) {
+        // إغلاق تلقائي بعد 2.5 ثانية
+        Future.delayed(const Duration(milliseconds: 1200), () {
+          if (!context.mounted) return;
+          Navigator.of(context).pop();
+        });
 
+        return Align(
+          child: Material(
+            color: Colors.transparent,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+              decoration: BoxDecoration(
+                color: Colors.green,
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: const Text(
+                'Book Appointment Successfully',
+                style: TextStyle(color: Colors.white, fontSize: 16),
+              ),
+            ),
+          ),
+        );
+      },
+      transitionBuilder: (context, animation1, animation2, child) {
+        return ScaleTransition(
+          scale: CurvedAnimation(
+            parent: animation1,
+            curve: Curves.easeOutBack,
+          ),
+          child: child,
+        );
+      },
+    );
+  }
 }
