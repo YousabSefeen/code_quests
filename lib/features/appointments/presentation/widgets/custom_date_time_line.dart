@@ -7,14 +7,33 @@ import 'package:flutter_task/features/appointments/presentation/controller/cubit
 import 'package:flutter_task/features/appointments/presentation/widgets/available_doctor_time_slots_grid.dart';
 import 'package:flutter_task/features/appointments/presentation/widgets/doctor_not_available_message.dart';
 
+import '../../../../core/utils/date_time_formatter.dart';
 import '../../../doctor_list/data/models/doctor_list_model.dart';
 import '../controller/states/appointment_state.dart';
 
-class CustomDateTimeLine extends StatelessWidget {
+class CustomDateTimeLine extends StatefulWidget {
   final DoctorListModel doctor;
 
   const CustomDateTimeLine({super.key, required this.doctor});
 
+  @override
+  State<CustomDateTimeLine> createState() => _CustomDateTimeLineState();
+}
+
+class _CustomDateTimeLineState extends State<CustomDateTimeLine> {
+
+  @override
+  void initState() {
+
+    super.initState();
+    context.read<AppointmentCubit>().deleteUserTimeSelected();
+    context.read<AppointmentCubit>().getAvailableDoctorTimeSlots(selectedDate: DateTime.now(), doctor: widget.doctor);
+  }
+  @override
+  void dispose() {
+   // context.read<AppointmentCubit>().deleteUserTimeSelected();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
@@ -34,7 +53,7 @@ class CustomDateTimeLine extends StatelessWidget {
           style: textTheme.headlineMedium ,
           textAlign: TextAlign.start,
         ),
-      
+
         Container(
           margin: const EdgeInsets.only(top: 8, bottom: 17 ,right: 8),
           decoration: BoxDecoration(
@@ -50,9 +69,15 @@ class CustomDateTimeLine extends StatelessWidget {
             initialDate: DateTime.now(),
             onDateChange: (selectedDate) {
 
-                context.read<AppointmentCubit>().getAvailableDoctorTimeSlots(
+
+              final selectedDayName =
+              DateTimeFormatter.convertSelectedDateToString( selectedDate);
+              print('CustomDateTimeLine.build $selectedDayName');
+
+
+              context.read<AppointmentCubit>().getAvailableDoctorTimeSlots(
                       selectedDate: selectedDate,
-                      doctor: doctor,
+                      doctor: widget.doctor,
                     );
             },
             activeColor: AppColors.softBlue,
@@ -90,12 +115,12 @@ class CustomDateTimeLine extends StatelessWidget {
             ),
           ),
         ),
-        
+
         Text(
           'Select Time',
           style: textTheme.headlineMedium ,
           textAlign: TextAlign.start,
-        ), 
+        ),
         const SizedBox(height: 5),
         BlocSelector<AppointmentCubit, AppointmentState, bool>(
           selector: (state) => state.isDoctorAvailable,

@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter_task/features/appointments/data/models/book_appointment_model.dart';
 
 import '../../../../../core/enum/request_state.dart';
 import '../../../data/models/doctor_appointment_model.dart';
@@ -18,6 +19,11 @@ class AppointmentState extends Equatable {
   final List<String> availableDoctorTimeSlots;
 
   final bool isDoctorAvailable;
+  final String? selectedTimeByUser;
+  final BookAppointmentModel? bookAppointmentModel;
+  final RequestState bookAppointmentState;
+  final String bookAppointmentError;
+
   const AppointmentState({
     this.doctorAppointmentModel = const [],
     this.doctorAppointmentState = RequestState.loading,
@@ -27,6 +33,10 @@ class AppointmentState extends Equatable {
     this.reservedTimeSlotsError = '',
     this.availableDoctorTimeSlots = const [],
     this.isDoctorAvailable=true,
+    this.selectedTimeByUser,
+    this.bookAppointmentModel,
+    this.bookAppointmentState = RequestState.loading,
+    this.bookAppointmentError = '',
   });
 
   AppointmentState copyWith({
@@ -37,8 +47,11 @@ class AppointmentState extends Equatable {
     RequestState? reservedTimeSlotsState,
     String? reservedTimeSlotsError,
     List<String>? availableDoctorTimeSlots,
-
-    bool? isDoctorAvailable
+    bool? isDoctorAvailable,
+    String? selectedTimeByUser,
+    BookAppointmentModel? bookAppointmentModel,
+    RequestState? bookAppointmentState,
+    String? bookAppointmentError,
   }) {
     return AppointmentState(
       doctorAppointmentModel:
@@ -55,11 +68,15 @@ class AppointmentState extends Equatable {
       availableDoctorTimeSlots:
           availableDoctorTimeSlots ?? this.availableDoctorTimeSlots,
         isDoctorAvailable:isDoctorAvailable?? this.isDoctorAvailable,
+      selectedTimeByUser: selectedTimeByUser ?? this.selectedTimeByUser,
+      bookAppointmentModel: bookAppointmentModel ?? this.bookAppointmentModel,
+      bookAppointmentState: bookAppointmentState ?? this.bookAppointmentState,
+      bookAppointmentError: bookAppointmentError ?? this.bookAppointmentError,
     );
   }
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         doctorAppointmentModel,
         doctorAppointmentState,
         doctorAppointmentError,
@@ -67,5 +84,9 @@ class AppointmentState extends Equatable {
         reservedTimeSlotsState,
         reservedTimeSlotsError,
         availableDoctorTimeSlots,isDoctorAvailable,
+        selectedTimeByUser,
+        bookAppointmentModel,
+        bookAppointmentState,
+        bookAppointmentError,
       ];
 }

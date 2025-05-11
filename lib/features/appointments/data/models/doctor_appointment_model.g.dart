@@ -5,7 +5,8 @@ part of 'doctor_appointment_model.dart';
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
- DoctorAppointmentModel _$DoctorAppointmentModelFromJson(
+
+DoctorAppointmentModel _$DoctorAppointmentModelFromJson(
         Map<String, dynamic> json) =>
     DoctorAppointmentModel(
       appointmentId: json['appointmentId'] as String,

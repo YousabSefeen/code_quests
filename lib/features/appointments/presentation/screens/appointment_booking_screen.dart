@@ -1,78 +1,87 @@
+import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_task/core/constants/themes/app_colors.dart';
+import 'package:flutter_task/core/enum/request_state.dart';
+import 'package:flutter_task/features/appointments/presentation/controller/cubit/appointment_cubit.dart';
 import 'package:flutter_task/features/appointments/presentation/widgets/custom_date_time_line.dart';
 import 'package:flutter_task/features/appointments/presentation/widgets/custom_sliver_app_bar.dart';
 import 'package:flutter_task/features/doctor_profile/data/models/doctor_model.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/constants/common_widgets/consultation_fee_and_wait_row.dart';
 import '../../../doctor_list/data/models/doctor_list_model.dart';
+import '../controller/states/appointment_state.dart';
 import '../widgets/doctor_info_header.dart';
 
-class AppointmentBookingScreen extends StatefulWidget {
-  const AppointmentBookingScreen({super.key});
+ class AppointmentBookingScreen extends StatelessWidget {
+   const AppointmentBookingScreen({super.key});
 
-  @override
-  State<AppointmentBookingScreen> createState() =>
-      _AppointmentBookingScreenState();
-}
+   @override
+   Widget build(BuildContext context) {
+     final DoctorListModel doctor =
+     ModalRoute.of(context)!.settings.arguments as DoctorListModel;
 
-class _AppointmentBookingScreenState extends State<AppointmentBookingScreen> {
-  @override
-  Widget build(BuildContext context) {
-    final DoctorListModel doctor =
-        ModalRoute.of(context)!.settings.arguments as DoctorListModel;
-
-    final DoctorModel doctorInfo = doctor.doctorModel;
-    return Scaffold(
-      backgroundColor: Colors.grey.shade50,
-
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: SizedBox(
-          width: double.infinity,
-          height: 50,
-          child: ElevatedButton(
-            onPressed: () {
-              // تنفيذ الحجز
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.deepOrange,
-            ),
-            child: const Text(
-              'Book Appointment',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-          ),
-        ),
-      ),
-      body: SafeArea(
-        child: CustomScrollView(
-          slivers: [
-            CustomSliverAppBar(
-                doctorName: doctorInfo.name,
-                doctorImage: doctorInfo.imageUrl,
-                specialization: doctorInfo.specialization),
-            SliverList(
-                delegate: SliverChildListDelegate([
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: Column(
-                  spacing: 20,
-                  children: [
-                    const SizedBox(height: 5),
-                    DoctorInfoHeader(doctorInfo: doctorInfo),
-                    ConsultationFeeAndWaitRow(   fee: doctorInfo.fees.toString()),
-                    CustomDateTimeLine(doctor: doctor),
-                  ],
-                ),
-              ),
-            ])),
-          ],
-        ),
-      ),
-    );
-  }
+     final DoctorModel doctorInfo = doctor.doctorModel;
 
 
+     return Scaffold(
+       backgroundColor: Colors.grey.shade50,
 
+       bottomNavigationBar: Container(
+         margin: const EdgeInsets.all(12.0),
 
-}
+         width: double.infinity,
+         height: 50,
+         child:BlocSelector<AppointmentCubit, AppointmentState, Tuple2<String?, RequestState>>(
+           selector: (state) => Tuple2(state.selectedTimeByUser, state.bookAppointmentState) ,
+           builder: (context, values)=> ElevatedButton(
+             onPressed:  () {
+
+               context.read<AppointmentCubit>().ss();
+             },
+             style:ButtonStyle(
+               backgroundColor:  WidgetStatePropertyAll( values.value1  =='' ?  Colors.grey.shade300:AppColors.softBlue),
+
+               foregroundColor: WidgetStatePropertyAll( values.value1  ==''?   Colors.black: Colors.white),
+
+             ),
+             child:   Text(
+               'Book Appointment',
+               style:  GoogleFonts.raleway(
+                    fontSize: 19.sp, fontWeight: FontWeight.w700,
+               ),
+             ),
+           ),
+         ),
+       ),
+       body: SafeArea(
+         child: CustomScrollView(
+           slivers: [
+             CustomSliverAppBar(
+                 doctorName: doctorInfo.name,
+                 doctorImage: doctorInfo.imageUrl,
+                 specialization: doctorInfo.specialization),
+             SliverList(
+                 delegate: SliverChildListDelegate([
+                   Padding(
+                     padding: const EdgeInsets.symmetric(horizontal: 8),
+                     child: Column(
+                       spacing: 20,
+                       children: [
+                         const SizedBox(height: 5),
+                         DoctorInfoHeader(doctorInfo: doctorInfo),
+                         ConsultationFeeAndWaitRow(   fee: doctorInfo.fees.toString()),
+                         CustomDateTimeLine(doctor: doctor),
+                       ],
+                     ),
+                   ),
+                 ])),
+           ],
+         ),
+       ),
+     );
+   }
+ }
+

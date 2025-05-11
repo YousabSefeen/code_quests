@@ -97,8 +97,26 @@ class AppointmentCubit extends Cubit<AppointmentState> {
       reservedTimeSlots: state.reservedTimeSlots,
     );
 
-    print('Available Time Slots: $availableTimeSlots');
+
 
     emit(state.copyWith(availableDoctorTimeSlots: availableTimeSlots));
+  }
+
+
+  void  setUserTime(String selectedTime){
+
+
+     emit(state.copyWith(
+      selectedTimeByUser:selectedTime
+     ));
+  }
+ void  deleteUserTimeSelected(){
+
+   emit(state.copyWith(
+       selectedTimeByUser:''
+   ));
+     }
+  ss(){
+    print('selectedUserTime  ${state.selectedTimeByUser}');
   }
 }
