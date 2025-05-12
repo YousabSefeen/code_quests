@@ -14,6 +14,7 @@ import 'core/constants/themes/app_light_theme.dart';
 import 'core/my_bloc_observer.dart';
 import 'core/services/server_locator.dart';
 import 'features/appointments/presentation/controller/cubit/appointment_cubit.dart';
+import 'features/appointments/presentation/screens/booked_appointments_screen.dart';
 import 'features/auth/presentation/controller/cubit/register_cubit.dart';
 import 'features/auth/presentation/screens/login_screen.dart';
 import 'features/doctor_list/presentation/controller/cubit/doctor_list_cubit.dart';
@@ -73,8 +74,8 @@ class MyApp extends StatelessWidget {
         darkTheme: AppDarkTheme.theme,
         themeMode: ThemeMode.light,
         onGenerateRoute: AppRouter.generateRoute,
-       home: FirebaseAuth.instance.currentUser  !=null ? const DoctorListViewScreen():const LoginScreen(),
-        //     home:  const Tes(),
+        //   home: FirebaseAuth.instance.currentUser  !=null ? const DoctorListViewScreen():const LoginScreen(),
+           home:  const BookedAppointmentsScreen(),
       ),
     );
   }

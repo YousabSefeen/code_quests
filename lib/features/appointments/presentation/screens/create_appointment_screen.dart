@@ -18,8 +18,8 @@ import '../../../doctor_list/data/models/doctor_list_model.dart';
 import '../controller/states/appointment_state.dart';
 import '../widgets/doctor_info_header.dart';
 
- class AppointmentBookingScreen extends StatelessWidget {
-   const AppointmentBookingScreen({super.key});
+ class CreateAppointmentScreen extends StatelessWidget {
+   const CreateAppointmentScreen({super.key});
 
    @override
    Widget build(BuildContext context) {
@@ -58,20 +58,14 @@ import '../widgets/doctor_info_header.dart';
              }
 
              return ElevatedButton(
-              // onPressed: values.value1 == ''
-              //     ? null
-              //     : ()  {
-              //   context
-              //       .read<AppointmentCubit>()
-              //       .createAppointmentForDoctor(
-              //       doctorId: doctor.doctorId);
-              // },
-
-              onPressed: () {
-                context
+              onPressed: values.value1 == ''
+                  ? null
+                  : () {
+                      context
                     .read<AppointmentCubit>()
-                    .fetchClientAppointmentsWithDoctorNames();
-              },
+                          .createAppointmentForDoctor(
+                              doctorId: doctor.doctorId);
+                    },
               style: ButtonStyle(
                 backgroundColor:  WidgetStatePropertyAll( values.value1  =='' ?  Colors.grey.shade300:AppColors.softBlue),
 

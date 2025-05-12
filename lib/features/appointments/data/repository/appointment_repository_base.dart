@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 
 import '../../../../core/error/failure.dart';
+import '../models/client_appointments_model.dart';
 import '../models/doctor_appointment_model.dart';
 
 abstract class AppointmentRepositoryBase {
@@ -18,4 +19,6 @@ abstract class AppointmentRepositoryBase {
     required String date,
     required String time,
   });
+  Future<Either<Failure, List<ClientAppointmentsModel>>> getClientAppointmentsWithDoctorDetails();
+
 }

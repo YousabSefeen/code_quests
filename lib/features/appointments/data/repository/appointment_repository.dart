@@ -3,6 +3,7 @@ import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_task/core/error/failure.dart';
 
+import '../models/client_appointments_model.dart';
 import '../models/doctor_appointment_model.dart';
 import 'appointment_repository_base.dart';
 
@@ -128,5 +129,73 @@ class AppointmentRepository extends AppointmentRepositoryBase {
       'time': time,
       'status': 'pending',
     });
+  }
+
+  @override
+  Future<Either<Failure, List<ClientAppointmentsModel>>>
+      getClientAppointmentsWithDoctorDetails() async {
+    try {
+      final clientId = FirebaseAuth.instance.currentUser!.uid;
+
+      final appointments = await _fetchAppointmentsByClientId(clientId);
+      final doctorIds = _extractUniqueDoctorIds(appointments);
+      final doctorDataMap = await _fetchDoctorsDataByIds(doctorIds);
+
+      _attachDoctorDetailsToAppointments(appointments, doctorDataMap);
+
+      final models =
+          appointments.map(ClientAppointmentsModel.fromJson).toList();
+      return Right(models);
+    } catch (e) {
+      return left(ServerFailure(catchError: e));
+    }
+  }
+
+  Future<List<Map<String, dynamic>>> _fetchAppointmentsByClientId(
+      String clientId) async {
+    final snapshot = await FirebaseFirestore.instance
+        .collection('appointments')
+        .where('clientId', isEqualTo: clientId)
+        .orderBy('date')
+        .get();
+    return snapshot.docs.map((doc) => doc.data()).toList();
+  }
+
+  List<String> _extractUniqueDoctorIds(
+      List<Map<String, dynamic>> appointments) {
+    return appointments
+        .map((appointment) => appointment['doctorId'] as String)
+        .toSet()
+        .toList();
+  }
+
+  Future<Map<String, Map<String, String>>> _fetchDoctorsDataByIds(
+      List<String> doctorIds) async {
+    final snapshot = await FirebaseFirestore.instance
+        .collection('doctors')
+        .where(FieldPath.documentId, whereIn: doctorIds)
+        .get();
+
+    return {
+      for (var doc in snapshot.docs)
+        doc.id: {
+          'name': doc.data()['name'] ?? 'Unknown',
+          'specialization': doc.data()['specialization'] ?? 'Unknown',
+          'imageUrl': doc.data()['imageUrl'] ?? 'Unknown',
+        }
+    };
+  }
+
+  void _attachDoctorDetailsToAppointments(
+    List<Map<String, dynamic>> appointments,
+    Map<String, Map<String, String>> doctorDataMap,
+  ) {
+    for (var appointment in appointments) {
+      final doctorId = appointment['doctorId'] as String;
+      final doctorData = doctorDataMap[doctorId];
+      appointment['name'] = doctorData?['name'];
+      appointment['specialization'] = doctorData?['specialization'];
+      appointment['imageUrl'] = doctorData?['imageUrl'];
+    }
   }
 }

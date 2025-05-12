@@ -9,7 +9,8 @@ class AppRouterNames {
 
   static const String successfully = 'successfully_screen';
   static const String doctorListView = 'doctor_list_view';
-  static const String appointmentBooking = 'appointment_booking_screen';
+  static const String createAppointment = 'create_appointment_screen';
+  static const String bookedAppointments = 'booked_appointments_screen';
   static const String doctorProfile = 'doctor_profile_screen';
 
 }

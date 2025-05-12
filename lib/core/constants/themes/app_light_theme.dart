@@ -14,11 +14,14 @@ class AppLightTheme {
     scaffoldBackgroundColor: AppColors.customWhite,
     secondaryHeaderColor: const Color(0xffe85d04),
     appBarTheme: AppBarTheme(
-      backgroundColor: AppColors.darkBlue,
+      backgroundColor: AppColors.softBlue,
       elevation: 0,
-      titleTextStyle: GoogleFonts.permanentMarker(
+      titleTextStyle: GoogleFonts.saira(
         textStyle: TextStyle(
-            fontSize: 22.sp, color: AppColors.white, letterSpacing: 2),
+          fontSize: 22.sp,
+          color: AppColors.white,
+          letterSpacing: 1,
+        ),
       ),
       centerTitle: true,
       iconTheme: IconThemeData(color: AppColors.customDarkBlue, size: 25.sp),
@@ -172,7 +175,8 @@ class AppLightTheme {
         color: Colors.white,
         fontWeight: FontWeight.w600,
       ),
-         bodyLarge: GoogleFonts.poppins(
+
+      bodyLarge: GoogleFonts.poppins(
            // style for ... (used in  AppointmentBookingScreen (doctorInfo))
            fontSize: 16.sp,
            letterSpacing: 0.05,
@@ -190,6 +194,13 @@ class AppLightTheme {
         fontWeight: FontWeight.w500,
         height: 1.4,
       ),
+      headlineLarge: GoogleFonts.caladea(
+        fontSize: 18.sp,
+        color: Colors.black,
+        fontWeight: FontWeight.w600,
+        letterSpacing: 0.5,
+      ),
+
       ///*******************************************************
 
 

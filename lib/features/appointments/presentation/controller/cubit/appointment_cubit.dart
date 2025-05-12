@@ -1,7 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_task/features/appointments/data/models/appointment_model.dart';
 
 import '../../../../../core/enum/lazy_request_state.dart';
 import '../../../../../core/enum/request_state.dart';
@@ -142,50 +139,19 @@ class AppointmentCubit extends Cubit<AppointmentState> {
             )));
   }
 
+  getClientAppointmentsWithDoctorDetails() async {
+    final response =
+        await appointmentRepository.getClientAppointmentsWithDoctorDetails();
 
-  Future<List<Map<String, dynamic>>> fetchClientAppointmentsWithDoctorNames() async {
-    final clientId = FirebaseAuth.instance.currentUser!.uid;
-
-    // جلب جميع المواعيد المرتبطة بالعميل
-    final appointmentsSnapshot = await FirebaseFirestore.instance
-        .collection('appointments')
-        .where('clientId', isEqualTo: clientId)
-        .orderBy('date')
-        .get();
-
-    final appointments = appointmentsSnapshot.docs.map((doc) => doc.data()).toList();
-
-    // تجميع doctorId بدون تكرار
-    final doctorIds = appointments
-        .map((appointment) => appointment['doctorId'] as String)
-        .toSet()
-        .toList();
-
-    // جلب بيانات الأطباء دفعة واحدة
-    final doctorsSnapshot = await FirebaseFirestore.instance
-        .collection('doctors')
-        .where(FieldPath.documentId, whereIn: doctorIds)
-        .get();
-
-    // إنشاء خريطة doctorId -> {name, imageUrl}
-    final doctorIdToData = {
-      for (var doc in doctorsSnapshot.docs)
-        doc.id: {
-          'name': doc.data()['name'] ?? 'Unknown',
-          'imageUrl': doc.data()['imageUrl'] ?? '',
-        }
-    };
-
-    // إضافة الاسم والصورة لكل موعد
-    for (var appointment in appointments) {
-      final doctorId = appointment['doctorId'] as String;
-      final doctorData = doctorIdToData[doctorId];
-
-      appointment['name'] = doctorData?['name'];
-      appointment['imageUrl'] = doctorData?['imageUrl'];
-    }
-
-    print('AppointmentCubit.fetchClientAppointmentsWithDoctorNames\n ${appointments[0]}');
-    return appointments;
+    response.fold(
+      (failure) => emit(state.copyWith(
+        getClientAppointmentsListState: RequestState.error,
+        getClientAppointmentsListError: failure.toString(),
+      )),
+      (appointmentList) => emit(state.copyWith(
+        getClientAppointmentsList: appointmentList,
+        getClientAppointmentsListState: RequestState.loaded,
+      )),
+    );
   }
 }

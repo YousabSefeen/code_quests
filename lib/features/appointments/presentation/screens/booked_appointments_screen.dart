@@ -1,0 +1,65 @@
+
+
+
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_task/core/constants/themes/app_colors.dart';
+import 'package:flutter_task/features/appointments/presentation/controller/cubit/appointment_cubit.dart';
+import 'package:flutter_task/features/appointments/presentation/widgets/booked_appointments_list.dart';
+
+import '../../../../core/enum/request_state.dart';
+import '../controller/states/appointment_state.dart';
+
+
+
+class BookedAppointmentsScreen extends StatefulWidget {
+  const BookedAppointmentsScreen({super.key});
+
+  @override
+  State<BookedAppointmentsScreen> createState() => _BookedAppointmentsScreenState();
+}
+
+class _BookedAppointmentsScreenState extends State<BookedAppointmentsScreen> {
+
+  @override
+  void initState() {
+
+    super.initState();
+
+    context.read<AppointmentCubit>().getClientAppointmentsWithDoctorDetails();
+
+  }
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+
+      appBar: AppBar(
+
+        title:const Text('Appointments'),
+      ),
+
+      body: BlocBuilder<AppointmentCubit, AppointmentState>(
+        buildWhen: (previous, current) =>
+        previous.getClientAppointmentsListState != current.getClientAppointmentsListState,
+        builder: (context, state) {
+          switch (state.getClientAppointmentsListState) {
+            case RequestState.loading:
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            case RequestState.loaded:
+
+              return BookedAppointmentsList(appointmentsList:state.getClientAppointmentsList );
+            case RequestState.error:
+              return Center(
+                child: Text(
+                  state.getClientAppointmentsListError,
+                  style: const TextStyle(fontSize: 30, color: Colors.red),
+                ),
+              );
+          }
+        },
+      ),
+    );
+  }
+}

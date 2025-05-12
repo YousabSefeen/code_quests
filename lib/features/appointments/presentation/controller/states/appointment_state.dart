@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 
 import '../../../../../core/enum/lazy_request_state.dart';
 import '../../../../../core/enum/request_state.dart';
+import '../../../data/models/client_appointments_model.dart';
 import '../../../data/models/doctor_appointment_model.dart';
 
 class AppointmentState extends Equatable {
@@ -24,6 +25,10 @@ class AppointmentState extends Equatable {
   final LazyRequestState bookAppointmentState;
   final String bookAppointmentError;
 
+  final List<ClientAppointmentsModel> getClientAppointmentsList;
+  final RequestState getClientAppointmentsListState;
+  final String getClientAppointmentsListError;
+
   const AppointmentState({
     this.doctorAppointmentModel = const [],
     this.doctorAppointmentState = RequestState.loading,
@@ -36,6 +41,9 @@ class AppointmentState extends Equatable {
     this.selectedTimeByUser,
     this.bookAppointmentState = LazyRequestState.lazy,
     this.bookAppointmentError = '',
+    this.getClientAppointmentsList = const [],
+    this.getClientAppointmentsListState = RequestState.loading,
+    this.getClientAppointmentsListError = '',
   });
 
   AppointmentState copyWith({
@@ -50,6 +58,9 @@ class AppointmentState extends Equatable {
     String? selectedTimeByUser,
     LazyRequestState? bookAppointmentState,
     String? bookAppointmentError,
+    List<ClientAppointmentsModel>? getClientAppointmentsList,
+    RequestState? getClientAppointmentsListState,
+    String? getClientAppointmentsListError,
   }) {
     return AppointmentState(
       doctorAppointmentModel:
@@ -69,6 +80,12 @@ class AppointmentState extends Equatable {
       selectedTimeByUser: selectedTimeByUser ?? this.selectedTimeByUser,
       bookAppointmentState: bookAppointmentState ?? this.bookAppointmentState,
       bookAppointmentError: bookAppointmentError ?? this.bookAppointmentError,
+      getClientAppointmentsList:
+          getClientAppointmentsList ?? this.getClientAppointmentsList,
+      getClientAppointmentsListState:
+          getClientAppointmentsListState ?? this.getClientAppointmentsListState,
+      getClientAppointmentsListError:
+          getClientAppointmentsListError ?? this.getClientAppointmentsListError,
     );
   }
 
@@ -84,5 +101,8 @@ class AppointmentState extends Equatable {
         selectedTimeByUser,
         bookAppointmentState,
         bookAppointmentError,
+        getClientAppointmentsList,
+        getClientAppointmentsListState,
+        getClientAppointmentsListError
       ];
 }

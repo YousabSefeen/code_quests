@@ -2,6 +2,7 @@
 
 class AppStrings{
 
+  static const   dR='Dr. ';
   static const   successMessage='Book Appointment Successfully';
 
   static const List<String> doctorNotAvailableMessage= [

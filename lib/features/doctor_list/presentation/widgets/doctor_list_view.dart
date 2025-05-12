@@ -47,7 +47,7 @@ class DoctorListView extends StatelessWidget {
                   text: 'View Availability & Book',
                   onPressed: () => AppRouter.pushNamed(
                       context,
-                      AppRouterNames.appointmentBooking,
+                      AppRouterNames.createAppointment,
                       arguments: doctor,
                     ),
                   backgroundColor: AppColors.green,
