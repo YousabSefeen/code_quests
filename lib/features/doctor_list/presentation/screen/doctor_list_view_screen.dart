@@ -20,6 +20,14 @@ class DoctorListViewScreen extends StatefulWidget {
 }
 
 class _DoctorListViewScreenState extends State<DoctorListViewScreen> {
+
+  @override
+  void initState() {
+
+    super.initState();
+
+     context.read<DoctorListCubit>().getDoctorList();
+  }
   @override
   Widget build(BuildContext context) {
     print('_DoctorListViewScreenState.build');

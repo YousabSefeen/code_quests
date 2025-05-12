@@ -67,5 +67,7 @@ class DoctorProfileCubit extends Cubit<DoctorProfileState> {
     });
   }
 
-
+   resetState(){
+    emit(state.copyWith(doctorProfileState: LazyRequestState.lazy));
+   }
 }

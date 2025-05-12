@@ -3,8 +3,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_task/core/constants/app_strings/app_strings.dart';
 import 'package:flutter_task/features/appointments/presentation/controller/cubit/appointment_cubit.dart';
 import 'package:flutter_task/features/appointments/presentation/widgets/booking_empty_widget.dart';
 
@@ -51,7 +49,8 @@ class _BookedAppointmentsScreenState extends State<BookedAppointmentsScreen> {
               return state.getClientAppointmentsList.isEmpty
                   ? const BookingEmptyWidget()
                   : BookedAppointmentsList(
-                      appointmentsList: state.getClientAppointmentsList);
+                      appointmentsList: state.getClientAppointmentsList,
+                    );
 
             case RequestState.error:
               return CustomErrorWidget(

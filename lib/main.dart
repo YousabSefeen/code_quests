@@ -1,11 +1,9 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_task/features/auth/presentation/controller/cubit/login_cubit.dart';
-import 'package:flutter_task/features/doctor_list/presentation/screen/doctor_list_view_screen.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
 import 'core/constants/app_routes/app_router.dart';
@@ -15,7 +13,6 @@ import 'core/my_bloc_observer.dart';
 import 'core/services/server_locator.dart';
 import 'features/appointments/presentation/controller/cubit/appointment_cubit.dart';
 import 'features/auth/presentation/controller/cubit/register_cubit.dart';
-import 'features/auth/presentation/screens/login_screen.dart';
 import 'features/doctor_list/presentation/controller/cubit/doctor_list_cubit.dart';
 import 'features/doctor_profile/presentation/controller/cubit/doctor_profile_cubit.dart';
 import 'firebase_options.dart';
@@ -45,8 +42,7 @@ void main() async {
       create: (_) => serviceLocator<DoctorProfileCubit>(),
     ),
     BlocProvider (
-        create: (_) => serviceLocator<DoctorListCubit>()..getDoctorList(),
-      /// create: (_) => serviceLocator<DoctorListCubit>() ,
+      create: (_) => serviceLocator<DoctorListCubit>(),
     ),
     BlocProvider (
      create: (_) => serviceLocator<AppointmentCubit>() ,
@@ -72,8 +68,7 @@ class MyApp extends StatelessWidget {
         darkTheme: AppDarkTheme.theme,
         themeMode: ThemeMode.light,
         onGenerateRoute: AppRouter.generateRoute,
-       home: FirebaseAuth.instance.currentUser  !=null ? const DoctorListViewScreen():const LoginScreen(),
-        //    home:  const BookedAppointmentsScreen(),
+        initialRoute: '/',
       ),
     );
   }

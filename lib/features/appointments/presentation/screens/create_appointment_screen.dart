@@ -12,6 +12,7 @@ import 'package:flutter_task/features/appointments/presentation/widgets/custom_s
 import 'package:flutter_task/features/doctor_profile/data/models/doctor_model.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../../core/constants/app_strings/app_strings.dart';
 import '../../../../core/constants/common_widgets/consultation_fee_and_wait_row.dart';
 import '../../../../core/enum/lazy_request_state.dart';
 import '../../../doctor_list/data/models/doctor_list_model.dart';
@@ -44,7 +45,7 @@ import '../widgets/doctor_info_header.dart';
             if (values.value2 == LazyRequestState.loaded) {
               WidgetsBinding.instance.addPostFrameCallback((_) {
 
-                  AppAlerts.showAppointmentSuccessDialog(context);
+                  AppAlerts.showAppointmentSuccessDialog(  context: context,message:  AppStrings.successMessage,);
 
                 Future.delayed(const Duration(milliseconds:2500), () {
                   if (!context.mounted) return;

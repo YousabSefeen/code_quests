@@ -1,6 +1,6 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_task/features/doctor_list/presentation/screen/doctor_list_view_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import '../../../features/appointments/presentation/screens/booked_appointments_screen.dart';
 import '../../../features/appointments/presentation/screens/create_appointment_screen.dart';
@@ -12,20 +12,28 @@ import 'app_router_names.dart';
 
 class AppRouter {
   static Route<dynamic>? generateRoute(RouteSettings settings) {
+    final isLoggedIn = FirebaseAuth.instance.currentUser != null;
+
     switch (settings.name) {
+      case '/':
+        return _animatedRoute(
+            settings, isLoggedIn ? const DoctorListViewScreen() : const LoginScreen());
 
-
-        case AppRouterNames.login:
+      case AppRouterNames.login:
         return _animatedRoute(settings, const LoginScreen());
+
       case AppRouterNames.register:
         return _animatedRoute(settings, const RegisterScreen());
 
       case AppRouterNames.doctorProfile:
         return _animatedRoute(settings, const DoctorProfileScreen());
+
       case AppRouterNames.doctorListView:
         return _animatedRoute(settings, const DoctorListViewScreen());
-        case AppRouterNames.createAppointment:
+
+      case AppRouterNames.createAppointment:
         return _animatedRoute(settings, const CreateAppointmentScreen());
+
       case AppRouterNames.bookedAppointments:
         return _animatedRoute(settings, const BookedAppointmentsScreen());
 
@@ -48,15 +56,16 @@ class AppRouter {
   }
 
   static pushNamed(BuildContext context, String screenName,
-          {Object? arguments}) =>
+      {Object? arguments}) =>
       Navigator.of(context).pushNamed(screenName, arguments: arguments);
 
-
-
   static pushNamedAndRemoveUntil(BuildContext context, String screenName,
-          {Object? arguments}) =>
+      {Object? arguments}) =>
       Navigator.of(context).pushNamedAndRemoveUntil(
-        screenName, (Route<dynamic> route) => false,
-          arguments: arguments);
-   static pop(BuildContext context)=> Navigator.pop(context);
+        screenName,
+            (Route<dynamic> route) => false,
+        arguments: arguments,
+      );
+
+  static pop(BuildContext context) => Navigator.pop(context);
 }

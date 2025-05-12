@@ -74,11 +74,11 @@ class AppAlerts {
     );
   }
 
- static void showAppointmentSuccessDialog(BuildContext context) {
+ static void showAppointmentSuccessDialog({required BuildContext context,required String  message}) {
     showGeneralDialog(
       context: context,
       barrierDismissible: true,
-      barrierLabel: 'Book Appointment',
+      barrierLabel: message,
       transitionDuration: const Duration(milliseconds:800),
       pageBuilder: (context, _, __) {
         Future.delayed(const Duration(milliseconds: 1200), () {
@@ -96,7 +96,7 @@ class AppAlerts {
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Text(
-                AppStrings.successMessage,
+                message,
                 style: GoogleFonts.poppins(
                     color: Colors.white,
                     fontSize: 15.sp,
