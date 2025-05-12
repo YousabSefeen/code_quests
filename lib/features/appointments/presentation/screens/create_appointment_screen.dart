@@ -7,7 +7,7 @@ import 'package:flutter_task/core/constants/app_routes/app_router.dart';
 import 'package:flutter_task/core/constants/app_routes/app_router_names.dart';
 import 'package:flutter_task/core/constants/themes/app_colors.dart';
 import 'package:flutter_task/features/appointments/presentation/controller/cubit/appointment_cubit.dart';
-import 'package:flutter_task/features/appointments/presentation/widgets/custom_date_time_line.dart';
+import 'package:flutter_task/features/appointments/presentation/widgets/select_date_and_time.dart';
 import 'package:flutter_task/features/appointments/presentation/widgets/custom_sliver_app_bar.dart';
 import 'package:flutter_task/features/doctor_profile/data/models/doctor_model.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -53,7 +53,7 @@ import '../widgets/doctor_info_header.dart';
                 });
                 context
                     .read<AppointmentCubit>()
-                    .deleteUserTimeSelected();
+                    .deleteData();
               });
              }
 
@@ -91,7 +91,8 @@ import '../widgets/doctor_info_header.dart';
              CustomSliverAppBar(
                  doctorName: doctorInfo.name,
                  doctorImage: doctorInfo.imageUrl,
-                 specialization: doctorInfo.specialization),
+                 specialization: doctorInfo.specialization,
+             ),
              SliverList(
                  delegate: SliverChildListDelegate([
                    Padding(
@@ -102,7 +103,7 @@ import '../widgets/doctor_info_header.dart';
                          const SizedBox(height: 5),
                          DoctorInfoHeader(doctorInfo: doctorInfo),
                          ConsultationFeeAndWaitRow(   fee: doctorInfo.fees.toString()),
-                         CustomDateTimeLine(doctor: doctor),
+                         SelectDateAndTime(doctor: doctor),
                        ],
                      ),
                    ),

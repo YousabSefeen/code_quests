@@ -1,5 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_task/core/constants/app_strings/app_strings.dart';
+import 'package:flutter_task/core/constants/common_widgets/custom_error_widget.dart';
+import 'package:flutter_task/core/constants/common_widgets/custom_shimmer.dart';
 
 class CustomSliverAppBar extends StatelessWidget {
   final String doctorName;
@@ -38,10 +42,12 @@ class CustomSliverAppBar extends StatelessWidget {
             background: Stack(
               alignment: Alignment.bottomLeft,
               children: [
-                Image.network(
-                  doctorImage,
+                CachedNetworkImage(
+                  imageUrl:   doctorImage  ,
                   fit: BoxFit.fill,
                   width: double.infinity,
+                  placeholder: (context,_)=> CustomShimmer(height: deviceHeight*0.25, width: double.infinity),
+                  errorWidget:(context,_,__)=>   CustomErrorWidget(errorMessage: AppStrings.imageNotFound),
                 ),
                 Container(
                   margin:

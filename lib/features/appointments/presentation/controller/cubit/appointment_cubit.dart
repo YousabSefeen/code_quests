@@ -109,7 +109,7 @@ class AppointmentCubit extends Cubit<AppointmentState> {
         state.copyWith(selectedTimeByUser: selectedTime),
       );
 
-  void deleteUserTimeSelected() {
+  void deleteData() {
     emit(
         state.copyWith(selectedTimeByUser: ''),
       );

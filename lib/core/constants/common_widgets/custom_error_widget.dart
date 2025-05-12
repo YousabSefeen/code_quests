@@ -43,26 +43,28 @@ class CustomErrorWidget extends StatelessWidget {
               ),
             ),
             const Divider(thickness: 2, color: Colors.black54),
-            RichText(
-              text: TextSpan(
-                  text: 'Error Message: ',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w800,
-                    letterSpacing: 1.2,
-                  ),
-                  children: [
-                    TextSpan(
-                      text: errorMessage,
-                      style: TextStyle(
-                        color: Colors.blueGrey.shade900,
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w500,
-                        height: 1.4,
-                      ),
+            FittedBox(
+              child: RichText(
+                text: TextSpan(
+                    text: 'Error Message: ',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w800,
+                      letterSpacing: 1.2,
                     ),
-                  ]),
+                    children: [
+                      TextSpan(
+                        text: errorMessage,
+                        style: TextStyle(
+                          color: Colors.blueGrey.shade900,
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w500,
+                          height: 1.4,
+                        ),
+                      ),
+                    ]),
+              ),
             ),
           ],
         ),
