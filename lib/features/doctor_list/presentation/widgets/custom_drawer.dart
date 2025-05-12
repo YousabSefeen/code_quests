@@ -40,21 +40,43 @@ class CustomDrawer extends StatelessWidget {
             title: FittedBox(
                 child: Text(
               'Doctor Panel',
-              style: TextStyle(fontSize: 15.sp),
+              style: TextStyle(fontSize: 15.sp,color: Colors.black),
             )),
-            trailing: Icon(Icons.arrow_forward_ios,size: 18.sp,color: Colors.blue),
+            trailing: Icon(Icons.arrow_forward_ios,size: 18.sp,color: Colors.black54),
             onTap: () {
               Navigator.pop(context);
               AppRouter.pushNamed(context, AppRouterNames.doctorProfile);
             },
           ),
-          ElevatedButton(
-            onPressed: () {
-              context.read<LoginCubit>().logout();
-              AppRouter.pushNamedAndRemoveUntil(
-                  context, AppRouterNames.login);
+
+          ListTile(
+            leading: Icon(Icons.manage_accounts,size: 16.sp,color: Colors.black),
+            title: FittedBox(
+                child: Text(
+                  'My Appointment',
+                  style: TextStyle(fontSize: 15.sp,color: Colors.black),
+                )),
+            trailing: Icon(Icons.arrow_forward_ios,size: 18.sp,color: Colors.black54),
+            onTap: () {
+              Navigator.pop(context);
+              AppRouter.pushNamed(context, AppRouterNames.bookedAppointments);
             },
-            child: const Text('Logout'),
+          ),
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 10,vertical: 20),
+            width: double.infinity,
+            child: ElevatedButton.icon(
+              onPressed: () {
+                context.read<LoginCubit>().logout();
+                AppRouter.pushNamedAndRemoveUntil(
+                    context, AppRouterNames.login);
+              },
+              label: const Text('Logout'),
+              icon: const Icon(Icons.login_rounded,color: Colors.black,size: 20,),
+              style: const ButtonStyle(
+                backgroundColor: WidgetStatePropertyAll(Colors.red),
+              ),
+            ),
           ),
         ],
       ),

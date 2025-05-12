@@ -1,11 +1,11 @@
-import 'package:equatable/equatable.dart';
+
 
 import '../../../../../core/enum/lazy_request_state.dart';
 import '../../../../../core/enum/request_state.dart';
 import '../../../data/models/client_appointments_model.dart';
 import '../../../data/models/doctor_appointment_model.dart';
 
-class AppointmentState extends Equatable {
+class AppointmentState   {
   final List<DoctorAppointmentModel> doctorAppointmentModel;
   final RequestState doctorAppointmentState;
   final String doctorAppointmentError;

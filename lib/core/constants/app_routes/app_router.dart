@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_task/features/doctor_list/presentation/screen/doctor_list_view_screen.dart';
 
+import '../../../features/appointments/presentation/screens/booked_appointments_screen.dart';
 import '../../../features/appointments/presentation/screens/create_appointment_screen.dart';
 import '../../../features/auth/presentation/screens/login_screen.dart';
 import '../../../features/auth/presentation/screens/register_screen.dart';
@@ -18,8 +19,6 @@ class AppRouter {
         return _animatedRoute(settings, const LoginScreen());
       case AppRouterNames.register:
         return _animatedRoute(settings, const RegisterScreen());
-      // case AppRouterNames.emailVerification:
-      //   return _animatedRoute(settings, const EmailVerificationScreen());
 
       case AppRouterNames.doctorProfile:
         return _animatedRoute(settings, const DoctorProfileScreen());
@@ -27,6 +26,8 @@ class AppRouter {
         return _animatedRoute(settings, const DoctorListViewScreen());
         case AppRouterNames.createAppointment:
         return _animatedRoute(settings, const CreateAppointmentScreen());
+      case AppRouterNames.bookedAppointments:
+        return _animatedRoute(settings, const BookedAppointmentsScreen());
 
       default:
         return MaterialPageRoute(

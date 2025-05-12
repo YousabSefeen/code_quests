@@ -56,7 +56,7 @@ class _LoginScreenState extends State<LoginScreen> {
         ModalRoute.of(context)?.settings.arguments as String?;
 
     emailController.text = registeredUserEmail ?? '';
-    print('_LoginScreenState.build');
+
     return Scaffold(
       backgroundColor: AppColors.darkBlue,
       resizeToAvoidBottomInset: true,
@@ -156,9 +156,12 @@ class _LoginScreenState extends State<LoginScreen> {
   }) {
     Future.microtask(() {
       if (loginState == AuthState.success) {
+        if (!context.mounted) return;
         _navigateToHomeScreen(context);
 
       } else if (loginState == AuthState.error) {
+        if (!context.mounted) return;
+
         _showErrorSnackBar(context);
 
       }

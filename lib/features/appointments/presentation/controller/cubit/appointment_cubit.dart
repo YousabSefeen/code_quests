@@ -144,10 +144,13 @@ class AppointmentCubit extends Cubit<AppointmentState> {
         await appointmentRepository.getClientAppointmentsWithDoctorDetails();
 
     response.fold(
-      (failure) => emit(state.copyWith(
+      (failure) {
+        print('AppointmentCubit.getClientAppointmentsWithDoctorDetails   ${failure.toString()}');
+        emit(state.copyWith(
         getClientAppointmentsListState: RequestState.error,
         getClientAppointmentsListError: failure.toString(),
-      )),
+      ));
+      },
       (appointmentList) => emit(state.copyWith(
         getClientAppointmentsList: appointmentList,
         getClientAppointmentsListState: RequestState.loaded,

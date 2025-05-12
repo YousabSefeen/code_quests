@@ -40,4 +40,6 @@ class AppStrings{
 
   static const String imageNotFound =
       'Incorrect image URLs or changes in the image file\'s location';
+
+  static const String bookingsIsEmpty='There are no bookings currently. Please check back later or add a new booking.';
 }

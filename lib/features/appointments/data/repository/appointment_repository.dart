@@ -132,7 +132,7 @@ class AppointmentRepository extends AppointmentRepositoryBase {
   }
 
   @override
-  Future<Either<Failure, List<ClientAppointmentsModel>>>
+  Future<Either<Failure, List<ClientAppointmentsModel>?>>
       getClientAppointmentsWithDoctorDetails() async {
     try {
       final clientId = FirebaseAuth.instance.currentUser!.uid;
@@ -171,6 +171,10 @@ class AppointmentRepository extends AppointmentRepositoryBase {
 
   Future<Map<String, Map<String, String>>> _fetchDoctorsDataByIds(
       List<String> doctorIds) async {
+
+    if (doctorIds.isEmpty) {
+      return {};
+    }
     final snapshot = await FirebaseFirestore.instance
         .collection('doctors')
         .where(FieldPath.documentId, whereIn: doctorIds)

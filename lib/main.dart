@@ -7,19 +7,17 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_task/features/auth/presentation/controller/cubit/login_cubit.dart';
 import 'package:flutter_task/features/doctor_list/presentation/screen/doctor_list_view_screen.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:intl/intl.dart';
+
 import 'core/constants/app_routes/app_router.dart';
 import 'core/constants/themes/app_dark_theme.dart';
 import 'core/constants/themes/app_light_theme.dart';
 import 'core/my_bloc_observer.dart';
 import 'core/services/server_locator.dart';
 import 'features/appointments/presentation/controller/cubit/appointment_cubit.dart';
-import 'features/appointments/presentation/screens/booked_appointments_screen.dart';
 import 'features/auth/presentation/controller/cubit/register_cubit.dart';
 import 'features/auth/presentation/screens/login_screen.dart';
 import 'features/doctor_list/presentation/controller/cubit/doctor_list_cubit.dart';
 import 'features/doctor_profile/presentation/controller/cubit/doctor_profile_cubit.dart';
-
 import 'firebase_options.dart';
 
 void main() async {
