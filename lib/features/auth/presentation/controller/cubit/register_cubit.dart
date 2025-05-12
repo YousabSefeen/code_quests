@@ -1,7 +1,6 @@
 import 'dart:async';
 
-import 'package:bloc/bloc.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/enum/auth_state.dart';
 import '../../../../../core/enum/user_type.dart';
@@ -93,36 +92,9 @@ class RegisterCubit extends Cubit<RegisterState> {
     }, (success) {
       emit(state.copyWith(
         registerState: AuthState.success,
-        error: null,
       ));
     });
   }
 
-
-  Stream<bool?> checkEmailVerificationStream() async* {
-    while (true) {
-      await FirebaseAuth.instance.currentUser?.reload();
-      final isVerified = FirebaseAuth.instance.currentUser?.emailVerified;
-      yield isVerified;
-
-      if (isVerified == true) break;
-
-      await Future.delayed(const Duration(seconds: 5));
-    }
-  }
-
   void resetState() => emit(RegisterState.initial());
-
-  Future<void> signInWithGoogle() async {
-    final response = await authRepository.signInWithGoogle();
-
-    response.fold(
-          (failure) {
-        emit(state.copyWith(isAuthGoogle: false, error: failure.toString()));
-      },
-          (success) {
-        emit(state.copyWith(isAuthGoogle: success, error: null));
-      },
-    );
-  }
 }

@@ -17,8 +17,8 @@ abstract class BaseAuthRepository {
   });
 
 
-  Future<Either<Failure, String?>> getUserEmail();
+
 
   Future<Either<Failure, void>> logout();
-  Future<Either<Failure, bool>>   signInWithGoogle();
+
 }

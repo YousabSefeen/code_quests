@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class DoctorInfoField extends StatelessWidget {
   final String label;
@@ -31,6 +32,11 @@ class DoctorInfoField extends StatelessWidget {
         children: [
           Text(label, style: TextStyle(fontSize: 15.sp, color: Colors.blue)),
           TextFormField(
+            style: GoogleFonts.actor(
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w700,
+                color: Colors.black,
+                letterSpacing: 1.5),
             controller: controller,
             readOnly: suffixIcon!=null,
             keyboardType: keyboardType,
@@ -38,6 +44,13 @@ class DoctorInfoField extends StatelessWidget {
           validator:   validator,
             decoration: InputDecoration(
               hintText: hintText,
+              hintStyle: GoogleFonts.actor(
+                  fontSize: 12.sp,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.grey.shade600,
+              ),
+              fillColor: Colors.white,
+              filled: true,
               suffixIcon: suffixIcon,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8),

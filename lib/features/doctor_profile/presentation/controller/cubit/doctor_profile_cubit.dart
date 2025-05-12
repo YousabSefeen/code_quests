@@ -1,9 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_task/features/doctor_list/data/models/doctor_list_model.dart';
-
+import 'package:flutter_task/core/enum/lazy_request_state.dart';
 
 import '../../../data/models/doctor_model.dart';
 import '../../../data/repository/doctor_profile_repository.dart';
@@ -40,9 +36,6 @@ class DoctorProfileCubit extends Cubit<DoctorProfileState> {
   }
 
 
-
-
-
   Future<void> uploadDoctorProfile({
     required String imageUrl,
     required String name,
@@ -65,122 +58,14 @@ class DoctorProfileCubit extends Cubit<DoctorProfileState> {
       ),
     );
     response.fold((failure) {
-      print('DoctorProfileCubit.uploadDoctorProfile failure== $failure');
+      emit(state.copyWith(
+          doctorProfileState: LazyRequestState.error,
+          doctorProfileError: failure.toString()));
     }, (success) {
+      emit(state.copyWith(doctorProfileState: LazyRequestState.loaded));
       print('DoctorProfileCubit.uploadDoctorProfile == success');
     });
   }
-//TODO ********************************************************************************************************************************
-  List<DoctorListModel> doctors = [];
-
-  Future<void>  getDoctors()async{
-    try {
-
-      // final QuerySnapshot<Map<String, dynamic>> doctorsSnapshot =
-      // await FirebaseFirestore.instance.collection('doctors').get();
-
-      // for (var doc in doctorsSnapshot.docs) {
-      //
-      // }
-      final QuerySnapshot<Map<String, dynamic>> snapshot =
-      await FirebaseFirestore.instance.collection('doctors').get();
-
-      doctors = snapshot.docs.map((doc) {
-
-
-
-      final combinedData =  {
-
-        'doctorId': doc.id,
-        'doctorModel': doc.data(), // assuming you have a nested `UserModel user` field
-      };
-        return DoctorListModel.fromJson(combinedData);
-      }).toList();
-   //   print('Number One== \n ${doctors[0].fees} ');
-      print('doctorId == \n ${doctors[0].doctorId} ');
-      print('doctorModel== \n ${doctors[0].doctorModel.bio} ');
-    }  catch (e) {
-      print('DoctorProfileCubit.catch $e');
-    }
-  }
-  Future<void> createDoctorAppointment({required String doctorId })async{
-    final appointmentId = FirebaseFirestore.instance.collection('appointments').doc().id;
-
-    final clientId= FirebaseAuth.instance.currentUser!.uid;
-    // await FirebaseFirestore.instance
-    //     .collection('doctors')
-    //     .doc('4zWO081HcuThwwg069u1upSR6Dj1')
-    //     .collection('appointments')
-    //     .add({
-    //   'clientId': '1111',
-    //   'date': '05/05/2025',
-    //   'time': '10:20 AM',
-    //   'status': 'pending',
-    // });
-
-    // حفظ في subcollection تحت الدكتور
-    await FirebaseFirestore.instance
-        .collection('doctors')
-        .doc(doctorId)
-        .collection('appointments')
-        .doc(appointmentId)
-        .set({
-      'clientId':clientId,
-      'date': '06/06/2006',
-      'time': '05:05 PM',
-      'status': 'pending',
-    });
-
-// حفظ في collection العام
-    await FirebaseFirestore.instance
-        .collection('appointments')
-        .doc(appointmentId)
-        .set({
-      'doctorId': doctorId,
-      'clientId': clientId,
-      'date': '06/06/2006',
-      'time': '05:05 PM',
-      'status': 'pending',
-    });
-  }
-/*  Future<void> createDoctorAppointment({required String doctorId })async{
-    final appointmentId = FirebaseFirestore.instance.collection('appointments').doc().id;
-    // await FirebaseFirestore.instance
-    //     .collection('doctors')
-    //     .doc('4zWO081HcuThwwg069u1upSR6Dj1')
-    //     .collection('appointments')
-    //     .add({
-    //   'clientId': '1111',
-    //   'date': '05/05/2025',
-    //   'time': '10:20 AM',
-    //   'status': 'pending',
-    // });
-
-    // حفظ في subcollection تحت الدكتور
-    await FirebaseFirestore.instance
-        .collection('doctors')
-        .doc('4zWO081HcuThwwg069u1upSR6Dj1')
-        .collection('appointments')
-        .doc(appointmentId)
-        .set({
-      'clientId': 'WVRar7SR42ZqrqwS0mRDdYYWSN02',
-      'date': '06/06/2006',
-      'time': '05:05 PM',
-      'status': 'pending',
-    });
-
-// حفظ في collection العام
-    await FirebaseFirestore.instance
-        .collection('appointments')
-        .doc(appointmentId)
-        .set({
-      'doctorId': '4zWO081HcuThwwg069u1upSR6Dj1',
-      'clientId': 'WVRar7SR42ZqrqwS0mRDdYYWSN02',
-      'date': '06/06/2006',
-      'time': '05:05 PM',
-      'status': 'pending',
-    });
-  }*/
 
 
 }

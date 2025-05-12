@@ -82,29 +82,4 @@ class MyApp extends StatelessWidget {
 }
 
 
-class Tes extends StatelessWidget {
-  const Tes({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('data'),
-      ),
-      body: Center(
-        child:  ElevatedButton(onPressed: (){
-
-          // تحويل الوقت الي (DateTime Type)
-
-
-          final DateTime time = DateFormat('hh:mm a').parse('08:00 AM');
-          final DateTime time2 = DateFormat('hh:mm a').parse('11:00 AM');
-
-          final c=time2.difference(time).inHours;
-
-            print(c);
-        }, child: Text('data')),
-      ),
-    );
-  }
-}

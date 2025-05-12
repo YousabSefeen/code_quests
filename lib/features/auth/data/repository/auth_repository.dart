@@ -56,13 +56,6 @@ class AuthRepository extends BaseAuthRepository {
     }   catch (e) {
       print('_saveUserDataToFirestore $e');
     }
-    // await FirebaseFirestore.instance.collection('users').doc(uid).set({
-    //   'name': name,
-    //   'email': email,
-    //   'phone': phone,
-    //   'role': role,
-    //   'createdAt': FieldValue.serverTimestamp(),
-    // });
   }
 
   @override
@@ -79,43 +72,7 @@ class AuthRepository extends BaseAuthRepository {
     }
   }
 
-  @override
-  Future<Either<Failure, bool>> signInWithGoogle() async {
-    try {
-      // Trigger the authentication flow
-      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
-      if (googleUser == null) {
-        return right(false);
-      } else {
-        // Obtain the auth details from the request
-        final GoogleSignInAuthentication? googleAuth =
-            await googleUser.authentication;
-
-        // Create a new credential
-        final credential = GoogleAuthProvider.credential(
-          accessToken: googleAuth?.accessToken,
-          idToken: googleAuth?.idToken,
-        );
-
-        // Once signed in, return the UserCredential
-        await FirebaseAuth.instance.signInWithCredential(credential);
-        return right(true);
-      }
-    } catch (e) {
-      return left(ServerFailure(catchError: e));
-    }
-  }
-
-  @override
-  Future<Either<Failure, String?>> getUserEmail() async {
-    try {
-      final userEmail = await FirebaseAuth.instance.currentUser?.email;
-      return right(userEmail);
-    } catch (e) {
-      return left(ServerFailure(catchError: e));
-    }
-  }
 }
 /*
   Future  signInWithGoogle() async {

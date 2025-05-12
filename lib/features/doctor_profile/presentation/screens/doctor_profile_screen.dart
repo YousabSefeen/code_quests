@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_task/core/constants/app_assets/app_assets.dart';
-
+import '../../../../core/constants/app_strings/app_strings.dart';
 import '../../../../core/constants/themes/app_colors.dart';
 import '../controller/cubit/doctor_profile_cubit.dart';
 import '../widgets/doctor_availability_days_field.dart';
 import '../widgets/doctor_availability_time_fields.dart';
 import '../widgets/doctor_info_field.dart';
 import '../widgets/doctor_profile_image.dart';
+
 
 class DoctorProfileScreen extends StatefulWidget {
   const DoctorProfileScreen({super.key});
@@ -18,14 +19,12 @@ class DoctorProfileScreen extends StatefulWidget {
 
 class _DoctorProfileScreenState extends State<DoctorProfileScreen> {
   final _formKey = GlobalKey<FormState>();
-
   final _nameController = TextEditingController();
   final _specializationController = TextEditingController();
   final _bioController = TextEditingController();
   final _locationController = TextEditingController();
-
-
   final _feesController = TextEditingController();
+  final _scrollController = ScrollController();
 
   @override
   void dispose() {
@@ -33,17 +32,15 @@ class _DoctorProfileScreenState extends State<DoctorProfileScreen> {
     _specializationController.dispose();
     _bioController.dispose();
     _locationController.dispose();
-
     _feesController.dispose();
     _scrollController.dispose();
     super.dispose();
   }
 
-  final _scrollController = ScrollController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Doctor Profile')),
+      appBar: AppBar(title: const Text(AppStrings.doctorProfileTitle)),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
@@ -57,85 +54,42 @@ class _DoctorProfileScreenState extends State<DoctorProfileScreen> {
                   alignment: Alignment.topCenter,
                   child: DoctorProfileImage(),
                 ),
-                DoctorInfoField(
-                  label: 'Name',
-                  hintText: 'Enter your full name',
+                _buildTextField(
+                  label: AppStrings.nameLabel,
+                  hintText: AppStrings.nameHint,
                   controller: _nameController,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your name';
-                    }
-                    return null;
-                  },
+                  validator: _requiredFieldValidator(AppStrings.nameValidationMessage),
                 ),
-                DoctorInfoField(
-                  label: 'Specialization',
-                  hintText: 'Enter your medical specialization',
+                _buildTextField(
+                  label: AppStrings.specializationLabel,
+                  hintText: AppStrings.specializationHint,
                   controller: _specializationController,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your medical specialization';
-                    }
-                    return null;
-                  },
+                  validator: _requiredFieldValidator(AppStrings.specializationValidationMessage),
                 ),
-                DoctorInfoField(
-                  label: 'Bio',
-                  hintText:
-                      'Write a short bio about your experience and expertise',
+                _buildTextField(
+                  label: AppStrings.bioLabel,
+                  hintText: AppStrings.bioHint,
                   controller: _bioController,
                   maxLines: 3,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter a short bio about yourself';
-                    }
-                    return null;
-                  },
+                  validator: _requiredFieldValidator(AppStrings.bioValidationMessage),
                 ),
-                DoctorInfoField(
-                  label: 'Location',
-                  hintText: 'Enter your clinic or hospital location',
+                _buildTextField(
+                  label: AppStrings.locationLabel,
+                  hintText: AppStrings.locationHint,
                   controller: _locationController,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your clinic or workplace location';
-                    }
-                    return null;
-                  },
+                  validator: _requiredFieldValidator(AppStrings.locationValidationMessage),
                 ),
-                DoctorAvailabilityDaysField(),
+                  DoctorAvailabilityDaysField(),
                 const DoctorAvailabilityTimeFields(),
-                DoctorInfoField(
-                    label: 'Fees',
-                    hintText: 'Enter your consultation fees',
-                    controller: _feesController,
-                    keyboardType: TextInputType.number,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter your consultation fee';
-                      }
-                      final parsed = int.tryParse(value);
-                      if (parsed == null) {
-                        return 'Fee must be a valid integer number';
-                      }
-                      return null;
-                    }),
-                const SizedBox(height: 20),
-                SizedBox(
-                  height: 55,
-                  child: ElevatedButton(
-                    style: ButtonStyle(
-                      shape: WidgetStatePropertyAll(RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8))),
-                      backgroundColor: WidgetStatePropertyAll(AppColors.green),
-                    ),
-                    onPressed: () => _submitDoctorProfile(),
-                    child: const Text(
-                      'Save',
-                      style: TextStyle(fontSize: 20),
-                    ),
-                  ),
+                _buildTextField(
+                  label: AppStrings.feesLabel,
+                  hintText: AppStrings.feesHint,
+                  controller: _feesController,
+                  keyboardType: TextInputType.number,
+                  validator: _feeValidator,
                 ),
+                const SizedBox(height: 20),
+                _buildSaveButton(),
               ],
             ),
           ),
@@ -144,7 +98,64 @@ class _DoctorProfileScreenState extends State<DoctorProfileScreen> {
     );
   }
 
-  _submitDoctorProfile() {
+  Widget _buildTextField({
+    required String label,
+    required String hintText,
+    required TextEditingController controller,
+    int? maxLines=1,
+    required String? Function(String?) validator,
+    TextInputType keyboardType = TextInputType.text,
+  }) {
+    return DoctorInfoField(
+      label: label,
+      hintText: hintText,
+      controller: controller,
+      maxLines: maxLines!,
+      validator: validator,
+      keyboardType: keyboardType,
+    );
+  }
+
+  String? Function(String?) _requiredFieldValidator(String errorMessage) {
+    return (value) {
+      if (value == null || value.isEmpty) {
+        return errorMessage;
+      }
+      return null;
+    };
+  }
+
+  String? _feeValidator(String? value) {
+    if (value == null || value.isEmpty) {
+      return AppStrings.feeValidationMessage;
+    }
+    final parsed = int.tryParse(value);
+    if (parsed == null) {
+      return AppStrings.feeInvalidMessage;
+    }
+    return null;
+  }
+
+  Widget _buildSaveButton() {
+    return SizedBox(
+      height: 55,
+      width: double.infinity,
+      child: ElevatedButton(
+        style: ButtonStyle(
+          shape: MaterialStateProperty.all(RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8))),
+          backgroundColor: MaterialStateProperty.all(AppColors.green),
+        ),
+        onPressed: _submitDoctorProfile,
+        child: const Text(
+          AppStrings.saveButtonText,
+          style: TextStyle(fontSize: 20),
+        ),
+      ),
+    );
+  }
+
+  void _submitDoctorProfile() {
     FocusScope.of(context).unfocus();
 
     if (!_formKey.currentState!.validate()) {
@@ -153,20 +164,19 @@ class _DoctorProfileScreenState extends State<DoctorProfileScreen> {
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeInOut,
       );
-
-    }else{
-
+    } else {
       _uploadDoctorProfile();
     }
   }
 
-  void _uploadDoctorProfile() =>
-      context.read<DoctorProfileCubit>().uploadDoctorProfile(
-            imageUrl: AppAssets.images[1],
-            name: _nameController.text.trim(),
-            specialization: _specializationController.text.trim(),
-            bio: _bioController.text.trim(),
-            location: _locationController.text.trim(),
-            fees: int.parse(_feesController.text.trim()),
-          );
+  void _uploadDoctorProfile() {
+    context.read<DoctorProfileCubit>().uploadDoctorProfile(
+      imageUrl: AppAssets.images[1],
+      name: _nameController.text.trim(),
+      specialization: _specializationController.text.trim(),
+      bio: _bioController.text.trim(),
+      location: _locationController.text.trim(),
+      fees: int.parse(_feesController.text.trim()),
+    );
+  }
 }
