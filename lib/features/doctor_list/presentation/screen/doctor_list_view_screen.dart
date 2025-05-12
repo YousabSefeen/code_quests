@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_task/core/constants/common_widgets/custom_loading%20_list.dart';
 import 'package:flutter_task/core/enum/request_state.dart';
 import 'package:flutter_task/features/doctor_list/presentation/widgets/doctor_list_view.dart';
 import 'package:intl/intl.dart';
@@ -23,11 +24,10 @@ class _DoctorListViewScreenState extends State<DoctorListViewScreen> {
   Widget build(BuildContext context) {
     print('_DoctorListViewScreenState.build');
     return Scaffold(
+
       drawer: const CustomDrawer(),
-    //  appBar: AppBar(title: const Text('Home Screen')),
-      appBar: AppBar(title:   Text('${FirebaseAuth.instance.currentUser!.uid}',style: TextStyle(
-        fontSize: 16
-      ),)),
+       appBar: AppBar(title: const Text('Browse Doctors')),
+
 
 
 
@@ -40,9 +40,7 @@ class _DoctorListViewScreenState extends State<DoctorListViewScreen> {
         builder: (context, state) {
           switch (state.doctorListState) {
             case RequestState.loading:
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
+              return   const CustomLoadingList(height: 150 );
             case RequestState.loaded:
               return DoctorListView(doctorList: state.doctorList);
             case RequestState.error:

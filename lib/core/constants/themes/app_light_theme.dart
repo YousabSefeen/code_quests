@@ -24,7 +24,7 @@ class AppLightTheme {
         ),
       ),
       centerTitle: true,
-      iconTheme: IconThemeData(color: AppColors.customDarkBlue, size: 25.sp),
+      iconTheme: IconThemeData(color: AppColors.white, size: 25.sp),
     ),
     iconTheme: IconThemeData(
       color: Colors.white,

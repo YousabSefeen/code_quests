@@ -3,14 +3,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_task/core/constants/themes/app_colors.dart';
 import 'package:flutter_task/features/appointments/presentation/controller/cubit/appointment_cubit.dart';
-import 'package:flutter_task/features/appointments/presentation/widgets/booked_appointments_list.dart';
 
+import '../../../../core/constants/common_widgets/custom_error_widget.dart';
+import '../../../../core/constants/common_widgets/custom_loading _list.dart';
 import '../../../../core/enum/request_state.dart';
 import '../controller/states/appointment_state.dart';
-
-
+import '../widgets/booked_appointments_list.dart';
 
 class BookedAppointmentsScreen extends StatefulWidget {
   const BookedAppointmentsScreen({super.key});
@@ -44,18 +43,13 @@ class _BookedAppointmentsScreenState extends State<BookedAppointmentsScreen> {
         builder: (context, state) {
           switch (state.getClientAppointmentsListState) {
             case RequestState.loading:
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
+              return const CustomLoadingList(height: 100);
             case RequestState.loaded:
-
               return BookedAppointmentsList(appointmentsList:state.getClientAppointmentsList );
+
             case RequestState.error:
-              return Center(
-                child: Text(
-                  state.getClientAppointmentsListError,
-                  style: const TextStyle(fontSize: 30, color: Colors.red),
-                ),
+              return CustomErrorWidget(
+                errorMessage: state.getClientAppointmentsListError,
               );
           }
         },
@@ -63,3 +57,4 @@ class _BookedAppointmentsScreenState extends State<BookedAppointmentsScreen> {
     );
   }
 }
+

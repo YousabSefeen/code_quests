@@ -74,8 +74,8 @@ class MyApp extends StatelessWidget {
         darkTheme: AppDarkTheme.theme,
         themeMode: ThemeMode.light,
         onGenerateRoute: AppRouter.generateRoute,
-        //   home: FirebaseAuth.instance.currentUser  !=null ? const DoctorListViewScreen():const LoginScreen(),
-           home:  const BookedAppointmentsScreen(),
+       home: FirebaseAuth.instance.currentUser  !=null ? const DoctorListViewScreen():const LoginScreen(),
+        //    home:  const BookedAppointmentsScreen(),
       ),
     );
   }
