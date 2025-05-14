@@ -1,5 +1,4 @@
 import 'package:animate_do/animate_do.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -14,9 +13,11 @@ class AuthHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(
-          left: 24, right: 24, top: isLogin ? 20 : 0, bottom: isLogin? 25: 15),
+      padding: const EdgeInsets.symmetric(
+        horizontal: 10,
+      ),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
 
         children: [
@@ -37,7 +38,7 @@ class AuthHeader extends StatelessWidget {
             style: GoogleFonts.poppins(
               fontSize: 36.sp,
               color: Colors.white,
-              fontWeight: FontWeight.bold,
+              fontWeight: FontWeight.bold,height: 2
 
             ),
           ),

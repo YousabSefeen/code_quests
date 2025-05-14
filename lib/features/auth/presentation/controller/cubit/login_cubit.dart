@@ -1,6 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/enum/auth_state.dart';
+import '../../../../../core/enum/lazy_request_state.dart';
+import '../../../../../core/enum/password_visibility_state.dart';
 import '../../../data/repository/auth_repository.dart';
 import '../states/login_state.dart';
 
@@ -10,11 +12,11 @@ class LoginCubit extends Cubit<LoginState> {
   LoginCubit({required this.authRepository}) : super(const LoginState());
 
   void togglePasswordVisibility() => emit(
-        state.copyWith(isLoginPasswordVisible: !state.isPasswordVisible),
-      );
+    state.copyWith(isPasswordVisible: !state.isPasswordVisible),
+  );
 
   Future<void> login({required String email, required String password}) async {
-    emit(state.copyWith(loginStatus: AuthState.loading, error: null));
+    emit(state.copyWith(loginStatus: LazyRequestState.loading   ));
 
     final response =
         await authRepository.login(email: email, password: password);
@@ -22,12 +24,12 @@ class LoginCubit extends Cubit<LoginState> {
     response.fold((failure) {
       emit(
         state.copyWith(
-          loginStatus: AuthState.error,
-          error: failure.toString(),
+          loginStatus: LazyRequestState.error,
+          loginError: failure.toString(),
         ),
       );
     }, (success) async {
-      emit(state.copyWith(loginStatus: AuthState.success));
+      emit(state.copyWith(loginStatus: LazyRequestState.loaded));
     });
   }
 

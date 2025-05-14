@@ -69,7 +69,9 @@ class CustomDrawer extends StatelessWidget {
               onPressed: () {
                 context.read<LoginCubit>().logout();
                 AppRouter.pushNamedAndRemoveUntil(
-                    context, AppRouterNames.login);
+                  context,
+                  AppRouterNames.login,
+                );
               },
               label: const Text('Logout'),
               icon: const Icon(Icons.login_rounded,color: Colors.black,size: 20,),

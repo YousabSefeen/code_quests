@@ -1,13 +1,15 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter_task/core/enum/lazy_request_state.dart';
 
-class DoctorProfileState {
+class DoctorProfileState extends Equatable {
   final List<String> tempSelectedDays;
   final List<String> confirmedWorkingDays;
   final String? availableFromTime;
   final String? availableToTime;
   final String? doctorProfileError;
   final LazyRequestState doctorProfileState;
-  DoctorProfileState({
+
+  const DoctorProfileState({
     required this.tempSelectedDays,
     required this.confirmedWorkingDays,
     required this.availableFromTime,
@@ -17,7 +19,7 @@ class DoctorProfileState {
   });
 
   factory DoctorProfileState.initial() {
-    return DoctorProfileState(
+    return const DoctorProfileState(
       tempSelectedDays: [],
       confirmedWorkingDays: [],
       availableFromTime: null,
@@ -44,4 +46,14 @@ class DoctorProfileState {
       doctorProfileState: doctorProfileState ?? this.doctorProfileState,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        tempSelectedDays,
+        confirmedWorkingDays,
+        availableFromTime,
+        availableToTime,
+        doctorProfileError,
+        doctorProfileState,
+      ];
 }

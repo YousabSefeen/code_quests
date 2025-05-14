@@ -3,14 +3,16 @@
 
 
 
-import '../../../../../core/enum/auth_state.dart';
+import 'package:flutter_task/core/enum/lazy_request_state.dart';
+
+
 import '../../../../../core/enum/user_type.dart';
 
 class RegisterState {
   final bool isPasswordVisible;
   final bool isConfirmPasswordVisible;
   final UserType userType;
-  final AuthState registerState;
+  final LazyRequestState registerState;
   final String? error;
   final bool isSendEmailVerification;
   final bool isAuthGoogle;
@@ -30,7 +32,7 @@ class RegisterState {
       isPasswordVisible: true,
       isConfirmPasswordVisible: true,
       userType: UserType.client,
-      registerState: AuthState.init,
+      registerState: LazyRequestState.lazy,
       error: null,
       isSendEmailVerification: false,
       isAuthGoogle: false,
@@ -41,7 +43,7 @@ class RegisterState {
     bool? isPasswordVisible,
     bool? isConfirmPasswordVisible,
     UserType? userType,
-    AuthState? registerState,
+    LazyRequestState? registerState,
     String? error,
     bool? isSendEmailVerification,
     bool? isAuthGoogle,

@@ -1,11 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_task/core/constants/common_widgets/custom_loading%20_list.dart';
 import 'package:flutter_task/core/enum/request_state.dart';
 import 'package:flutter_task/features/doctor_list/presentation/widgets/doctor_list_view.dart';
-import 'package:intl/intl.dart';
 
 import '../controller/cubit/doctor_list_cubit.dart';
 import '../controller/states/doctor_list_state.dart';
@@ -44,7 +41,7 @@ class _DoctorListViewScreenState extends State<DoctorListViewScreen> {
 
       body: BlocBuilder<DoctorListCubit, DoctorListState>(
         buildWhen: (previous, current) =>
-            previous.doctorListState != current.doctorListState,
+            previous.doctorList != current.doctorList,
         builder: (context, state) {
           switch (state.doctorListState) {
             case RequestState.loading:
@@ -62,22 +59,6 @@ class _DoctorListViewScreenState extends State<DoctorListViewScreen> {
         },
       ),
     );
-  }
-
-
-
-  Future<void> getDummySpecialistsToFirebase() async {
-    try {
-      final firestore = FirebaseFirestore.instance;
-      final querySnapshot = await firestore.collection('specialists').get();
-
-      for (var doc in querySnapshot.docs) {
-        print('Document ID: ${doc.id}');
-        print('Data: ${doc.data()}');
-      }
-    } catch (e) {
-      print('Failed to fetch data: $e');
-    }
   }
 }
 

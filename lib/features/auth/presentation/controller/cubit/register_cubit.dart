@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/enum/auth_state.dart';
+import '../../../../../core/enum/lazy_request_state.dart';
 import '../../../../../core/enum/user_type.dart';
 import '../../../data/repository/auth_repository.dart';
 import '../states/register_state.dart';
@@ -74,7 +75,7 @@ class RegisterCubit extends Cubit<RegisterState> {
     required String email,
     required String password,
   }) async {
-    emit(state.copyWith(registerState: AuthState.loading));
+    emit(state.copyWith(registerState: LazyRequestState.loading));
 
     final response = await authRepository.register(
       name: name,
@@ -86,12 +87,12 @@ class RegisterCubit extends Cubit<RegisterState> {
 
     response.fold((failure) {
       emit(state.copyWith(
-        registerState: AuthState.error,
+        registerState: LazyRequestState.error,
         error: failure.toString(),
       ));
     }, (success) {
       emit(state.copyWith(
-        registerState: AuthState.success,
+        registerState: LazyRequestState.loaded,
       ));
     });
   }

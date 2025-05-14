@@ -1,24 +1,23 @@
-import '../../../../../core/enum/auth_state.dart';
+import 'package:flutter_task/core/enum/lazy_request_state.dart';
 
 class LoginState {
   final bool isPasswordVisible;
-  final AuthState loginStatus;
-  final String? error;
+  final LazyRequestState loginStatus;
+  final String? loginError;
 
   const LoginState({
     this.isPasswordVisible = true,
-    this.loginStatus = AuthState.init,
-    this.error,
+    this.loginStatus = LazyRequestState.lazy,
+    this.loginError = '',
   });
 
   LoginState copyWith({
-    bool? isLoginPasswordVisible,
-    AuthState? loginStatus,
-    String? error,
+    bool? isPasswordVisible,
+    LazyRequestState? loginStatus,
+    String? loginError,
   }) => LoginState(
-      isPasswordVisible:
-      isLoginPasswordVisible ?? this.isPasswordVisible,
-      loginStatus: loginStatus ?? this.loginStatus,
-      error: error,
-    );
+        isPasswordVisible: isPasswordVisible ?? this.isPasswordVisible,
+        loginStatus: loginStatus ?? this.loginStatus,
+        loginError: loginError ?? this.loginError,
+      );
 }
