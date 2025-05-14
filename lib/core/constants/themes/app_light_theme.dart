@@ -128,7 +128,8 @@ class AppLightTheme {
     ),
 
     ///
-    ///
+
+
     textTheme: TextTheme(
       headlineMedium: TextStyle(
         // style for ... (used in *DoctorAvailabilityTimeFields*  )
@@ -201,3 +202,4 @@ class AppLightTheme {
     ),
   );
 }
+

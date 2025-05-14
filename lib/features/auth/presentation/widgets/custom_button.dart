@@ -11,8 +11,8 @@ class CustomButton extends StatelessWidget {
 
   const CustomButton(
       {super.key,
-      required this.isLoading,
       required this.text,
+      required this.isLoading,
       required this.onPressed});
 
   @override
@@ -23,16 +23,18 @@ class CustomButton extends StatelessWidget {
       height: deviceSize.height * 0.06,
       child: ElevatedButton(
         style: ButtonStyle(
-            elevation: WidgetStatePropertyAll(2),
-            backgroundColor: WidgetStatePropertyAll(Colors.white),
-            foregroundColor: WidgetStatePropertyAll(AppColors.darkBlue),
-            overlayColor: WidgetStatePropertyAll(AppColors.grey),
-            shape: WidgetStatePropertyAll(RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15.r),
-                side: BorderSide(color: Colors.black12)))),
+          elevation: const WidgetStatePropertyAll(2),
+          backgroundColor: const WidgetStatePropertyAll(Colors.white),
+          foregroundColor: const WidgetStatePropertyAll(AppColors.darkBlue),
+          overlayColor: WidgetStatePropertyAll(AppColors.grey),
+          shape: WidgetStatePropertyAll(RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(25.r),
+            side: const BorderSide(color: Colors.black12),
+          )),
+        ),
         onPressed: onPressed,
         child: isLoading
-            ? CircularProgressIndicator(
+            ? const CircularProgressIndicator(
                 color: AppColors.darkBlue,
               )
             : FittedBox(
@@ -40,8 +42,8 @@ class CustomButton extends StatelessWidget {
                   text,
                   style: GoogleFonts.poppins(
                       fontSize: 18.sp,
-                      fontWeight: FontWeight.w900,
-                      letterSpacing: 1.5),
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ),
       ),

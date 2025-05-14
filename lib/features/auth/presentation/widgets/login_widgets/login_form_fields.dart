@@ -4,8 +4,8 @@ import 'package:flutter_task/features/auth/presentation/controller/cubit/login_c
 import 'package:flutter_task/features/auth/presentation/controller/states/login_state.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../../../../core/constants/themes/app_colors.dart';
-import 'custom_form_field.dart';
+import '../../../../../core/constants/themes/app_colors.dart';
+import '../custom_form_field.dart';
 
 class LoginFormFields extends StatelessWidget {
   final TextEditingController emailController;

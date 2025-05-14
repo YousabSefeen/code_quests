@@ -8,8 +8,8 @@ import '../../../../../core/constants/themes/app_colors.dart';
 import '../../controller/cubit/register_cubit.dart';
 import '../../controller/states/register_state.dart';
 import '../custom_button.dart';
-import '../register_form_fields.dart';
-import '../register_role_selector.dart';
+import 'register_form_fields.dart';
+import 'register_role_selector.dart';
 
 class RegisterBody extends StatelessWidget {
   final TextEditingController nameController;

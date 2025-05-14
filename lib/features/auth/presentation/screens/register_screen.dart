@@ -9,7 +9,7 @@ import 'package:flutter_task/core/constants/app_routes/app_router_names.dart';
 import 'package:flutter_task/core/constants/themes/app_colors.dart';
 import 'package:flutter_task/core/enum/lazy_request_state.dart';
 import 'package:flutter_task/features/auth/presentation/controller/cubit/register_cubit.dart';
-import 'package:flutter_task/features/auth/presentation/widgets/register_error_snack_bar_content.dart';
+import 'package:flutter_task/features/auth/presentation/widgets/register_widgets/register_error_snack_bar_content.dart';
 
 import '../controller/states/register_state.dart';
 import '../widgets/register_widgets/register_body.dart';

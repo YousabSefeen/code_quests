@@ -3,9 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_task/features/auth/presentation/controller/cubit/register_cubit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../../../../core/constants/themes/app_colors.dart';
-import '../controller/states/register_state.dart';
-import '../widgets/custom_form_field.dart';
+import '../../../../../core/constants/themes/app_colors.dart';
+import '../../controller/states/register_state.dart';
+import '../custom_form_field.dart';
 
 class RegisterFormFields extends StatelessWidget {
   final TextEditingController userNameController;

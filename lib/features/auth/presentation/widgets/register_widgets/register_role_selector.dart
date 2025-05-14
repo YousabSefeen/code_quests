@@ -3,10 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../../core/constants/themes/app_colors.dart';
-import '../../../../core/enum/user_type.dart';
-import '../controller/cubit/register_cubit.dart';
-import '../controller/states/register_state.dart';
+import '../../../../../core/constants/themes/app_colors.dart';
+import '../../../../../core/enum/user_type.dart';
+import '../../controller/cubit/register_cubit.dart';
+import '../../controller/states/register_state.dart';
 
 class RegisterRoleSelector extends StatelessWidget {
   const RegisterRoleSelector({super.key});
