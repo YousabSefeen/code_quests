@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_task/core/constants/app_assets/app_assets.dart';
 import 'package:flutter_task/core/enum/lazy_request_state.dart';
 
+import '../../../../core/constants/app_alerts/app_alerts.dart';
 import '../../../../core/constants/app_routes/app_router.dart';
 import '../../../../core/constants/app_routes/app_router_names.dart';
 import '../../../../core/constants/app_strings/app_strings.dart';
@@ -51,10 +52,19 @@ class _DoctorProfileScreenState extends State<DoctorProfileScreen> {
         builder: (context, doctorProfileState) {
 
           if(doctorProfileState==LazyRequestState.loaded){
-            Future.delayed(const Duration(milliseconds: 600), () {
-              Future.microtask(() {
-                AppRouter.pushNamed(context, AppRouterNames.doctorListView);
-                context.read<DoctorProfileCubit>().resetState();
+            Future.microtask(() {
+              if (!context.mounted) return;
+              AppAlerts.showAppointmentSuccessDialog(
+                context: context,
+                message: 'Successfully',
+              );
+              Future.delayed(const Duration(milliseconds: 1500), () {
+                if (!context.mounted) return;
+                AppRouter.pushNamedAndRemoveUntil(
+                  context,
+                  AppRouterNames.doctorListView,
+                );
+                context.read<DoctorProfileCubit>().resetStates();
               });
             });
           }

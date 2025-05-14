@@ -57,17 +57,15 @@ class DoctorProfileCubit extends Cubit<DoctorProfileState> {
         fees: fees,
       ),
     );
-    response.fold((failure) {
-      emit(state.copyWith(
-          doctorProfileState: LazyRequestState.error,
-          doctorProfileError: failure.toString()));
-    }, (success) {
-      emit(state.copyWith(doctorProfileState: LazyRequestState.loaded));
-      print('DoctorProfileCubit.uploadDoctorProfile == success');
-    });
+    response.fold(
+      (failure) => emit(state.copyWith(
+        doctorProfileState: LazyRequestState.error,
+        doctorProfileError: failure.toString(),
+      )),
+      (success) =>
+          emit(state.copyWith(doctorProfileState: LazyRequestState.loaded)),
+    );
   }
 
-  resetState() {
-    emit(state.copyWith(doctorProfileState: LazyRequestState.lazy));
-  }
+  void resetStates() => emit(DoctorProfileState.initial());
 }
