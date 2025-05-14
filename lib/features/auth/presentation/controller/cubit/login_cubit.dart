@@ -7,8 +7,7 @@ import '../states/login_state.dart';
 class LoginCubit extends Cubit<LoginState> {
   final AuthRepository authRepository;
 
-  LoginCubit({required this.authRepository}) : super(const LoginState());
-
+  LoginCubit({required this.authRepository}) : super(LoginState.initial());
   void togglePasswordVisibility() => emit(
         state.copyWith(isPasswordVisible: !state.isPasswordVisible),
       );
@@ -20,6 +19,7 @@ class LoginCubit extends Cubit<LoginState> {
         await authRepository.login(email: email, password: password);
 
     response.fold((failure) {
+      print('LoginCubit.login   ${failure}');
       emit(
         state.copyWith(
           loginStatus: LazyRequestState.error,
@@ -39,7 +39,7 @@ class LoginCubit extends Cubit<LoginState> {
     return null;
   }
 
-  void resetState() => emit(const LoginState());
+  void resetStates() => emit(LoginState.initial());
 
   Future<void> logout() async => await authRepository.logout();
 }

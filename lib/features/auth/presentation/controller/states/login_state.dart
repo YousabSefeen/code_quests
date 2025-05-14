@@ -1,15 +1,24 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter_task/core/enum/lazy_request_state.dart';
 
-class LoginState {
+class LoginState extends Equatable {
   final bool isPasswordVisible;
   final LazyRequestState loginStatus;
   final String? loginError;
 
   const LoginState({
-    this.isPasswordVisible = true,
-    this.loginStatus = LazyRequestState.lazy,
-    this.loginError = '',
+    required this.isPasswordVisible,
+    required this.loginStatus,
+    required this.loginError,
   });
+
+  factory LoginState.initial() {
+    return const LoginState(
+      isPasswordVisible: true,
+      loginStatus: LazyRequestState.lazy,
+      loginError: '',
+    );
+  }
 
   LoginState copyWith({
     bool? isPasswordVisible,
@@ -21,4 +30,11 @@ class LoginState {
         loginStatus: loginStatus ?? this.loginStatus,
         loginError: loginError ?? this.loginError,
       );
+
+  @override
+  List<Object?> get props => [
+        isPasswordVisible,
+        loginStatus,
+        loginError,
+      ];
 }

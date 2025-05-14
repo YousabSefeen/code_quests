@@ -66,14 +66,14 @@ class LoginButton extends StatelessWidget {
             context,
             AppRouterNames.doctorListView,
           );
-          context.read<LoginCubit>().resetState();
         } else if (loginStatus == LazyRequestState.error) {
           AppAlerts.showErrorSnackBar(
             context,
-            'Unknown error occurred.',
+            context.read<LoginCubit>().state.loginError ??
+                'Unknown error occurred.',
           );
         }
-        context.read<LoginCubit>().resetState();
+        context.read<LoginCubit>().resetStates();
       }
     });
   }
