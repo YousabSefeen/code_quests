@@ -2,13 +2,10 @@ import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../core/enum/auth_state.dart';
 import '../../../../../core/enum/lazy_request_state.dart';
 import '../../../../../core/enum/user_type.dart';
 import '../../../data/repository/auth_repository.dart';
 import '../states/register_state.dart';
-
-
 
 class RegisterCubit extends Cubit<RegisterState> {
   final AuthRepository authRepository;
@@ -21,7 +18,8 @@ class RegisterCubit extends Cubit<RegisterState> {
   }
 
   void toggleConfirmPasswordVisibility() {
-    emit(state.copyWith(isConfirmPasswordVisible: !state.isConfirmPasswordVisible));
+    emit(state.copyWith(
+        isConfirmPasswordVisible: !state.isConfirmPasswordVisible));
   }
 
   UserType _userType = UserType.client;

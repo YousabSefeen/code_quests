@@ -1,6 +1,4 @@
-
 import 'package:flutter_task/features/auth/presentation/controller/cubit/login_cubit.dart';
-
 import 'package:get_it/get_it.dart';
 
 import '../../features/appointments/data/repository/appointment_repository.dart';
@@ -12,8 +10,6 @@ import '../../features/doctor_list/presentation/controller/cubit/doctor_list_cub
 import '../../features/doctor_profile/data/repository/doctor_profile_repository.dart';
 import '../../features/doctor_profile/presentation/controller/cubit/doctor_profile_cubit.dart';
 
-
-
 final serviceLocator = GetIt.instance;
 
 class ServicesLocator {
@@ -23,34 +19,36 @@ class ServicesLocator {
 
     /// خدمات الدفع Paymob
     serviceLocator.registerFactory<LoginCubit>(
-        () => LoginCubit(authRepository: serviceLocator()),
+      () => LoginCubit(authRepository: serviceLocator()),
     );
 
     serviceLocator.registerFactory<RegisterCubit>(
-        () => RegisterCubit(authRepository: serviceLocator()),
+      () => RegisterCubit(authRepository: serviceLocator()),
     );
-
-
 
     serviceLocator.registerFactory<DoctorProfileCubit>(
-            () => DoctorProfileCubit(doctorRepository: serviceLocator() ),
+      () => DoctorProfileCubit(doctorRepository: serviceLocator()),
     );
     serviceLocator.registerFactory<DoctorListCubit>(
-            () => DoctorListCubit( doctorListRepository: serviceLocator() ),
+      () => DoctorListCubit(doctorListRepository: serviceLocator()),
     );
 
     serviceLocator.registerFactory<AppointmentCubit>(
-            () => AppointmentCubit(appointmentRepository: serviceLocator(),  ),
+      () => AppointmentCubit(
+        appointmentRepository: serviceLocator(),
+      ),
     );
 
     // sl.registerLazySingleton<RegisterProvider>(
     //     () => RegisterProvider(authRepository: sl()));
 //TODO Repository
-    serviceLocator.registerLazySingleton<AuthRepository>(() => AuthRepository());
-    serviceLocator.registerLazySingleton<DoctorProfileRepository>(() => DoctorProfileRepository());
-    serviceLocator.registerLazySingleton<DoctorListRepository>(() => DoctorListRepository());
-    serviceLocator.registerLazySingleton<AppointmentRepository>(() => AppointmentRepository());
-
-
+    serviceLocator
+        .registerLazySingleton<AuthRepository>(() => AuthRepository());
+    serviceLocator.registerLazySingleton<DoctorProfileRepository>(
+        () => DoctorProfileRepository());
+    serviceLocator.registerLazySingleton<DoctorListRepository>(
+        () => DoctorListRepository());
+    serviceLocator.registerLazySingleton<AppointmentRepository>(
+        () => AppointmentRepository());
   }
 }

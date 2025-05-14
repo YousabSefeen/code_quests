@@ -12,7 +12,6 @@ class AppointmentRepository extends AppointmentRepositoryBase {
   Future<Either<Failure, List<DoctorAppointmentModel>>> getDoctorAppointments(
       {required String doctorId}) async {
     try {
-
       final snapshot = await FirebaseFirestore.instance
           .collection('doctors')
           .doc(doctorId)
@@ -36,7 +35,8 @@ class AppointmentRepository extends AppointmentRepositoryBase {
   }
 
   @override
-  Future<Either<Failure, List<String>>> getReservedTimeSlotsForDoctorOnDate({required String doctorId, required String date})async {
+  Future<Either<Failure, List<String>>> getReservedTimeSlotsForDoctorOnDate(
+      {required String doctorId, required String date}) async {
     try {
       final appointmentsSnapshot = await FirebaseFirestore.instance
           .collection('appointments')
@@ -50,7 +50,8 @@ class AppointmentRepository extends AppointmentRepositoryBase {
 
       return right(reservedTimeSlots);
     } catch (e) {
-      print('AppointmentRepository.getReservedTimeSlotsForDoctorOnDate ERROR: $e');
+      print(
+          'AppointmentRepository.getReservedTimeSlotsForDoctorOnDate ERROR: $e');
       return left(ServerFailure(catchError: e));
     }
   }
@@ -65,8 +66,6 @@ class AppointmentRepository extends AppointmentRepositoryBase {
       final appointmentId =
           FirebaseFirestore.instance.collection('appointments').doc().id;
       final clientId = FirebaseAuth.instance.currentUser!.uid;
-
-
 
       await _saveAppointmentUnderDoctor(
         doctorId: doctorId,
@@ -171,7 +170,6 @@ class AppointmentRepository extends AppointmentRepositoryBase {
 
   Future<Map<String, Map<String, String>>> _fetchDoctorsDataByIds(
       List<String> doctorIds) async {
-
     if (doctorIds.isEmpty) {
       return {};
     }

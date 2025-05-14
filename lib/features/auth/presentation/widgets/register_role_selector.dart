@@ -77,7 +77,7 @@ class _RoleOption extends StatelessWidget {
       onTap: onTap,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 400),
-        padding:   const EdgeInsets.symmetric(horizontal: 12, vertical: 8 ),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         decoration: ShapeDecoration(
           color: isActive ? Colors.green : Colors.black12,
           shape: RoundedRectangleBorder(
@@ -86,7 +86,6 @@ class _RoleOption extends StatelessWidget {
                 ? BorderSide.none
                 : const BorderSide(color: Colors.white70),
           ),
-
         ),
         child: Text(
           title,
@@ -94,8 +93,8 @@ class _RoleOption extends StatelessWidget {
             fontSize: 15.sp,
             color: Colors.white,
             letterSpacing: 1.2,
-
-          ),  textAlign: TextAlign.center,
+          ),
+          textAlign: TextAlign.center,
         ),
       ),
     );

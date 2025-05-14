@@ -24,17 +24,13 @@ class DeveloperNoteDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Directionality(
       textDirection: TextDirection.rtl,
       child: AnimatedFadeTransition(
-
         child: AlertDialog(
-
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r)),
           backgroundColor: Colors.white,
-
           content: Column(
             mainAxisSize: MainAxisSize.min,
             spacing: 16,
@@ -59,9 +55,9 @@ class DeveloperNoteDialog extends StatelessWidget {
           actions: [
             ElevatedButton(
               style: ButtonStyle(
-
-                shape:  WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
-                backgroundColor:   WidgetStatePropertyAll(AppColors.green),
+                shape: WidgetStatePropertyAll(RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8))),
+                backgroundColor: WidgetStatePropertyAll(AppColors.green),
               ),
               onPressed: () => Navigator.of(context).pop(),
               child: const Text('تم'),
@@ -73,9 +69,9 @@ class DeveloperNoteDialog extends StatelessWidget {
   }
 
   Container _dialogHeader() => Container(
-    width: double.infinity,
+        width: double.infinity,
         decoration: BoxDecoration(
-          color:AppColors.red,
+          color: AppColors.red,
           borderRadius: BorderRadius.only(
               topRight: Radius.circular(12.r), topLeft: Radius.circular(12.r)),
         ),

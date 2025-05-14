@@ -18,7 +18,7 @@ class ClientAppointmentsModel {
       required this.doctorId,
       required this.name,
       required this.specialization,
-      required this. imageUrl,
+      required this.imageUrl,
       required this.date,
       required this.time,
       required this.status});

@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/constants/themes/app_colors.dart';
 
-
 class CustomFormField extends StatelessWidget {
   final IconData icon;
   final String title;

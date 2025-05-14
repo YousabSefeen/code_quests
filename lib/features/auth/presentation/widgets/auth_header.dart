@@ -19,7 +19,6 @@ class AuthHeader extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
-
         children: [
           FadeInDown(
             duration: AppDurations.milliseconds_1200,
@@ -32,15 +31,13 @@ class AuthHeader extends StatelessWidget {
               ),
             ),
           ),
-
           Text(
             'MediLink',
             style: GoogleFonts.poppins(
-              fontSize: 36.sp,
-              color: Colors.white,
-              fontWeight: FontWeight.bold,height: 2
-
-            ),
+                fontSize: 36.sp,
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                height: 2),
           ),
           FadeInUp(
             duration: AppDurations.milliseconds_1200,

@@ -15,7 +15,8 @@ class LoginState {
     bool? isPasswordVisible,
     LazyRequestState? loginStatus,
     String? loginError,
-  }) => LoginState(
+  }) =>
+      LoginState(
         isPasswordVisible: isPasswordVisible ?? this.isPasswordVisible,
         loginStatus: loginStatus ?? this.loginStatus,
         loginError: loginError ?? this.loginError,

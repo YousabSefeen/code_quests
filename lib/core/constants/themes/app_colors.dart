@@ -7,7 +7,7 @@ class AppColors {
   static Color green = const Color(0xff66BB6A);
   static Color red = const Color(0xffF93827);
   static Color customBlue = const Color(0xff427D9D);
-  static Color softBlue  = const Color(0xff7C93C3);
+  static Color softBlue = const Color(0xff7C93C3);
   static const Color darkBlue = Color(0xff001F3F);
   static const Color coolBlue = Color(0xff001F3F);
   static Color customLightBlue = const Color(0xff9BBEC8);

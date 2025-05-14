@@ -8,13 +8,12 @@ import '../../../../core/constants/app_routes/app_router.dart';
 import '../../../../core/constants/app_routes/app_router_names.dart';
 import '../../../auth/presentation/controller/cubit/login_cubit.dart';
 
-
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return  Drawer(
+    return Drawer(
       width: 230,
       child: Column(
         spacing: 20,
@@ -30,40 +29,42 @@ class CustomDrawer extends StatelessWidget {
                   fontSize: 36.sp,
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
-
                 ),
               ),
             ),
           ),
           ListTile(
-            leading: Icon(Icons.manage_accounts,size: 16.sp,color: Colors.black),
+            leading:
+                Icon(Icons.manage_accounts, size: 16.sp, color: Colors.black),
             title: FittedBox(
                 child: Text(
               'Doctor Panel',
-              style: TextStyle(fontSize: 15.sp,color: Colors.black),
+              style: TextStyle(fontSize: 15.sp, color: Colors.black),
             )),
-            trailing: Icon(Icons.arrow_forward_ios,size: 18.sp,color: Colors.black54),
+            trailing: Icon(Icons.arrow_forward_ios,
+                size: 18.sp, color: Colors.black54),
             onTap: () {
               Navigator.pop(context);
               AppRouter.pushNamed(context, AppRouterNames.doctorProfile);
             },
           ),
-
           ListTile(
-            leading: Icon(Icons.manage_accounts,size: 16.sp,color: Colors.black),
+            leading:
+                Icon(Icons.manage_accounts, size: 16.sp, color: Colors.black),
             title: FittedBox(
                 child: Text(
-                  'My Appointment',
-                  style: TextStyle(fontSize: 15.sp,color: Colors.black),
-                )),
-            trailing: Icon(Icons.arrow_forward_ios,size: 18.sp,color: Colors.black54),
+              'My Appointment',
+              style: TextStyle(fontSize: 15.sp, color: Colors.black),
+            )),
+            trailing: Icon(Icons.arrow_forward_ios,
+                size: 18.sp, color: Colors.black54),
             onTap: () {
               Navigator.pop(context);
               AppRouter.pushNamed(context, AppRouterNames.bookedAppointments);
             },
           ),
           Container(
-            margin: const EdgeInsets.symmetric(horizontal: 10,vertical: 20),
+            margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
             width: double.infinity,
             child: ElevatedButton.icon(
               onPressed: () {
@@ -74,7 +75,11 @@ class CustomDrawer extends StatelessWidget {
                 );
               },
               label: const Text('Logout'),
-              icon: const Icon(Icons.login_rounded,color: Colors.black,size: 20,),
+              icon: const Icon(
+                Icons.login_rounded,
+                color: Colors.black,
+                size: 20,
+              ),
               style: const ButtonStyle(
                 backgroundColor: WidgetStatePropertyAll(Colors.red),
               ),

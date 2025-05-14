@@ -18,10 +18,10 @@ class SelectDateAndTime extends StatefulWidget {
 class _SelectDateAndTimeState extends State<SelectDateAndTime> {
   @override
   void initState() {
-
     super.initState();
     context.read<AppointmentCubit>().deleteData();
-    context.read<AppointmentCubit>().getAvailableDoctorTimeSlots(selectedDate: DateTime.now(), doctor: widget.doctor);
+    context.read<AppointmentCubit>().getAvailableDoctorTimeSlots(
+        selectedDate: DateTime.now(), doctor: widget.doctor);
   }
 
   @override
@@ -34,19 +34,16 @@ class _SelectDateAndTimeState extends State<SelectDateAndTime> {
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-
       children: [
-
-
         Text(
           'Select Date',
-          style: textTheme.headlineMedium ,
+          style: textTheme.headlineMedium,
           textAlign: TextAlign.start,
         ),
         SelectDateWidget(doctor: widget.doctor),
         Text(
           'Select Time',
-          style: textTheme.headlineMedium ,
+          style: textTheme.headlineMedium,
           textAlign: TextAlign.start,
         ),
         const SizedBox(height: 5),

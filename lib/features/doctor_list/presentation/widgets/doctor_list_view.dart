@@ -37,7 +37,7 @@ class DoctorListView extends StatelessWidget {
               DoctorLocationDisplay(location: doctor.doctorModel.location),
               const SizedBox(),
               ConsultationFeeAndWaitRow(
-                  fee: doctor.doctorModel.fees.toString(),
+                fee: doctor.doctorModel.fees.toString(),
               ),
 
               Container(
@@ -46,10 +46,10 @@ class DoctorListView extends StatelessWidget {
                 child: CustomActionButton(
                   text: 'View Availability & Book',
                   onPressed: () => AppRouter.pushNamed(
-                      context,
-                      AppRouterNames.createAppointment,
-                      arguments: doctor,
-                    ),
+                    context,
+                    AppRouterNames.createAppointment,
+                    arguments: doctor,
+                  ),
                   backgroundColor: AppColors.green,
                   textColor: AppColors.white,
                   borderColor: Colors.transparent,

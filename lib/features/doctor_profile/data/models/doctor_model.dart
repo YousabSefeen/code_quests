@@ -26,6 +26,7 @@ class DoctorModel {
     required this.availableTo,
     required this.fees,
   });
+
   factory DoctorModel.fromJson(Map<String, dynamic> json) =>
       _$DoctorModelFromJson(json);
 

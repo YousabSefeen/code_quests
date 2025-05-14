@@ -6,9 +6,6 @@ import 'app_colors.dart';
 
 class AppLightTheme {
   static ThemeData theme = ThemeData(
-
-
-
     primarySwatch: Colors.blue,
     unselectedWidgetColor: Colors.red,
     scaffoldBackgroundColor: AppColors.customWhite,
@@ -40,8 +37,7 @@ class AppLightTheme {
       trackVisibility: const WidgetStatePropertyAll(true),
       thumbColor: WidgetStateProperty.all(const Color(0xff4F98CA)),
       trackColor: WidgetStateProperty.all(Colors.black12),
-      trackBorderColor:
-      WidgetStateProperty.all(Colors.white),
+      trackBorderColor: WidgetStateProperty.all(Colors.white),
       radius: const Radius.circular(10),
       thickness: WidgetStateProperty.all(7),
     ),
@@ -60,24 +56,27 @@ class AppLightTheme {
       elevation: 8,
       shadowColor: Colors.blue.shade300,
       textStyle: GoogleFonts.raleway(
-          textStyle: TextStyle(
-              fontSize: 16.sp,
-              fontWeight: FontWeight.w800,
-              color: Colors.black,
-              letterSpacing: 1.2,),),
+        textStyle: TextStyle(
+          fontSize: 16.sp,
+          fontWeight: FontWeight.w800,
+          color: Colors.black,
+          letterSpacing: 1.2,
+        ),
+      ),
       position: PopupMenuPosition.under,
     ),
     listTileTheme: ListTileThemeData(
-      titleTextStyle: GoogleFonts.caladea(
-          textStyle: TextStyle(
-              fontSize: 18.sp,
-              color: Colors.blue,
-              fontWeight: FontWeight.w900,
-              letterSpacing: 2)),
-      subtitleTextStyle: TextStyle(
-          fontSize: 12.sp,color: Colors.black54,height: 1.5,fontWeight: FontWeight.w500
-      )
-    ),
+        titleTextStyle: GoogleFonts.caladea(
+            textStyle: TextStyle(
+                fontSize: 18.sp,
+                color: Colors.blue,
+                fontWeight: FontWeight.w900,
+                letterSpacing: 2)),
+        subtitleTextStyle: TextStyle(
+            fontSize: 12.sp,
+            color: Colors.black54,
+            height: 1.5,
+            fontWeight: FontWeight.w500)),
     elevatedButtonTheme: ElevatedButtonThemeData(
         style: ButtonStyle(
       backgroundColor: const WidgetStatePropertyAll(AppColors.darkBlue),
@@ -87,17 +86,16 @@ class AppLightTheme {
           color: Colors.white, fontSize: 13.sp, fontWeight: FontWeight.w700)),
     )),
     textButtonTheme: TextButtonThemeData(
-      
       style: ButtonStyle(
-      padding: const WidgetStatePropertyAll(EdgeInsets.only(left: 5)),
+        padding: const WidgetStatePropertyAll(EdgeInsets.only(left: 5)),
         textStyle: WidgetStatePropertyAll(GoogleFonts.raleway(
           textStyle: TextStyle(
-            fontSize: 18.sp,
-            color: Colors.white,
-            fontWeight: FontWeight.w700,
-            letterSpacing: 1.2
-            // color: Takes the text color from foregroundColor,
-          ),
+              fontSize: 18.sp,
+              color: Colors.white,
+              fontWeight: FontWeight.w700,
+              letterSpacing: 1.2
+              // color: Takes the text color from foregroundColor,
+              ),
         )),
         foregroundColor: const WidgetStatePropertyAll(Colors.white),
         overlayColor: const WidgetStatePropertyAll(Color(0xff427D9D)),
@@ -132,8 +130,6 @@ class AppLightTheme {
     ///
     ///
     textTheme: TextTheme(
-
-
       headlineMedium: TextStyle(
         // style for ... (used in *DoctorAvailabilityTimeFields*  )
         fontSize: 15.sp,
@@ -148,11 +144,11 @@ class AppLightTheme {
         fontWeight: FontWeight.w700,
       ),
 
-      labelMedium:   TextStyle(
-          // style for ... (used in *CustomDateTimeLine*  )
-          fontSize: 12.sp,
-          color: Colors.white,
-          fontWeight: FontWeight.w400,
+      labelMedium: TextStyle(
+        // style for ... (used in *CustomDateTimeLine*  )
+        fontSize: 12.sp,
+        color: Colors.white,
+        fontWeight: FontWeight.w400,
       ),
 
       titleMedium: GoogleFonts.playpenSans(
@@ -177,12 +173,12 @@ class AppLightTheme {
       ),
 
       bodyLarge: GoogleFonts.poppins(
-           // style for ... (used in  AppointmentBookingScreen (doctorInfo))
-           fontSize: 16.sp,
-           letterSpacing: 0.05,
-           fontWeight: FontWeight.w700,
-           color: AppColors.softBlue,
-         ),
+        // style for ... (used in  AppointmentBookingScreen (doctorInfo))
+        fontSize: 16.sp,
+        letterSpacing: 0.05,
+        fontWeight: FontWeight.w700,
+        color: AppColors.softBlue,
+      ),
       titleSmall: TextStyle(
         fontSize: 14.sp,
         fontWeight: FontWeight.w500,
@@ -202,8 +198,6 @@ class AppLightTheme {
       ),
 
       ///*******************************************************
-
-
     ),
   );
 }

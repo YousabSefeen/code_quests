@@ -15,7 +15,6 @@ import '../widgets/doctor_availability_time_fields.dart';
 import '../widgets/doctor_info_field.dart';
 import '../widgets/doctor_profile_image.dart';
 
-
 class DoctorProfileScreen extends StatefulWidget {
   const DoctorProfileScreen({super.key});
 
@@ -47,11 +46,11 @@ class _DoctorProfileScreenState extends State<DoctorProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text(AppStrings.doctorProfileTitle)),
-      body: BlocSelector<DoctorProfileCubit, DoctorProfileState, LazyRequestState>(
+      body: BlocSelector<DoctorProfileCubit, DoctorProfileState,
+          LazyRequestState>(
         selector: (state) => state.doctorProfileState,
         builder: (context, doctorProfileState) {
-
-          if(doctorProfileState==LazyRequestState.loaded){
+          if (doctorProfileState == LazyRequestState.loaded) {
             Future.microtask(() {
               if (!context.mounted) return;
               AppAlerts.showAppointmentSuccessDialog(
@@ -69,59 +68,63 @@ class _DoctorProfileScreenState extends State<DoctorProfileScreen> {
             });
           }
           return Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: SingleChildScrollView(
-            controller: _scrollController,
-            child: Form(
-              key: _formKey,
-              autovalidateMode: AutovalidateMode.disabled,
-              child: Column(
-                children: [
-                  const Align(
-                    alignment: Alignment.topCenter,
-                    child: DoctorProfileImage(),
-                  ),
-                  _buildTextField(
-                    label: AppStrings.nameLabel,
-                    hintText: AppStrings.nameHint,
-                    controller: _nameController,
-                    validator: _requiredFieldValidator(AppStrings.nameValidationMessage),
-                  ),
-                  _buildTextField(
-                    label: AppStrings.specializationLabel,
-                    hintText: AppStrings.specializationHint,
-                    controller: _specializationController,
-                    validator: _requiredFieldValidator(AppStrings.specializationValidationMessage),
-                  ),
-                  _buildTextField(
-                    label: AppStrings.bioLabel,
-                    hintText: AppStrings.bioHint,
-                    controller: _bioController,
-                    maxLines: 3,
-                    validator: _requiredFieldValidator(AppStrings.bioValidationMessage),
-                  ),
-                  _buildTextField(
-                    label: AppStrings.locationLabel,
-                    hintText: AppStrings.locationHint,
-                    controller: _locationController,
-                    validator: _requiredFieldValidator(AppStrings.locationValidationMessage),
-                  ),
+            padding: const EdgeInsets.all(16.0),
+            child: SingleChildScrollView(
+              controller: _scrollController,
+              child: Form(
+                key: _formKey,
+                autovalidateMode: AutovalidateMode.disabled,
+                child: Column(
+                  children: [
+                    const Align(
+                      alignment: Alignment.topCenter,
+                      child: DoctorProfileImage(),
+                    ),
+                    _buildTextField(
+                      label: AppStrings.nameLabel,
+                      hintText: AppStrings.nameHint,
+                      controller: _nameController,
+                      validator: _requiredFieldValidator(
+                          AppStrings.nameValidationMessage),
+                    ),
+                    _buildTextField(
+                      label: AppStrings.specializationLabel,
+                      hintText: AppStrings.specializationHint,
+                      controller: _specializationController,
+                      validator: _requiredFieldValidator(
+                          AppStrings.specializationValidationMessage),
+                    ),
+                    _buildTextField(
+                      label: AppStrings.bioLabel,
+                      hintText: AppStrings.bioHint,
+                      controller: _bioController,
+                      maxLines: 3,
+                      validator: _requiredFieldValidator(
+                          AppStrings.bioValidationMessage),
+                    ),
+                    _buildTextField(
+                      label: AppStrings.locationLabel,
+                      hintText: AppStrings.locationHint,
+                      controller: _locationController,
+                      validator: _requiredFieldValidator(
+                          AppStrings.locationValidationMessage),
+                    ),
                     DoctorAvailabilityDaysField(),
-                  const DoctorAvailabilityTimeFields(),
-                  _buildTextField(
-                    label: AppStrings.feesLabel,
-                    hintText: AppStrings.feesHint,
-                    controller: _feesController,
-                    keyboardType: TextInputType.number,
-                    validator: _feeValidator,
-                  ),
-                  const SizedBox(height: 20),
-                  _buildSaveButton(),
-                ],
+                    const DoctorAvailabilityTimeFields(),
+                    _buildTextField(
+                      label: AppStrings.feesLabel,
+                      hintText: AppStrings.feesHint,
+                      controller: _feesController,
+                      keyboardType: TextInputType.number,
+                      validator: _feeValidator,
+                    ),
+                    const SizedBox(height: 20),
+                    _buildSaveButton(),
+                  ],
+                ),
               ),
             ),
-          ),
-        );
+          );
         },
       ),
     );
@@ -131,7 +134,7 @@ class _DoctorProfileScreenState extends State<DoctorProfileScreen> {
     required String label,
     required String hintText,
     required TextEditingController controller,
-    int? maxLines=1,
+    int? maxLines = 1,
     required String? Function(String?) validator,
     TextInputType keyboardType = TextInputType.text,
   }) {
@@ -171,8 +174,8 @@ class _DoctorProfileScreenState extends State<DoctorProfileScreen> {
       width: double.infinity,
       child: ElevatedButton(
         style: ButtonStyle(
-          shape: MaterialStateProperty.all(RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8))),
+          shape: MaterialStateProperty.all(
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
           backgroundColor: MaterialStateProperty.all(AppColors.green),
         ),
         onPressed: _submitDoctorProfile,
@@ -200,12 +203,12 @@ class _DoctorProfileScreenState extends State<DoctorProfileScreen> {
 
   void _uploadDoctorProfile() {
     context.read<DoctorProfileCubit>().uploadDoctorProfile(
-      imageUrl: AppAssets.images[4],
-      name: _nameController.text.trim(),
-      specialization: _specializationController.text.trim(),
-      bio: _bioController.text.trim(),
-      location: _locationController.text.trim(),
-      fees: int.parse(_feesController.text.trim()),
-    );
+          imageUrl: AppAssets.images[4],
+          name: _nameController.text.trim(),
+          specialization: _specializationController.text.trim(),
+          bio: _bioController.text.trim(),
+          location: _locationController.text.trim(),
+          fees: int.parse(_feesController.text.trim()),
+        );
   }
 }

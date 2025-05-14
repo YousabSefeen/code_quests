@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_task/core/enum/lazy_request_state.dart';
-import 'package:flutter_task/core/enum/request_state.dart';
 import 'package:flutter_task/features/auth/presentation/widgets/register_widgets/register_header_section.dart';
 
 import '../../../../../core/constants/themes/app_colors.dart';
@@ -28,7 +27,6 @@ class RegisterBody extends StatelessWidget {
     required this.emailController,
     required this.passwordController,
     required this.confirmPasswordController,
-
     required this.onRegisterPressed,
   });
 
@@ -55,12 +53,12 @@ class RegisterBody extends StatelessWidget {
                 confirmPasswordController: confirmPasswordController,
               ),
               const RegisterRoleSelector(),
-              BlocSelector<RegisterCubit, RegisterState,LazyRequestState>(
-                selector: ( state)=>state.registerState,
-                builder: (context,registerState)=>  CustomButton(
+              BlocSelector<RegisterCubit, RegisterState, LazyRequestState>(
+                selector: (state) => state.registerState,
+                builder: (context, registerState) => CustomButton(
                   text: 'Register now',
                   onPressed: onRegisterPressed,
-                  isLoading: registerState==LazyRequestState.loading,
+                  isLoading: registerState == LazyRequestState.loading,
                 ),
               ),
               const SizedBox(height: 20),

@@ -19,6 +19,7 @@ abstract class AppointmentRepositoryBase {
     required String date,
     required String time,
   });
-  Future<Either<Failure, List<ClientAppointmentsModel>?>> getClientAppointmentsWithDoctorDetails();
 
+  Future<Either<Failure, List<ClientAppointmentsModel>?>>
+      getClientAppointmentsWithDoctorDetails();
 }

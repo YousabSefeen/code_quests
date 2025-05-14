@@ -1,7 +1,5 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_task/core/constants/app_strings/app_strings.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../themes/app_colors.dart';
@@ -68,18 +66,17 @@ class AppAlerts {
   static customDialog({required BuildContext context, required Widget body}) {
     showDialog(
       context: context,
-
-
       builder: (context) => body,
     );
   }
 
- static void showAppointmentSuccessDialog({required BuildContext context,required String  message}) {
+  static void showAppointmentSuccessDialog(
+      {required BuildContext context, required String message}) {
     showGeneralDialog(
       context: context,
       barrierDismissible: true,
       barrierLabel: message,
-      transitionDuration: const Duration(milliseconds:800),
+      transitionDuration: const Duration(milliseconds: 800),
       pageBuilder: (context, _, __) {
         Future.delayed(const Duration(milliseconds: 1200), () {
           if (!context.mounted) return;
@@ -98,9 +95,9 @@ class AppAlerts {
               child: Text(
                 message,
                 style: GoogleFonts.poppins(
-                    color: Colors.white,
-                    fontSize: 15.sp,
-                    fontWeight: FontWeight.w500,
+                  color: Colors.white,
+                  fontSize: 15.sp,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
             ),

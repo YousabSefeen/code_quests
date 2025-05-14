@@ -6,9 +6,6 @@ import 'package:flutter_task/core/enum/lazy_request_state.dart';
 import 'package:flutter_task/features/auth/presentation/controller/cubit/login_cubit.dart';
 
 import '../../../../core/animations/animated_gradient_background.dart';
-import '../../../../core/constants/app_alerts/app_alerts.dart';
-import '../../../../core/constants/app_routes/app_router.dart';
-import '../../../../core/constants/app_routes/app_router_names.dart';
 import '../../../../core/constants/themes/app_colors.dart';
 import '../controller/states/login_state.dart';
 import '../widgets/auth_header.dart';
@@ -47,8 +44,6 @@ class _LoginScreenState extends State<LoginScreen> {
         ModalRoute.of(context)?.settings.arguments as String?;
     emailController.text = registeredUserEmail ?? '';
 
-
-
     return Scaffold(
       backgroundColor: AppColors.darkBlue,
       resizeToAvoidBottomInset: true,
@@ -60,7 +55,6 @@ class _LoginScreenState extends State<LoginScreen> {
             BlocSelector<LoginCubit, LoginState, LazyRequestState>(
               selector: (state) => state.loginStatus,
               builder: (context, loginStatus) {
-
                 return FadeInUp(
                   child: KeyboardVisibilityBuilder(
                     builder: (context, isKeyboardVisible) {
@@ -84,8 +78,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                       child: const Center(
                                           child: AuthHeader(isLogin: true)),
                                     ),
-
-
                                     Expanded(
                                       child: Container(
                                         decoration: const BoxDecoration(
@@ -130,6 +122,4 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
-
-
 }

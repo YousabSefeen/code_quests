@@ -1,13 +1,8 @@
-
 import 'package:dartz/dartz.dart';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_task/core/enum/request_state.dart';
 import 'package:flutter_task/core/error/failure.dart';
-
 import 'package:flutter_task/features/doctor_list/presentation/controller/states/doctor_list_state.dart';
-
-
 import '../../../data/models/doctor_list_model.dart';
 import '../../../data/repository/doctor_list_repository.dart';
 
@@ -37,7 +32,4 @@ class DoctorListCubit extends Cubit<DoctorListState> {
       ),
     );
   }
-
-
-
 }

@@ -1,6 +1,4 @@
-
-
-enum EmailVerificationState{
+enum EmailVerificationState {
   verified,
   notVerified,
 }

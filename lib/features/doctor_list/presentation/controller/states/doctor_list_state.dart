@@ -6,7 +6,7 @@ import '../../../data/models/doctor_list_model.dart';
 class DoctorListState extends Equatable {
   final List<DoctorListModel> doctorList;
   final RequestState doctorListState;
-  final String  doctorListError;
+  final String doctorListError;
 
   const DoctorListState({
     this.doctorList = const [],
@@ -27,7 +27,7 @@ class DoctorListState extends Equatable {
   }
 
   @override
-  List<Object > get props => [
+  List<Object> get props => [
         doctorList,
         doctorListState,
         doctorListError,

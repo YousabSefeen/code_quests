@@ -8,7 +8,6 @@ import '../controller/cubit/doctor_list_cubit.dart';
 import '../controller/states/doctor_list_state.dart';
 import '../widgets/custom_drawer.dart';
 
-
 class DoctorListViewScreen extends StatefulWidget {
   const DoctorListViewScreen({super.key});
 
@@ -17,35 +16,26 @@ class DoctorListViewScreen extends StatefulWidget {
 }
 
 class _DoctorListViewScreenState extends State<DoctorListViewScreen> {
-
   @override
   void initState() {
-
     super.initState();
 
-     context.read<DoctorListCubit>().getDoctorList();
+    context.read<DoctorListCubit>().getDoctorList();
   }
+
   @override
   Widget build(BuildContext context) {
     print('_DoctorListViewScreenState.build');
     return Scaffold(
-
       drawer: const CustomDrawer(),
-       appBar: AppBar(title: const Text('Browse Doctors')),
-
-
-
-
-
-
-
+      appBar: AppBar(title: const Text('Browse Doctors')),
       body: BlocBuilder<DoctorListCubit, DoctorListState>(
         buildWhen: (previous, current) =>
             previous.doctorList != current.doctorList,
         builder: (context, state) {
           switch (state.doctorListState) {
             case RequestState.loading:
-              return   const CustomLoadingList(height: 150 );
+              return const CustomLoadingList(height: 150);
             case RequestState.loaded:
               return DoctorListView(doctorList: state.doctorList);
             case RequestState.error:
@@ -61,4 +51,3 @@ class _DoctorListViewScreenState extends State<DoctorListViewScreen> {
     );
   }
 }
-

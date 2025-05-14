@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_task/core/enum/password_visibility_state.dart';
 import 'package:flutter_task/features/auth/presentation/controller/cubit/login_cubit.dart';
 import 'package:flutter_task/features/auth/presentation/controller/states/login_state.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';

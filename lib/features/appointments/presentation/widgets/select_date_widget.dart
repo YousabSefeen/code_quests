@@ -10,7 +10,10 @@ import '../controller/cubit/appointment_cubit.dart';
 class SelectDateWidget extends StatelessWidget {
   final DoctorListModel doctor;
 
-  const SelectDateWidget({super.key,required this.doctor,  });
+  const SelectDateWidget({
+    super.key,
+    required this.doctor,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +40,7 @@ class SelectDateWidget extends StatelessWidget {
         onDateChange: (selectedDate) =>
             context.read<AppointmentCubit>().getAvailableDoctorTimeSlots(
                   selectedDate: selectedDate,
-                  doctor:  doctor,
+                  doctor: doctor,
                 ),
         activeColor: AppColors.softBlue,
         dayProps: EasyDayProps(

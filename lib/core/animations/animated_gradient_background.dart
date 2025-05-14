@@ -1,10 +1,7 @@
-
 import 'package:flutter/material.dart';
 
 import '../constants/app_duration/app_duration.dart';
 import '../constants/themes/app_colors.dart';
-
-
 
 class AnimatedGradientBackground extends StatefulWidget {
   final Widget? child;
@@ -82,7 +79,8 @@ class _AnimatedGradientBackgroundState extends State<AnimatedGradientBackground>
 
   @override
   Widget build(BuildContext context) {
-    print('_AnimatedGradientBackgroundState extends State<AnimatedGradientBackground>');
+    print(
+        '_AnimatedGradientBackgroundState extends State<AnimatedGradientBackground>');
     final deviceSize = MediaQuery.sizeOf(context);
     return AnimatedBuilder(
       animation: _gradientAnimationController,

@@ -16,9 +16,5 @@ abstract class BaseAuthRepository {
     required String role,
   });
 
-
-
-
   Future<Either<Failure, void>> logout();
-
 }

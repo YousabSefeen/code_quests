@@ -4,8 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/constants/app_routes/app_router.dart';
 import '../auth_header.dart';
 
-
-
 class RegisterHeaderSection extends StatelessWidget {
   const RegisterHeaderSection({super.key});
 
@@ -22,10 +20,7 @@ class RegisterHeaderSection extends StatelessWidget {
       ),
     );
   }
-
-
 }
-
 
 class _RegisterBackButton extends StatelessWidget {
   const _RegisterBackButton({super.key});
@@ -33,7 +28,7 @@ class _RegisterBackButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: ()=>AppRouter.pop(context),
+      onTap: () => AppRouter.pop(context),
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5.h),
         margin: EdgeInsets.only(top: 15.h, bottom: 15.h, left: 10),

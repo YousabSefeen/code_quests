@@ -1,11 +1,9 @@
-
-
 import '../../../../../core/enum/lazy_request_state.dart';
 import '../../../../../core/enum/request_state.dart';
 import '../../../data/models/client_appointments_model.dart';
 import '../../../data/models/doctor_appointment_model.dart';
 
-class AppointmentState   {
+class AppointmentState {
   final List<DoctorAppointmentModel> doctorAppointmentModel;
   final RequestState doctorAppointmentState;
   final String doctorAppointmentError;
@@ -37,7 +35,7 @@ class AppointmentState   {
     this.reservedTimeSlotsState = RequestState.loading,
     this.reservedTimeSlotsError = '',
     this.availableDoctorTimeSlots = const [],
-    this.isDoctorAvailable=true,
+    this.isDoctorAvailable = true,
     this.selectedTimeByUser,
     this.bookAppointmentState = LazyRequestState.lazy,
     this.bookAppointmentError = '',
@@ -76,7 +74,7 @@ class AppointmentState   {
           reservedTimeSlotsError ?? this.reservedTimeSlotsError,
       availableDoctorTimeSlots:
           availableDoctorTimeSlots ?? this.availableDoctorTimeSlots,
-        isDoctorAvailable:isDoctorAvailable?? this.isDoctorAvailable,
+      isDoctorAvailable: isDoctorAvailable ?? this.isDoctorAvailable,
       selectedTimeByUser: selectedTimeByUser ?? this.selectedTimeByUser,
       bookAppointmentState: bookAppointmentState ?? this.bookAppointmentState,
       bookAppointmentError: bookAppointmentError ?? this.bookAppointmentError,
@@ -97,7 +95,8 @@ class AppointmentState   {
         reservedTimeSlots,
         reservedTimeSlotsState,
         reservedTimeSlotsError,
-        availableDoctorTimeSlots,isDoctorAvailable,
+        availableDoctorTimeSlots,
+        isDoctorAvailable,
         selectedTimeByUser,
         bookAppointmentState,
         bookAppointmentError,

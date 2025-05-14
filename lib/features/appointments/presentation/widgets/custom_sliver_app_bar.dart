@@ -43,15 +43,16 @@ class CustomSliverAppBar extends StatelessWidget {
               alignment: Alignment.bottomLeft,
               children: [
                 CachedNetworkImage(
-                  imageUrl:   doctorImage  ,
+                  imageUrl: doctorImage,
                   fit: BoxFit.fill,
                   width: double.infinity,
-                  placeholder: (context,_)=> CustomShimmer(height: deviceHeight*0.25, width: double.infinity),
-                  errorWidget:(context,_,__)=>   CustomErrorWidget(errorMessage: AppStrings.imageNotFound),
+                  placeholder: (context, _) => CustomShimmer(
+                      height: deviceHeight * 0.25, width: double.infinity),
+                  errorWidget: (context, _, __) =>
+                      CustomErrorWidget(errorMessage: AppStrings.imageNotFound),
                 ),
                 Container(
-                  margin:
-                     const EdgeInsets.only(left: 16, bottom: 15),
+                  margin: const EdgeInsets.only(left: 16, bottom: 15),
                   padding:
                       const EdgeInsets.symmetric(horizontal: 3, vertical: 5),
                   decoration: BoxDecoration(

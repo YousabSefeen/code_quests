@@ -11,17 +11,16 @@ class DoctorInfoField extends StatelessWidget {
   final String? hintText;
   final Widget? suffixIcon;
   final FormFieldValidator<String>? validator;
-  const DoctorInfoField({
-    super.key,
-    required this.label,
-      this.controller,
-    this.keyboardType = TextInputType.text,
-    this.maxLines = 1,
 
-    this.hintText,
-    this.suffixIcon,
-    this.validator
-  });
+  const DoctorInfoField(
+      {super.key,
+      required this.label,
+      this.controller,
+      this.keyboardType = TextInputType.text,
+      this.maxLines = 1,
+      this.hintText,
+      this.suffixIcon,
+      this.validator});
 
   @override
   Widget build(BuildContext context) {
@@ -38,16 +37,16 @@ class DoctorInfoField extends StatelessWidget {
                 color: Colors.black,
                 letterSpacing: 1.5),
             controller: controller,
-            readOnly: suffixIcon!=null,
+            readOnly: suffixIcon != null,
             keyboardType: keyboardType,
             maxLines: maxLines,
-          validator:   validator,
+            validator: validator,
             decoration: InputDecoration(
               hintText: hintText,
               hintStyle: GoogleFonts.actor(
-                  fontSize: 12.sp,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.grey.shade600,
+                fontSize: 12.sp,
+                fontWeight: FontWeight.w600,
+                color: Colors.grey.shade600,
               ),
               fillColor: Colors.white,
               filled: true,

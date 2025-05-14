@@ -28,14 +28,13 @@ class AppointmentCard extends StatelessWidget {
           _DoctorImage(imageUrl: appointment.imageUrl),
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.only( left: 5, right: 10, top: 8, bottom: 8),
+              padding:
+                  const EdgeInsets.only(left: 5, right: 10, top: 8, bottom: 8),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.start,
-
                 children: [
                   _DoctorNameRow(name: appointment.name),
-
                   Text(
                     appointment.specialization,
                     style: Theme.of(context)

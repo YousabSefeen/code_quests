@@ -21,7 +21,7 @@ import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-    await initializeDateFormatting('en_US' );
+  await initializeDateFormatting('en_US');
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
@@ -34,21 +34,20 @@ void main() async {
     ),
   ]);
   runApp(MultiBlocProvider(providers: [
-    BlocProvider (
-      create: (_) =>serviceLocator<LoginCubit>()    ,
+    BlocProvider(
+      create: (_) => serviceLocator<LoginCubit>(),
     ),
-    BlocProvider (
+    BlocProvider(
       create: (_) => serviceLocator<RegisterCubit>(),
     ),
-    BlocProvider (
+    BlocProvider(
       create: (_) => serviceLocator<DoctorProfileCubit>(),
     ),
-    BlocProvider (
+    BlocProvider(
       create: (_) => serviceLocator<DoctorListCubit>(),
     ),
-    BlocProvider (
-     create: (_) => serviceLocator<AppointmentCubit>() ,
-
+    BlocProvider(
+      create: (_) => serviceLocator<AppointmentCubit>(),
     ),
   ], child: const MyApp()));
 }

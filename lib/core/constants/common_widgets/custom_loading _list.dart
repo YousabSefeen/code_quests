@@ -4,6 +4,7 @@ import 'custom_shimmer.dart';
 
 class CustomLoadingList extends StatelessWidget {
   final double height;
+
   const CustomLoadingList({super.key, required this.height});
 
   @override

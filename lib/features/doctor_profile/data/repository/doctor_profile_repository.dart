@@ -6,7 +6,6 @@ import 'package:flutter_task/core/error/failure.dart';
 import '../models/doctor_model.dart';
 import 'doctor_profile_repository_base.dart';
 
-
 class DoctorProfileRepository extends DoctorProfileRepositoryBase {
   @override
   Future<Either<Failure, void>> uploadDoctorProfile(
@@ -19,22 +18,22 @@ class DoctorProfileRepository extends DoctorProfileRepositoryBase {
           .set(doctorProfile.toJson());
       return right(null);
     } catch (e) {
-
       print('_saveUserDataToFirestore $e');
 
       return left(ServerFailure(catchError: e));
     }
   }
 
-  Future<void>  getDoctors()async{
-  final doctors=  await FirebaseFirestore.instance
-        .collection('doctors').get() as List;
-
+  Future<void> getDoctors() async {
+    final doctors =
+        await FirebaseFirestore.instance.collection('doctors').get() as List;
   }
-  Future<void> createDoctorAppointment({required String doctorId })async{
-    final appointmentId = FirebaseFirestore.instance.collection('appointments').doc().id;
 
-    final clientId= FirebaseAuth.instance.currentUser!.uid;
+  Future<void> createDoctorAppointment({required String doctorId}) async {
+    final appointmentId =
+        FirebaseFirestore.instance.collection('appointments').doc().id;
+
+    final clientId = FirebaseAuth.instance.currentUser!.uid;
     // await FirebaseFirestore.instance
     //     .collection('doctors')
     //     .doc('4zWO081HcuThwwg069u1upSR6Dj1')
@@ -53,7 +52,7 @@ class DoctorProfileRepository extends DoctorProfileRepositoryBase {
         .collection('appointments')
         .doc(appointmentId)
         .set({
-      'clientId':clientId,
+      'clientId': clientId,
       'date': '06/06/2006',
       'time': '05:05 PM',
       'status': 'pending',
@@ -71,6 +70,4 @@ class DoctorProfileRepository extends DoctorProfileRepositoryBase {
       'status': 'pending',
     });
   }
-
-
 }

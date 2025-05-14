@@ -22,7 +22,8 @@ class AuthRepository extends BaseAuthRepository {
   }
 
   @override
-  Future<Either<Failure, void>> register({required String name,
+  Future<Either<Failure, void>> register({
+    required String name,
     required String phone,
     required String email,
     required String password,
@@ -31,7 +32,12 @@ class AuthRepository extends BaseAuthRepository {
     try {
       final UserCredential userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
-         await _uploadUserData(uid: userCredential.user!.uid, name: name, email: email, phone: phone, role: role);
+      await _uploadUserData(
+          uid: userCredential.user!.uid,
+          name: name,
+          email: email,
+          phone: phone,
+          role: role);
       return right(null);
     } catch (e) {
       return left(ServerFailure(catchError: e));
@@ -46,14 +52,17 @@ class AuthRepository extends BaseAuthRepository {
     required String role,
   }) async {
     try {
-      await FirebaseFirestore.instance.collection('users').doc(uid).set(UserModel(
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(uid)
+          .set(UserModel(
             name: name,
             phone: phone,
             email: email,
             role: role,
-            createdAt: DateTimeFormatter.dateAndTimeNowS() ,
+            createdAt: DateTimeFormatter.dateAndTimeNowS(),
           ).toJson());
-    }   catch (e) {
+    } catch (e) {
       print('_saveUserDataToFirestore $e');
     }
   }
@@ -71,8 +80,6 @@ class AuthRepository extends BaseAuthRepository {
       return left(ServerFailure(catchError: e));
     }
   }
-
-
 }
 /*
   Future  signInWithGoogle() async {

@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../constants/app_duration/app_duration.dart';
 
-
-
 class AnimatedFadeTransition extends StatefulWidget {
   final Widget child;
 
@@ -24,7 +22,7 @@ class _AnimatedFadeTransitionState extends State<AnimatedFadeTransition>
   void _initializeAnimation() {
     _controller = AnimationController(
       vsync: this,
-      duration:AppDurations.milliseconds_1500,
+      duration: AppDurations.milliseconds_1500,
     )..forward();
 
     _fadeAnimation = CurvedAnimation(

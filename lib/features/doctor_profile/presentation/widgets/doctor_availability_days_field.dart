@@ -8,7 +8,7 @@ import 'doctor_info_field.dart';
 class DoctorAvailabilityDaysField extends StatelessWidget {
   DoctorAvailabilityDaysField({super.key});
 
-    final List<String> _weekDays = [
+  final List<String> _weekDays = [
     'Saturday',
     'Sunday',
     'Monday',
@@ -25,9 +25,9 @@ class DoctorAvailabilityDaysField extends StatelessWidget {
       builder: (context, confirmedDays) {
         return DoctorInfoField(
           label: 'Working Days',
-        hintText: confirmedDays.isEmpty
-            ? 'Select Working Days'
-            : confirmedDays.join(', '),
+          hintText: confirmedDays.isEmpty
+              ? 'Select Working Days'
+              : confirmedDays.join(', '),
           validator: (_) {
             if (confirmedDays.isEmpty) {
               return 'Please select at least one working day.';
@@ -35,10 +35,10 @@ class DoctorAvailabilityDaysField extends StatelessWidget {
             return null;
           },
           maxLines: 2,
-        suffixIcon: IconButton(
-          icon: const Icon(Icons.calendar_month_outlined),
-          onPressed: () => _showDaySelectionDialog(context),
-        ),
+          suffixIcon: IconButton(
+            icon: const Icon(Icons.calendar_month_outlined),
+            onPressed: () => _showDaySelectionDialog(context),
+          ),
         );
       },
     );
@@ -48,7 +48,8 @@ class DoctorAvailabilityDaysField extends StatelessWidget {
     showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (_) => BlocSelector<DoctorProfileCubit, DoctorProfileState, List<String>>(
+      builder: (_) =>
+          BlocSelector<DoctorProfileCubit, DoctorProfileState, List<String>>(
         selector: (state) => state.tempSelectedDays,
         builder: (context, tempDays) => AlertDialog(
           title: const Text('Select Working Days'),
@@ -60,7 +61,8 @@ class DoctorAvailabilityDaysField extends StatelessWidget {
                 return CheckboxListTile(
                   title: Text(day),
                   value: tempDays.contains(day),
-                  onChanged: (_) => context.read<DoctorProfileCubit>().toggleWorkingDay(day),
+                  onChanged: (_) =>
+                      context.read<DoctorProfileCubit>().toggleWorkingDay(day),
                 );
               }).toList(),
             ),
@@ -68,7 +70,9 @@ class DoctorAvailabilityDaysField extends StatelessWidget {
           actions: [
             TextButton(
               onPressed: () {
-                context.read<DoctorProfileCubit>().confirmWorkingDaysSelection();
+                context
+                    .read<DoctorProfileCubit>()
+                    .confirmWorkingDaysSelection();
                 Navigator.pop(context);
               },
               child: const Text('Done'),
@@ -79,4 +83,3 @@ class DoctorAvailabilityDaysField extends StatelessWidget {
     );
   }
 }
-

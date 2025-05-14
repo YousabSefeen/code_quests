@@ -57,6 +57,7 @@ class AppointmentCubit extends Cubit<AppointmentState> {
 
   Future<String> getSelectedDate(DateTime selectedDate) async =>
       DateTimeFormatter.convertSelectedDateToString(selectedDate);
+
   Future<bool> checkIfDoctorWorksOnDate({
     required DateTime selectedDate,
     required List<String> doctorWorkingDays,
@@ -100,8 +101,6 @@ class AppointmentCubit extends Cubit<AppointmentState> {
       reservedTimeSlots: state.reservedTimeSlots,
     );
 
-
-
     emit(state.copyWith(availableDoctorTimeSlots: availableTimeSlots));
   }
 
@@ -111,8 +110,8 @@ class AppointmentCubit extends Cubit<AppointmentState> {
 
   void deleteData() {
     emit(
-        state.copyWith(selectedTimeByUser: ''),
-      );
+      state.copyWith(selectedTimeByUser: ''),
+    );
 
     emit(
       state.copyWith(bookAppointmentState: LazyRequestState.lazy),
@@ -120,8 +119,6 @@ class AppointmentCubit extends Cubit<AppointmentState> {
   }
 
   Future<void> createAppointmentForDoctor({required String doctorId}) async {
-
-
     emit(state.copyWith(bookAppointmentState: LazyRequestState.loading));
     final response = await appointmentRepository.createAppointmentForDoctor(
       doctorId: doctorId,
@@ -145,11 +142,12 @@ class AppointmentCubit extends Cubit<AppointmentState> {
 
     response.fold(
       (failure) {
-        print('AppointmentCubit.getClientAppointmentsWithDoctorDetails   ${failure.toString()}');
+        print(
+            'AppointmentCubit.getClientAppointmentsWithDoctorDetails   ${failure.toString()}');
         emit(state.copyWith(
-        getClientAppointmentsListState: RequestState.error,
-        getClientAppointmentsListError: failure.toString(),
-      ));
+          getClientAppointmentsListState: RequestState.error,
+          getClientAppointmentsListError: failure.toString(),
+        ));
       },
       (appointmentList) => emit(state.copyWith(
         getClientAppointmentsList: appointmentList,

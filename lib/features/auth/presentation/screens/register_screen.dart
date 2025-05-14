@@ -2,22 +2,17 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_task/core/animations/animated_gradient_background.dart';
 import 'package:flutter_task/core/constants/app_alerts/app_alerts.dart';
 import 'package:flutter_task/core/constants/app_routes/app_router.dart';
 import 'package:flutter_task/core/constants/app_routes/app_router_names.dart';
 import 'package:flutter_task/core/constants/themes/app_colors.dart';
-import 'package:flutter_task/core/enum/auth_state.dart';
 import 'package:flutter_task/core/enum/lazy_request_state.dart';
-import 'package:flutter_task/core/enum/request_state.dart';
 import 'package:flutter_task/features/auth/presentation/controller/cubit/register_cubit.dart';
 import 'package:flutter_task/features/auth/presentation/widgets/register_error_snack_bar_content.dart';
 
 import '../controller/states/register_state.dart';
-import '../widgets/auth_header.dart';
 import '../widgets/register_widgets/register_body.dart';
-
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -83,7 +78,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 physics: const BouncingScrollPhysics(),
                 child: FadeInUp(
                   child: BlocListener<RegisterCubit, RegisterState>(
-                    listenWhen: (prev, curr) => prev.registerState != curr.registerState,
+                    listenWhen: (prev, curr) =>
+                        prev.registerState != curr.registerState,
                     listener: (context, state) => _handleRegisterState(
                       context,
                       state.registerState,
@@ -94,7 +90,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       emailController: emailController,
                       passwordController: passwordController,
                       confirmPasswordController: confirmPasswordController,
-
                       onRegisterPressed: () => _onRegisterPressed(context),
                     ),
                   ),
@@ -170,9 +165,3 @@ class _RegisterScreenState extends State<RegisterScreen> {
     }
   }
 }
-
-
-
-
-
-

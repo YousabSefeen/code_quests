@@ -1,11 +1,4 @@
-
-
-
-
-
 import 'package:flutter_task/core/enum/lazy_request_state.dart';
-
-
 import '../../../../../core/enum/user_type.dart';
 
 class RegisterState {
@@ -50,11 +43,13 @@ class RegisterState {
   }) {
     return RegisterState(
       isPasswordVisible: isPasswordVisible ?? this.isPasswordVisible,
-      isConfirmPasswordVisible: isConfirmPasswordVisible ?? this.isConfirmPasswordVisible,
+      isConfirmPasswordVisible:
+          isConfirmPasswordVisible ?? this.isConfirmPasswordVisible,
       userType: userType ?? this.userType,
       registerState: registerState ?? this.registerState,
       error: error,
-      isSendEmailVerification: isSendEmailVerification ?? this.isSendEmailVerification,
+      isSendEmailVerification:
+          isSendEmailVerification ?? this.isSendEmailVerification,
       isAuthGoogle: isAuthGoogle ?? this.isAuthGoogle,
     );
   }

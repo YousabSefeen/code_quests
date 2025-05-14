@@ -3,6 +3,6 @@ class Assets {
   Assets._();
 
   static const String imagesLocation = 'assets/images/location.json';
-  static const String imagesUploadProfileIcons = 'assets/images/uploadProfileIcons.jpeg';
-
+  static const String imagesUploadProfileIcons =
+      'assets/images/uploadProfileIcons.jpeg';
 }

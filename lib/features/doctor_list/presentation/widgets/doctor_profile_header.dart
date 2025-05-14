@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 
 import '../../../doctor_profile/data/models/doctor_model.dart';
 
 class DoctorProfileHeader extends StatelessWidget {
   final DoctorModel doctorInfo;
 
-  const DoctorProfileHeader(
-      {super.key, required this.doctorInfo});
+  const DoctorProfileHeader({super.key, required this.doctorInfo});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +16,8 @@ class DoctorProfileHeader extends StatelessWidget {
         backgroundImage: NetworkImage(doctorInfo.imageUrl),
       ),
       title: Text(doctorInfo.name),
-      subtitle: Text(doctorInfo.bio,maxLines: 3,overflow: TextOverflow.ellipsis),
+      subtitle:
+          Text(doctorInfo.bio, maxLines: 3, overflow: TextOverflow.ellipsis),
     );
   }
 }

@@ -35,7 +35,6 @@ class DoctorProfileCubit extends Cubit<DoctorProfileState> {
     emit(state.copyWith(confirmedWorkingDays: state.tempSelectedDays));
   }
 
-
   Future<void> uploadDoctorProfile({
     required String imageUrl,
     required String name,

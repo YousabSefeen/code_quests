@@ -24,7 +24,7 @@ class DoctorAvailabilityTimeFields extends StatelessWidget {
             selector: (state) => state.availableFromTime,
             builder: (context, startTime) => DoctorInfoField(
               label: 'Available From',
-              hintText: startTime??'Select Time',
+              hintText: startTime ?? 'Select Time',
               validator: (_) {
                 if (startTime == null) {
                   return 'Please select the start time of availability';
@@ -46,7 +46,7 @@ class DoctorAvailabilityTimeFields extends StatelessWidget {
             selector: (state) => state.availableToTime,
             builder: (context, endTime) => DoctorInfoField(
               label: 'Available To',
-              hintText:endTime?? 'Select Time',
+              hintText: endTime ?? 'Select Time',
               validator: (_) {
                 if (endTime == null) {
                   return 'Please select the end time of availability';
@@ -85,8 +85,8 @@ class DoctorAvailabilityTimeFields extends StatelessWidget {
       showTitleActions: true,
       onConfirm: (newTime) {
         context.read<DoctorProfileCubit>().updateAvailableTime(
-              DateTimeFormatter.timeString(newTime), isStartTime: isStartTime,
-
+              DateTimeFormatter.timeString(newTime),
+              isStartTime: isStartTime,
             );
       },
       currentTime: DateFormat('hh:mm a').parse(time),

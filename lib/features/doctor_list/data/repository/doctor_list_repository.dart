@@ -5,7 +5,7 @@ import 'package:flutter_task/features/doctor_list/data/models/doctor_list_model.
 import '../../../../core/error/failure.dart';
 import 'doctor_list_repository_base.dart';
 
-  class DoctorListRepository  extends DoctorListRepositoryBase{
+class DoctorListRepository extends DoctorListRepositoryBase {
   @override
   Future<Either<Failure, List<DoctorListModel>>> getDoctorList() async {
     try {

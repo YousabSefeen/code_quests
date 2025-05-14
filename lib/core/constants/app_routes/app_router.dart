@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_task/features/doctor_list/presentation/screen/doctor_list_view_screen.dart';
 
@@ -12,11 +11,7 @@ import 'app_router_names.dart';
 
 class AppRouter {
   static Route<dynamic>? generateRoute(RouteSettings settings) {
-
-
     switch (settings.name) {
-
-
       case AppRouterNames.login:
         return _animatedRoute(settings, const LoginScreen());
 
@@ -54,14 +49,14 @@ class AppRouter {
   }
 
   static pushNamed(BuildContext context, String screenName,
-      {Object? arguments}) =>
+          {Object? arguments}) =>
       Navigator.of(context).pushNamed(screenName, arguments: arguments);
 
   static pushNamedAndRemoveUntil(BuildContext context, String screenName,
-      {Object? arguments}) =>
+          {Object? arguments}) =>
       Navigator.of(context).pushNamedAndRemoveUntil(
         screenName,
-            (Route<dynamic> route) => false,
+        (Route<dynamic> route) => false,
         arguments: arguments,
       );
 

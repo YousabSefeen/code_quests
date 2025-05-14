@@ -1,15 +1,14 @@
-
-
 import 'package:intl/intl.dart';
 
-class DateTimeFormatter{
+class DateTimeFormatter {
+  static String formatFull(DateTime date) =>
+      DateFormat('yyyy-MM-dd hh:mm a').format(date);
 
-  static String formatFull(DateTime date) => DateFormat('yyyy-MM-dd hh:mm a').format(date);
-  static String dateAndTimeNowS( ) => formatFull(DateTime.now());
+  static String dateAndTimeNowS() => formatFull(DateTime.now());
 
+  static String timeString(DateTime time) =>
+      DateFormat('hh:mm a').format(time).toString();
 
-
-static String timeString(DateTime time)=>DateFormat('hh:mm a').format(time).toString();
   // static String formatTimeOnly(DateTime date) => DateFormat('hh:mm a').format(date);
   //
   // static String formatDateOnly(DateTime date) => DateFormat('yyyy-MM-dd').format(date);
@@ -17,6 +16,7 @@ static String timeString(DateTime time)=>DateFormat('hh:mm a').format(time).toSt
     DateTime dateTime = DateFormat('yyyy-MM-dd hh:mm a').parse(dateTimeString);
     return DateFormat('yyyy-MM-dd').format(dateTime); // الناتج: 2025-05-04
   }
+
   String extractTime(String dateTimeString) {
     DateTime dateTime = DateFormat('yyyy-MM-dd hh:mm a').parse(dateTimeString);
     return DateFormat('hh:mm a').format(dateTime); // الناتج: 2025-05-04
@@ -39,14 +39,13 @@ static String timeString(DateTime time)=>DateFormat('hh:mm a').format(time).toSt
     return DateTime(date.year, date.month, date.day, hour, minute);
   }
 
-
-  static String convertSelectedDateToString(DateTime selectedDateTime ){
+  static String convertSelectedDateToString(DateTime selectedDateTime) {
     DateTime date = DateTime.parse(selectedDateTime.toString());
     String formattedDate = DateFormat('dd/MM/yyyy').format(date);
 
-
     return formattedDate;
   }
+
   static String convertDateToNameDay({required DateTime date}) =>
       DateFormat.EEEE('en_US').format(date);
 
