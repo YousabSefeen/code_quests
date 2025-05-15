@@ -15,12 +15,6 @@ class AppColors {
   static Color customGreen = Colors.greenAccent;
   static Color customWhite = const Color(0xffEEF5FF);
   static const List<Color> gradientAnimationColor = [
-    /*
-    AppColors.darkBlue,
-    Color(0xff7C93C3),
-    AppColors.darkBlue,
-     */
-
     AppColors.darkBlue,
     AppColors.darkBlue,
     Color(0xff7C93C3),

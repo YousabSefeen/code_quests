@@ -23,15 +23,15 @@ class RegisterHeaderSection extends StatelessWidget {
 }
 
 class _RegisterBackButton extends StatelessWidget {
-  const _RegisterBackButton({super.key});
+  const _RegisterBackButton();
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => AppRouter.pop(context),
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5.h),
-        margin: EdgeInsets.only(top: 15.h, bottom: 15.h, left: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5 ),
+        margin: const EdgeInsets.only(top: 15 , bottom: 2 , left: 10),
         decoration: BoxDecoration(
           color: Colors.black,
           borderRadius: BorderRadius.circular(10),

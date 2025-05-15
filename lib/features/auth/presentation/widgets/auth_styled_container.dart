@@ -12,20 +12,21 @@ class AuthStyledContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: ShapeDecoration(
-          color: AppColors.darkBlue,
-          shape: RoundedRectangleBorder(
+        color: AppColors.darkBlue,
+        shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(25.r),
               topRight: Radius.circular(25.r),
             ),
           ),
-          shadows: const [
-            BoxShadow(
-              color: Colors.white,
-              blurRadius: 5,
-              spreadRadius: 2,
-            )
-          ]),
+        shadows: const [
+          BoxShadow(
+            color: Colors.white,
+            blurRadius: 2,
+            spreadRadius: 4,
+          )
+        ]
+      ),
       child: body,
     );
   }
