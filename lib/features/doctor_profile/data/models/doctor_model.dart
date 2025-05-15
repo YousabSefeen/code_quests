@@ -1,9 +1,10 @@
+import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'doctor_model.g.dart';
 
 @JsonSerializable()
-class DoctorModel {
+class DoctorModel extends Equatable {
   final String imageUrl;
   final String name;
   final String specialization;
@@ -15,7 +16,7 @@ class DoctorModel {
   final String? availableTo;
   final int fees;
 
-  DoctorModel({
+  const DoctorModel({
     required this.imageUrl,
     required this.name,
     required this.specialization,
@@ -31,4 +32,17 @@ class DoctorModel {
       _$DoctorModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$DoctorModelToJson(this);
+
+  @override
+  List<Object?> get props => [
+        imageUrl,
+        name,
+        specialization,
+        bio,
+        location,
+        workingDays,
+        availableFrom,
+        availableTo,
+        fees,
+      ];
 }
