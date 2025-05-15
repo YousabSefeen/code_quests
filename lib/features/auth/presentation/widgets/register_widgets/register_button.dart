@@ -57,7 +57,7 @@ class RegisterButton extends StatelessWidget {
           errorMessage: errorMessage,
           content: RegisterErrorSnackBarContent(
             errorMessage: errorMessage,
-            userEmail: registerControllers.userNameController.text,
+            userEmail: registerControllers.emailController.text,
           ),
         );
       } else {
