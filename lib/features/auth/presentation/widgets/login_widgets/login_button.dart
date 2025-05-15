@@ -1,23 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_task/core/constants/app_strings/app_strings.dart';
 
 import '../../../../../core/constants/app_alerts/app_alerts.dart';
 import '../../../../../core/constants/app_routes/app_router.dart';
 import '../../../../../core/constants/app_routes/app_router_names.dart';
 import '../../../../../core/enum/lazy_request_state.dart';
 import '../../controller/cubit/login_cubit.dart';
+import '../../controller/form_controllers/login_controllers.dart';
 import '../../controller/states/login_state.dart';
 import '../custom_button.dart';
 
 class LoginButton extends StatelessWidget {
-  final TextEditingController emailController;
-  final TextEditingController passwordController;
+  final LoginControllers loginControllers;
 
-  const LoginButton({
-    super.key,
-    required this.emailController,
-    required this.passwordController,
-  });
+  const LoginButton({super.key, required this.loginControllers});
 
   @override
   Widget build(BuildContext context) {
@@ -26,12 +23,10 @@ class LoginButton extends StatelessWidget {
         builder: (context, loginStatus) {
           _handleLoginState(context, loginStatus);
           return Padding(
-            padding: const EdgeInsets.symmetric(
-              vertical: 30,
-            ),
+            padding: const EdgeInsets.symmetric(vertical: 30),
             child: CustomButton(
               isLoading: loginStatus == LazyRequestState.loading,
-              text: 'Login',
+              text: AppStrings.login,
               onPressed: () => _onLoginPressed(context),
             ),
           );
@@ -41,18 +36,13 @@ class LoginButton extends StatelessWidget {
   void _onLoginPressed(BuildContext context) {
     FocusScope.of(context).unfocus();
     final cubit = context.read<LoginCubit>();
-    final error = cubit.validateLoginInput(
-      emailController.text,
-      passwordController.text,
-    );
 
-    if (error != null) {
-      AppAlerts.showErrorSnackBar(context, error);
+    final errorMsg = cubit.validateAndCacheInputs(loginControllers);
+
+    if (errorMsg != null) {
+      AppAlerts.showErrorSnackBar(context, errorMsg);
     } else {
-      cubit.login(
-        email: emailController.text,
-        password: passwordController.text,
-      );
+      cubit.login();
     }
   }
 
@@ -66,15 +56,21 @@ class LoginButton extends StatelessWidget {
             context,
             AppRouterNames.doctorListView,
           );
+          _resetLoginStates(context);
         } else if (loginStatus == LazyRequestState.error) {
           AppAlerts.showErrorSnackBar(
             context,
             context.read<LoginCubit>().state.loginError ??
-                'Unknown error occurred.',
+                AppStrings.unknownError,
           );
+          _resetLoginStates(context);
         }
-        context.read<LoginCubit>().resetStates();
       }
     });
   }
+
+  void _resetLoginStates(BuildContext context) => Future.microtask(() {
+        if (!context.mounted) return;
+        context.read<LoginCubit>().resetStates();
+      });
 }

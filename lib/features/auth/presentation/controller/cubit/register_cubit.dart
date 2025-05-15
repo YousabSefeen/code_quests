@@ -1,10 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_task/features/auth/presentation/controller/form_controllers/register_controllers.dart';
 
 import '../../../../../core/enum/lazy_request_state.dart';
 import '../../../../../core/enum/user_type.dart';
 import '../../../data/repository/auth_repository.dart';
+import '../form_controllers/registration_validator.dart';
 import '../states/register_state.dart';
 
 class RegisterCubit extends Cubit<RegisterState> {
@@ -13,87 +15,48 @@ class RegisterCubit extends Cubit<RegisterState> {
   RegisterCubit({required this.authRepository})
       : super(RegisterState.initial());
 
-  void togglePasswordVisibility() {
-    emit(state.copyWith(isPasswordVisible: !state.isPasswordVisible));
+  void togglePasswordVisibility() => emit(state.copyWith(
+        isPasswordVisible: !state.isPasswordVisible,
+      ));
+
+  void toggleConfirmPasswordVisibility() => emit(state.copyWith(
+        isConfirmPasswordVisible: !state.isConfirmPasswordVisible,
+      ));
+
+  void toggleUserType(UserType userType) => emit(state.copyWith(
+        userType: userType,
+      ));
+
+  RegisterControllers? _cachedControllers;
+
+  String? validateAndCacheInputs(RegisterControllers controllers) {
+    final message = RegistrationValidator().validateInputs(controllers);
+    if (message == null) _cachedControllers = controllers;
+    return message;
   }
 
-  void toggleConfirmPasswordVisibility() {
-    emit(state.copyWith(
-        isConfirmPasswordVisible: !state.isConfirmPasswordVisible));
-  }
-
-  UserType _userType = UserType.client;
-
-  void toggleUserType(UserType type) {
-    _userType = _userType != type ? type : _userType;
-    emit(state.copyWith(userType: _userType));
-  }
-
-  String? validateRegistrationInputs({
-    required String userName,
-    required String phoneNumber,
-    required String email,
-    required String password,
-    required String confirmPassword,
-  }) {
-    if (userName.isEmpty ||
-        phoneNumber.isEmpty ||
-        email.isEmpty ||
-        password.isEmpty ||
-        confirmPassword.isEmpty) {
-      return 'Please fill all fields';
-    }
-
-    if (userName.length < 3) {
-      return 'Username must be at least 3 characters';
-    }
-
-    if (!RegExp(r'^[0-9]{10,15}$').hasMatch(phoneNumber)) {
-      return 'Enter a valid phone number';
-    }
-
-    if (!email.contains('@') || !email.contains('.')) {
-      return 'Enter a valid email';
-    }
-
-    if (password.length < 6) {
-      return 'Password must be at least 6 characters';
-    }
-
-    if (confirmPassword != password) {
-      return 'Passwords do not match';
-    }
-
-    return null;
-  }
-
-  Future<void> register({
-    required String name,
-    required String phone,
-    required String email,
-    required String password,
-  }) async {
+  Future<void> register() async {
+    if (_cachedControllers == null) return;
+    final c = _cachedControllers!;
     emit(state.copyWith(registerState: LazyRequestState.loading));
 
     final response = await authRepository.register(
-      name: name,
-      phone: phone,
-      email: email,
-      password: password,
-      role: _userType.name,
+      name: c.userNameController.text,
+      phone: c.phoneController.text,
+      email: c.emailController.text,
+      password: c.passwordController.text,
+      role: state.userType.name,
     );
 
-    response.fold((failure) {
-      emit(state.copyWith(
-        registerState: LazyRequestState.error,
-        error: failure.toString(),
-      ));
-    }, (success) {
-      emit(state.copyWith(
-        registerState: LazyRequestState.loaded,
-      ));
-    });
+    response.fold(
+        (failure) => emit(state.copyWith(
+              registerState: LazyRequestState.error,
+              error: failure.toString(),
+            )),
+        (success) => emit(state.copyWith(
+              registerState: LazyRequestState.loaded,
+            )));
   }
 
-  void resetState() => emit(RegisterState.initial());
+  void resetStates() => emit(RegisterState.initial());
 }

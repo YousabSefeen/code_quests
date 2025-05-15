@@ -2,6 +2,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/enum/lazy_request_state.dart';
 import '../../../data/repository/auth_repository.dart';
+import '../form_controllers/login_controllers.dart';
+import '../form_controllers/login_validator.dart';
 import '../states/login_state.dart';
 
 class LoginCubit extends Cubit<LoginState> {
@@ -12,19 +14,23 @@ class LoginCubit extends Cubit<LoginState> {
         state.copyWith(isPasswordVisible: !state.isPasswordVisible),
       );
 
-  String? validateLoginInput(String email, String password) {
-    if (email.isEmpty) return 'Please enter your email';
-    if (!email.contains('@')) return 'Enter a valid email';
-    if (password.isEmpty) return 'Please enter your password';
-    if (password.length < 6) return 'Password must be at least 6 characters';
-    return null;
+  LoginControllers? _cachedControllers;
+
+  String? validateAndCacheInputs(LoginControllers controllers) {
+    final message = LoginValidator().validateInputs(controllers);
+    if (message == null) _cachedControllers = controllers;
+    return message;
   }
 
-  Future<void> login({required String email, required String password}) async {
+  Future<void> login() async {
+    if (_cachedControllers == null) return;
+    final c = _cachedControllers!;
     emit(state.copyWith(loginStatus: LazyRequestState.loading));
 
-    final response =
-        await authRepository.login(email: email, password: password);
+    final response = await authRepository.login(
+      email: c.emailController.text,
+      password: c.passwordController.text,
+    );
 
     response.fold(
       (failure) => emit(state.copyWith(

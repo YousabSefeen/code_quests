@@ -1,20 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_task/core/constants/app_strings/app_strings.dart';
 import 'package:flutter_task/features/auth/presentation/controller/cubit/login_cubit.dart';
 import 'package:flutter_task/features/auth/presentation/controller/states/login_state.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../../../core/constants/themes/app_colors.dart';
+import '../../controller/form_controllers/login_controllers.dart';
 import '../custom_form_field.dart';
 
 class LoginFormFields extends StatelessWidget {
-  final TextEditingController emailController;
-  final TextEditingController passwordController;
+  final LoginControllers loginControllers;
 
-  const LoginFormFields(
-      {super.key,
-      required this.emailController,
-      required this.passwordController});
+  const LoginFormFields({super.key, required this.loginControllers,});
 
   @override
   Widget build(BuildContext context) {
@@ -38,9 +36,9 @@ class LoginFormFields extends StatelessWidget {
 
   CustomFormField _buildEmailField() {
     return CustomFormField(
-      title: 'Email',
+      title: AppStrings.email,
       icon: FontAwesomeIcons.envelope,
-      controller: emailController,
+      controller: loginControllers.emailController,
       keyboardType: TextInputType.emailAddress,
     );
   }
@@ -50,9 +48,9 @@ class LoginFormFields extends StatelessWidget {
       selector: (state) => state.isPasswordVisible,
       builder: (context, isLoginPasswordVisible) {
         return CustomFormField(
-          title: 'Password',
+          title: AppStrings.password,
           icon: FontAwesomeIcons.lock,
-          controller: passwordController,
+          controller: loginControllers.passwordController,
           keyboardType: TextInputType.text,
           obscureText: isLoginPasswordVisible,
           suffixIcon: IconButton(

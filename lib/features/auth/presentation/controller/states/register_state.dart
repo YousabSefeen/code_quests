@@ -1,7 +1,9 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter_task/core/enum/lazy_request_state.dart';
+
 import '../../../../../core/enum/user_type.dart';
 
-class RegisterState {
+class RegisterState extends Equatable {
   final bool isPasswordVisible;
   final bool isConfirmPasswordVisible;
   final UserType userType;
@@ -53,4 +55,15 @@ class RegisterState {
       isAuthGoogle: isAuthGoogle ?? this.isAuthGoogle,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        isPasswordVisible,
+        isConfirmPasswordVisible,
+        userType,
+        registerState,
+        error,
+        isSendEmailVerification,
+        isAuthGoogle,
+      ];
 }

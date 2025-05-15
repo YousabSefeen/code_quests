@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_task/features/auth/presentation/controller/form_controllers/login_controllers.dart';
 
 import '../../../../core/constants/themes/app_colors.dart';
 import '../widgets/auth_screen_background.dart';
@@ -12,25 +13,19 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  late final TextEditingController emailController;
-  late final TextEditingController passwordController;
+  late final LoginControllers loginControllers;
   String? registeredUserEmail;
 
-  void _initializeTextControllers() {
-    emailController = TextEditingController();
-    passwordController = TextEditingController();
-  }
+  void _initializeTextControllers() => loginControllers = LoginControllers();
 
   // Retrieves the user email passed from the Register screen
   // when registration fails due to email already being in use.
-  void _setEmailFromRegisterRoute() {
-    Future.microtask(() {
-      if (!mounted) return;
-      registeredUserEmail =
-          ModalRoute.of(context)?.settings.arguments as String?;
-      emailController.text = registeredUserEmail ?? '';
-    });
-  }
+  void _setEmailFromRegisterRoute() => Future.microtask(() {
+        if (!mounted) return;
+        registeredUserEmail =
+            ModalRoute.of(context)?.settings.arguments as String?;
+        loginControllers.emailController.text = registeredUserEmail ?? '';
+      });
 
   @override
   void initState() {
@@ -41,8 +36,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   void dispose() {
-    emailController.dispose();
-    passwordController.dispose();
+    loginControllers.dispose();
     super.dispose();
   }
 
@@ -56,10 +50,7 @@ class _LoginScreenState extends State<LoginScreen> {
           alignment: Alignment.center,
           children: [
             const AuthScreenBackground(),
-            LoginScreenBody(
-              emailController: emailController,
-              passwordController: passwordController,
-            ),
+            LoginScreenBody(loginControllers: loginControllers),
           ],
         ),
       ),

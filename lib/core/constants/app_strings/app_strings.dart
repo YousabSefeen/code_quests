@@ -1,5 +1,15 @@
 class AppStrings {
+
+
+
   // Titles
+  static const String login = 'Login';
+  static const String email = 'Email';
+  static const String password = 'Password';
+  static const String register = 'Register';
+  static const String registerNow ='$register now';
+  static const String emailAlreadyInUseError ='This email address is already in use. If it’s your account, try logging in.';
+  static const String unknownError ='Unknown error occurred.';
   static const String doctorProfileTitle = 'Doctor Profile';
 
   // Labels
@@ -46,4 +56,6 @@ class AppStrings {
 
   static const String bookingsIsEmpty =
       'There are no bookings currently. Please check back later or add a new booking.';
+
+
 }

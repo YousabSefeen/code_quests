@@ -10,7 +10,7 @@ import 'package:intl/date_symbol_data_local.dart';
 
 import 'core/constants/app_routes/app_router.dart';
 import 'core/constants/themes/app_light_theme.dart';
-import 'core/my_bloc_observer.dart';
+import 'core/base/my_bloc_observer.dart';
 import 'core/services/server_locator.dart';
 import 'features/appointments/presentation/controller/cubit/appointment_cubit.dart';
 import 'features/auth/presentation/controller/cubit/register_cubit.dart';
