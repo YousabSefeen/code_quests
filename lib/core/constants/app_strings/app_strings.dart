@@ -17,6 +17,32 @@ class AppStrings {
   static const String specializationLabel = 'Specialization';
   static const String bioLabel = 'Bio';
   static const String locationLabel = 'Location';
+  static const String weeklySchedule = 'Weekly Schedule:';
+  static const String workingDays = 'Working Days';
+  static const String workingDaysHint = 'Tap to select days';
+  static const String workingDaysDialogTitle = 'Pick your working days';
+  static const String workingDaysValidationMessage =
+      'Please select at least one working day.';
+  static const List<String> weekDays = [
+    'Saturday',
+    'Sunday',
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+  ];
+
+static const String  workHours='Work Hours';
+static const String  from='From';
+static const String  to='To';
+
+
+  static const String availableFrom = 'Available From';
+
+  static const String availableTo = 'Available To';
+  static const String hintSelectTime = 'Select time';
+  static const String requiredField = 'required field';
   static const String feesLabel = 'Fees';
 
   // Hint texts

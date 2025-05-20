@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_task/core/constants/themes/app_colors.dart';
+import 'package:flutter_task/core/constants/themes/app_text_styles.dart';
 
 import '../controller/cubit/appointment_cubit.dart';
 import '../controller/states/appointment_state.dart';
@@ -77,7 +78,7 @@ class TimeSlotItem extends StatelessWidget {
         ),
         child: Text(
           time,
-          style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+          style: Theme.of(context).textTheme.mediumBlackBold.copyWith(
                 fontSize: 13.sp,
                 color: isSelected ? Colors.white : AppColors.black,
               ),

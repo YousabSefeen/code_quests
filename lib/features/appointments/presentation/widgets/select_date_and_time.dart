@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_task/core/constants/themes/app_text_styles.dart';
 import 'package:flutter_task/features/appointments/presentation/controller/cubit/appointment_cubit.dart';
 import 'package:flutter_task/features/appointments/presentation/widgets/select_date_widget.dart';
 import 'package:flutter_task/features/appointments/presentation/widgets/select_time_widget.dart';
@@ -28,22 +29,22 @@ class _SelectDateAndTimeState extends State<SelectDateAndTime> {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
 
-    final activeTextStyle = textTheme.labelMedium;
+    final activeTextStyle = textTheme.smallWhiteRegular;
 
-    final inactiveDayStyle = activeTextStyle!.copyWith(color: Colors.black);
+    final inactiveDayStyle = activeTextStyle.copyWith(color: Colors.black);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           'Select Date',
-          style: textTheme.headlineMedium,
+          style: textTheme.mediumBlackBold,
           textAlign: TextAlign.start,
         ),
         SelectDateWidget(doctor: widget.doctor),
         Text(
           'Select Time',
-          style: textTheme.headlineMedium,
+          style: textTheme.mediumBlackBold,
           textAlign: TextAlign.start,
         ),
         const SizedBox(height: 5),

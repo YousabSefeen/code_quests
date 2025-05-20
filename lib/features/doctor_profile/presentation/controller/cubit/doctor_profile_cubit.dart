@@ -3,6 +3,8 @@ import 'package:flutter_task/core/enum/lazy_request_state.dart';
 
 import '../../../data/models/doctor_model.dart';
 import '../../../data/repository/doctor_profile_repository.dart';
+import '../form_controllers/doctor_profile_controllers.dart';
+import '../form_controllers/doctor_profile_validator.dart';
 import '../states/doctor_profile_state.dart';
 
 class DoctorProfileCubit extends Cubit<DoctorProfileState> {
@@ -31,29 +33,42 @@ class DoctorProfileCubit extends Cubit<DoctorProfileState> {
     emit(state.copyWith(tempSelectedDays: updatedDays));
   }
 
-  void confirmWorkingDaysSelection() {
-    emit(state.copyWith(confirmedWorkingDays: state.tempSelectedDays));
+  void confirmWorkingDaysSelection() => emit(state.copyWith(
+        confirmedWorkingDays: state.tempSelectedDays,
+      ));
+
+
+  DoctorProfileControllers? _cachedControllers;
+
+    validateAndCacheInputs(DoctorProfileControllers controllers) {
+    if (!controllers.formKey.currentState!.validate()) {
+      print('No Validate');
+
+
+    }else {
+      _cachedControllers = controllers;
+    }
+
+
   }
+
+
 
   Future<void> uploadDoctorProfile({
     required String imageUrl,
-    required String name,
-    required String specialization,
-    required String bio,
-    required String location,
-    required int fees,
+
   }) async {
     final response = await doctorRepository.uploadDoctorProfile(
       DoctorModel(
         imageUrl: imageUrl,
-        name: name,
-        specialization: specialization,
-        bio: bio,
-        location: location,
+        name: _cachedControllers!.nameController.text,
+        specialization: _cachedControllers!.specializationController.text,
+        bio:_cachedControllers!.bioController.text,
+        location:_cachedControllers!.locationController.text,
         workingDays: state.confirmedWorkingDays,
         availableFrom: state.availableFromTime,
         availableTo: state.availableToTime,
-        fees: fees,
+        fees: int.parse(_cachedControllers!.feesController.text) ,
       ),
     );
     response.fold(

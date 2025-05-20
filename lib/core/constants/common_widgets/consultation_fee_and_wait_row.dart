@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_task/core/constants/themes/app_text_styles.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ConsultationFeeAndWaitRow extends StatelessWidget {
@@ -40,7 +41,7 @@ class InfoIconWithText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final titleMedium = Theme.of(context).textTheme.titleMedium;
+    final mediumPlaypenBold = Theme.of(context).textTheme.mediumPlaypenBold;
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       spacing: 10,
@@ -51,11 +52,11 @@ class InfoIconWithText extends StatelessWidget {
           children: [
             Text(
               title,
-              style: titleMedium,
+              style: mediumPlaypenBold,
             ),
             Text(
               subtitle,
-              style: titleMedium!.copyWith(color: Colors.blue),
+              style: mediumPlaypenBold.copyWith(color: Colors.blue),
               textAlign: TextAlign.center,
             ),
           ],

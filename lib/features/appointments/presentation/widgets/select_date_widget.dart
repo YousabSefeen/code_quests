@@ -2,6 +2,7 @@ import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_task/core/constants/themes/app_text_styles.dart';
 
 import '../../../../core/constants/themes/app_colors.dart';
 import '../../../doctor_list/data/models/doctor_list_model.dart';
@@ -19,9 +20,9 @@ class SelectDateWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
 
-    final activeTextStyle = textTheme.labelMedium;
+    final activeTextStyle = textTheme.smallWhiteRegular;
 
-    final inactiveDayStyle = activeTextStyle!.copyWith(color: Colors.black);
+    final inactiveDayStyle = activeTextStyle.copyWith(color: Colors.black);
     return Container(
       margin: const EdgeInsets.only(top: 8, bottom: 17, right: 8),
       decoration: BoxDecoration(

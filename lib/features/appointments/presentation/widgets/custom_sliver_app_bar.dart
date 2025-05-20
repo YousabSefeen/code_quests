@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_task/core/constants/app_strings/app_strings.dart';
 import 'package:flutter_task/core/constants/common_widgets/custom_error_widget.dart';
 import 'package:flutter_task/core/constants/common_widgets/custom_shimmer.dart';
+import 'package:flutter_task/core/constants/themes/app_text_styles.dart';
 
 class CustomSliverAppBar extends StatelessWidget {
   final String doctorName;
@@ -34,7 +35,7 @@ class CustomSliverAppBar extends StatelessWidget {
             title: isCollapsed
                 ? Text(
                     doctorName,
-                    style: textTheme.bodyMedium!.copyWith(
+                    style: textTheme.extraLargeWhiteBold.copyWith(
                       fontSize: 19.sp,
                     ),
                   )
@@ -65,8 +66,8 @@ class CustomSliverAppBar extends StatelessWidget {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text(doctorName, style: textTheme.bodyMedium),
-                      Text(specialization, style: textTheme.bodySmall),
+                      Text(doctorName, style: textTheme.extraLargeWhiteBold),
+                      Text(specialization, style: textTheme.largeWhiteSemiBold),
                     ],
                   ),
                 ),

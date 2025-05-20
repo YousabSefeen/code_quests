@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_task/core/constants/themes/app_text_styles.dart';
 
 import '../../../doctor_profile/data/models/doctor_model.dart';
 
@@ -36,8 +37,8 @@ class DoctorInfoHeader extends StatelessWidget {
     return RichText(
       text: TextSpan(
         children: [
-          TextSpan(text: title, style: textTheme.bodyLarge),
-          TextSpan(text: info, style: textTheme.titleSmall),
+          TextSpan(text: title, style: textTheme.mediumBlueBold),
+          TextSpan(text: info, style: textTheme.smallGreyMedium),
         ],
       ),
     );

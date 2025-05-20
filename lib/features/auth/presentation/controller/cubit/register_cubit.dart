@@ -6,7 +6,7 @@ import 'package:flutter_task/features/auth/presentation/controller/form_controll
 import '../../../../../core/enum/lazy_request_state.dart';
 import '../../../../../core/enum/user_type.dart';
 import '../../../data/repository/auth_repository.dart';
-import '../form_controllers/registration_validator.dart';
+import '../form_controllers/register_validator.dart';
 import '../states/register_state.dart';
 
 class RegisterCubit extends Cubit<RegisterState> {
@@ -30,7 +30,7 @@ class RegisterCubit extends Cubit<RegisterState> {
   RegisterControllers? _cachedControllers;
 
   String? validateAndCacheInputs(RegisterControllers controllers) {
-    final message = RegistrationValidator().validateInputs(controllers);
+    final message = RegisterValidator().validateInputs(controllers);
     if (message == null) _cachedControllers = controllers;
     return message;
   }

@@ -37,6 +37,8 @@ dependencies:
   equatable: ^2.0.7
   tuple: ^2.0.2
   shimmer: ^3.0.0
+  time_range: ^1.1.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

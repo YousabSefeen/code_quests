@@ -6,6 +6,7 @@ import 'app_colors.dart';
 
 class AppLightTheme {
   static ThemeData theme = ThemeData(
+    useMaterial3: false,
     primarySwatch: Colors.blue,
     unselectedWidgetColor: Colors.red,
     scaffoldBackgroundColor: AppColors.customWhite,
@@ -126,80 +127,9 @@ class AppLightTheme {
       color: AppColors.customLightBlue,
       thickness: 2,
     ),
+    checkboxTheme: CheckboxThemeData(
 
-    ///
-
-
-    textTheme: TextTheme(
-      headlineMedium: TextStyle(
-        // style for ... (used in *DoctorAvailabilityTimeFields*  )
-        fontSize: 15.sp,
-        color: Colors.black,
-        fontWeight: FontWeight.w600,
-        height: 1,
-      ),
-      headlineSmall: TextStyle(
-        // style for ... (used in *DoctorAvailabilityTimeFields*  )
-        color: Colors.white,
-        fontSize: 17.sp,
-        fontWeight: FontWeight.w700,
-      ),
-
-      labelMedium: TextStyle(
-        // style for ... (used in *CustomDateTimeLine*  )
-        fontSize: 12.sp,
-        color: Colors.white,
-        fontWeight: FontWeight.w400,
-      ),
-
-      titleMedium: GoogleFonts.playpenSans(
-        // style for ... (used in  DoctorList (info))
-        fontSize: 14.sp,
-        height: 2,
-        fontWeight: FontWeight.w700,
-        color: Colors.grey.shade600,
-      ),
-
-      bodySmall: TextStyle(
-        // style for ... (used in  AppointmentBookingScreen (CustomSliverAppBar))
-        fontSize: 18.sp,
-        color: Colors.white,
-        fontWeight: FontWeight.w500,
-      ),
-      bodyMedium: GoogleFonts.playpenSans(
-        // style for ... (used in  AppointmentBookingScreen (CustomSliverAppBar))
-        fontSize: 22.sp,
-        color: Colors.white,
-        fontWeight: FontWeight.w600,
-      ),
-
-      bodyLarge: GoogleFonts.poppins(
-        // style for ... (used in  AppointmentBookingScreen (doctorInfo))
-        fontSize: 16.sp,
-        letterSpacing: 0.05,
-        fontWeight: FontWeight.w700,
-        color: AppColors.softBlue,
-      ),
-      titleSmall: TextStyle(
-        fontSize: 14.sp,
-        fontWeight: FontWeight.w500,
-        color: Colors.grey,
-      ),
-      titleLarge: TextStyle(
-        fontSize: 14,
-        color: Colors.orange.shade800,
-        fontWeight: FontWeight.w500,
-        height: 1.4,
-      ),
-      headlineLarge: GoogleFonts.caladea(
-        fontSize: 18.sp,
-        color: Colors.black,
-        fontWeight: FontWeight.w600,
-        letterSpacing: 0.5,
-      ),
-
-      ///*******************************************************
-    ),
+    )
   );
 }
 

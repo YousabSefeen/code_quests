@@ -1,12 +1,12 @@
 import 'package:flutter_task/features/auth/presentation/controller/form_controllers/register_controllers.dart';
 
-class RegistrationValidator {
-  static final RegistrationValidator _instance =
-      RegistrationValidator._internal();
+class RegisterValidator {
+  static final RegisterValidator _instance =
+      RegisterValidator._internal();
 
-  factory RegistrationValidator() => _instance;
+  factory RegisterValidator() => _instance;
 
-  RegistrationValidator._internal();
+  RegisterValidator._internal();
 
   String? validateInputs(RegisterControllers c) {
     final userName = c.userNameController.text.trim();

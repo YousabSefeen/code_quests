@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_task/core/constants/themes/app_colors.dart';
+import 'package:flutter_task/core/constants/themes/app_text_styles.dart';
 
 import '../../../../core/constants/app_strings/app_strings.dart';
 
@@ -9,7 +10,7 @@ class DoctorNotAvailableMessage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final titleLarge = Theme.of(context).textTheme.titleLarge;
+    final smallOrangeMedium = Theme.of(context).textTheme.smallOrangeMedium;
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
       padding: const EdgeInsets.all(12.0),
@@ -30,11 +31,11 @@ class DoctorNotAvailableMessage extends StatelessWidget {
               child: Text.rich(
             TextSpan(
               text: AppStrings.doctorNotAvailableMessage[0],
-              style: titleLarge,
+              style: smallOrangeMedium,
               children: [
                 TextSpan(
                   text: AppStrings.doctorNotAvailableMessage[1],
-                  style: titleLarge!.copyWith(color: AppColors.softBlue),
+                  style: smallOrangeMedium.copyWith(color: AppColors.softBlue),
                 ),
                 TextSpan(
                   text: AppStrings.doctorNotAvailableMessage[2],
