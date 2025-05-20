@@ -121,4 +121,11 @@ extension AppTextStyles on TextTheme {
         height: 1.5,
         color: Colors.grey.shade600,
       );
+
+  TextStyle get numbersStyle => GoogleFonts.roboto(
+    fontSize: 13.sp,
+    fontWeight: FontWeight.w400,
+    color: Colors.black,
+    letterSpacing: 0.5,
+  );
 }

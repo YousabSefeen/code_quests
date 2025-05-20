@@ -62,6 +62,7 @@ class DoctorProfileBody extends StatelessWidget {
           alignment: Alignment.topCenter,
           child: DoctorProfileImage(),
         ),
+
         ...fields.map((field) => DoctorInfoField(
               label: field['label'],
               hintText: field['hint'],

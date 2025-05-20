@@ -19,8 +19,10 @@ class AppStrings {
   static const String locationLabel = 'Location';
   static const String weeklySchedule = 'Weekly Schedule:';
   static const String workingDays = 'Working Days';
-  static const String workingDaysHint = 'Tap to select days';
-  static const String workingDaysDialogTitle = 'Pick your working days';
+  static const String defaultHint = 'Tap to select';
+  static const String workingDaysHint = '$defaultHint days';
+  static const String workHoursHint = '$defaultHint hours';
+  static const String workingDaysDialogTitle = 'Select your working days';
   static const String workingDaysValidationMessage =
       'Please select at least one working day.';
   static const List<String> weekDays = [
@@ -33,6 +35,7 @@ class AppStrings {
     'Friday',
   ];
 
+static const String  confirm='Confirm';
 static const String  workHours='Work Hours';
 static const String  from='From';
 static const String  to='To';

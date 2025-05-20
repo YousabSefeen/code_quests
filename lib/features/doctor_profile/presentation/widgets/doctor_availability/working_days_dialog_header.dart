@@ -25,7 +25,7 @@ class WorkingDaysDialogHeader extends StatelessWidget {
             onPressed: () => AppRouter.popWithKeyboardDismiss(context),
             icon: CircleAvatar(
               radius: 13.r,
-              backgroundColor: Colors.white,
+              backgroundColor: AppColors.customWhite,
               child: Icon(Icons.arrow_back, color: Colors.black, size: 18.sp),
             ),
           ),

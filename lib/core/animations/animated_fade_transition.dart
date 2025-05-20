@@ -20,9 +20,11 @@ class _AnimatedFadeTransitionState extends State<AnimatedFadeTransition>
   late Animation<double> _fadeAnimation;
 
   void _initializeAnimation() {
+    print('_AnimatedFadeTransitionState._initializeAnimation');
     _controller = AnimationController(
       vsync: this,
-      duration: AppDurations.milliseconds_1500,
+     // duration: AppDurations.milliseconds_1500,
+      duration: Duration(seconds: 5),
     )..forward();
 
     _fadeAnimation = CurvedAnimation(
