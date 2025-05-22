@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_task/features/doctor_profile/presentation/controller/states/doctor_profile_state.dart';
 
 import '../../../../core/constants/app_strings/app_strings.dart';
 import '../../../../core/constants/themes/app_colors.dart';
@@ -24,9 +25,11 @@ class SaveButton extends StatelessWidget {
           backgroundColor: MaterialStateProperty.all(AppColors.softBlue),
         ),
         onPressed: () {
-          context
+           context
               .read<DoctorProfileCubit>()
-              .validateAndCacheInputs(controllers);
+              .ppppp(  );
+
+
 
         },
         child: const Text(

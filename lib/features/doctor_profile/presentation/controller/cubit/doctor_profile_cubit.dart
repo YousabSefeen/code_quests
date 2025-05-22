@@ -1,10 +1,10 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_task/core/enum/lazy_request_state.dart';
+import 'package:time_range/time_range.dart';
 
 import '../../../data/models/doctor_model.dart';
 import '../../../data/repository/doctor_profile_repository.dart';
 import '../form_controllers/doctor_profile_controllers.dart';
-import '../form_controllers/doctor_profile_validator.dart';
 import '../states/doctor_profile_state.dart';
 
 class DoctorProfileCubit extends Cubit<DoctorProfileState> {
@@ -37,6 +37,46 @@ class DoctorProfileCubit extends Cubit<DoctorProfileState> {
         confirmedWorkingDays: state.tempSelectedDays,
       ));
 
+  void toggleWorkHoursExpanded() => emit(
+        state.copyWith(isWorkHoursExpanded: !state.isWorkHoursExpanded),
+      );
+  TimeRangeResult? checkWorkHoursRange;
+
+// في الدالة التي تحدث الحالة
+  void updateWorkHours(TimeRangeResult? workHoursRange) => emit(state.copyWith(
+        workHoursRange: workHoursRange,
+      ));
+  void updateConfirmWorkHours(TimeRangeResult? workHoursRange) {
+
+    emit(state.copyWith(
+    confirmWorkHoursRange: workHoursRange,
+  ));
+    print('DoctorProfileCubit.updateConfirmWorkHours Start ${workHoursRange?.start}');
+    print('DoctorProfileCubit.updateConfirmWorkHours End ${workHoursRange?.end}');
+  }
+  void updateWorkHoursValues({required String? from, required String? to}) => emit(state.copyWith(
+      availableFromTime: from,
+      availableToTime: to,
+    ));
+
+
+
+  bool? _isWorkHoursFieldEmpty;
+  void checkWorkHours(bool isWorkHoursEmpty) {
+    _isWorkHoursFieldEmpty=isWorkHoursEmpty;
+    emit(state.copyWith(
+      isWorkHoursFieldEmpty: _isWorkHoursFieldEmpty,
+    ));
+  }
+
+
+
+    void ppppp(){
+
+
+
+   print('DoctorProfileCubit.ppppp  $_isWorkHoursFieldEmpty');
+  }
 
   DoctorProfileControllers? _cachedControllers;
 
@@ -51,8 +91,6 @@ class DoctorProfileCubit extends Cubit<DoctorProfileState> {
 
 
   }
-
-
 
   Future<void> uploadDoctorProfile({
     required String imageUrl,

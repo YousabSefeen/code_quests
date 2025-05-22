@@ -1,4 +1,3 @@
-import 'package:flutter_task/features/auth/presentation/controller/form_controllers/register_controllers.dart';
 import 'package:flutter_task/features/doctor_profile/presentation/controller/form_controllers/doctor_profile_controllers.dart';
 
 class DoctorProfileValidator {
@@ -74,6 +73,15 @@ class DoctorProfileValidator {
       return 'Fees must be a valid positive number';
     }
     return null;
+  }
+
+//  🧩 Working Hours - both start and end times are required
+  String? validateWorkingHours(String? availableFrom) {
+    if (availableFrom == null) {
+      return 'Please select your available working hours.';
+    } else {
+      return null;
+    }
   }
 
   // ✅ Optional: validate all fields together
