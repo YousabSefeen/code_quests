@@ -8,17 +8,17 @@ import 'package:time_range/time_range.dart';
 import '../../../../../core/animations/animated_fade_transition.dart';
 import '../../controller/cubit/doctor_profile_cubit.dart';
 import '../../controller/states/doctor_profile_state.dart';
-
+import 'package:dartz/dartz.dart' as dartz;
 class SelectedWorkHoursDisplay extends StatelessWidget {
   const SelectedWorkHoursDisplay({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocSelector<DoctorProfileCubit, DoctorProfileState,
-        TimeRangeResult?>(
+        dartz.Tuple2<String?,String?>>(
       selector: (state) =>
-        state.confirmWorkHoursRange,
-      builder: (context, workHoursRange) => AnimatedFadeTransition(
+     dartz.Tuple2 (state.availableFromTime,state.availableToTime),
+      builder: (context, values) => AnimatedFadeTransition(
 
 
 
@@ -27,8 +27,8 @@ class SelectedWorkHoursDisplay extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            _buildTimeText(context, AppStrings.from,workHoursRange?.start.format(context)?? 'No'),
-            _buildTimeText(context, AppStrings.to, workHoursRange?.end.format(context)?? 'No'),
+            _buildTimeText(context, AppStrings.from,values.value1?? 'Null'),
+            _buildTimeText(context, AppStrings.to, values.value2?? 'Null'),
           ],
         ),
       ),

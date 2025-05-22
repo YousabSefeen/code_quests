@@ -35,15 +35,15 @@ class DoctorProfileState extends Equatable {
       tempSelectedDays: const [],
       confirmedWorkingDays: const [],
       isWorkHoursExpanded: false,
-      isWorkHoursFieldEmpty: false,
+      isWorkHoursFieldEmpty: true,
       workHoursRange: TimeRangeResult(
-        const TimeOfDay(hour: 8, minute: 0),
-        const TimeOfDay(hour: 22, minute: 0),
+          TimeOfDay(hour: 8, minute: 00),
+          TimeOfDay(hour: 22, minute: 00),
       ),
 
       confirmWorkHoursRange: null,
-      availableFromTime: null,
-      availableToTime: null,
+      availableFromTime: '',
+      availableToTime: '',
       doctorProfileError: '',
       doctorProfileState: LazyRequestState.lazy,
     );

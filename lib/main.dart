@@ -28,7 +28,7 @@ void main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  Bloc.observer = MyBlocObserver();
+  ///Bloc.observer = MyBlocObserver();
   ServicesLocator().init();
   await Future.wait([
     Firebase.initializeApp(
@@ -74,8 +74,9 @@ class MyApp extends StatelessWidget {
         // home: FirebaseAuth.instance.currentUser == null
         //     ? const LoginScreen()
         //     : const DoctorListViewScreen(),
-         home: DoctorProfileScreen(),
-        //  home: HomePage(),
+           home: DoctorProfileScreen(),
+        //   home: HomePage(),
+
       ),
     );
   }
@@ -94,8 +95,8 @@ class _HomePageState extends State<HomePage> {
   static const double leftPadding = 50;
 
   final _defaultTimeRange = TimeRangeResult(
-    const TimeOfDay(hour: 14, minute: 00),
-    const TimeOfDay(hour: 15, minute: 00),
+    const TimeOfDay(hour: 8, minute: 00),
+    const TimeOfDay(hour: 22, minute: 00),
   );
   TimeRangeResult? _timeRange;
 
@@ -157,8 +158,8 @@ class _HomePageState extends State<HomePage> {
               firstTime: const TimeOfDay(hour: 8, minute: 00),
               lastTime: const TimeOfDay(hour: 20, minute: 00),
               initialRange: _timeRange,
-              timeStep: 30,
-              timeBlock: 30,
+              timeStep: 60,
+              timeBlock: 60,
               onRangeCompleted: (range) => setState(() => _timeRange = range),
               onFirstTimeSelected: (startHour) {},
             ),

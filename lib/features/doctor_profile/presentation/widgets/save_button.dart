@@ -26,8 +26,8 @@ class SaveButton extends StatelessWidget {
         ),
         onPressed: () {
            context
-              .read<DoctorProfileCubit>()
-              .ppppp(  );
+              .read<DoctorProfileCubit>().pp();
+
 
 
 

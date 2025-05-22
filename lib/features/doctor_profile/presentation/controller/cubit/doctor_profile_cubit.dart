@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_task/core/enum/lazy_request_state.dart';
 import 'package:time_range/time_range.dart';
@@ -40,43 +41,70 @@ class DoctorProfileCubit extends Cubit<DoctorProfileState> {
   void toggleWorkHoursExpanded() => emit(
         state.copyWith(isWorkHoursExpanded: !state.isWorkHoursExpanded),
       );
-  TimeRangeResult? checkWorkHoursRange;
 
-// في الدالة التي تحدث الحالة
-  void updateWorkHours(TimeRangeResult? workHoursRange) => emit(state.copyWith(
-        workHoursRange: workHoursRange,
-      ));
-  void updateConfirmWorkHours(TimeRangeResult? workHoursRange) {
+  String? _from;
+  String? _to;
+  void updateWorkHours(TimeRangeResult? workHoursRange,BuildContext context) {
 
-    emit(state.copyWith(
-    confirmWorkHoursRange: workHoursRange,
-  ));
-    print('DoctorProfileCubit.updateConfirmWorkHours Start ${workHoursRange?.start}');
-    print('DoctorProfileCubit.updateConfirmWorkHours End ${workHoursRange?.end}');
+    // هنا يمكن أن تضيف تحويل الوقت مباشرة
+    if (workHoursRange != null) {
+      print('DoctorProfileCubit.updateWorkHour  00000000000000000000000000000000000000');
+      final from = workHoursRange.start.format(context);
+      final to = workHoursRange.end.format(context);
+      updateWorkHoursValues(from: from, to: to);
+    }else{
+      print('DoctorProfileCubit.updateWorkHour  111111111111111111111111111111');
+
+      updateWorkHoursValues(from: null, to: null);
+    }
   }
-  void updateWorkHoursValues({required String? from, required String? to}) => emit(state.copyWith(
+
+
+  void deleteWorkHours(){
+    print('DoctorProfileCubit.deleteWorkHours');
+    emit(state.copyWith(
+      availableFromTime: '',
+      availableToTime: '',
+    ));
+  }
+
+
+  void updateWorkHoursValues({required String? from, required String? to}) {
+    print('DoctorProfileCubit.updateWorkHoursValues');
+    emit(state.copyWith(
       availableFromTime: from,
       availableToTime: to,
     ));
 
 
+  }
 
-  bool? _isWorkHoursFieldEmpty;
-  void checkWorkHours(bool isWorkHoursEmpty) {
-    _isWorkHoursFieldEmpty=isWorkHoursEmpty;
-    emit(state.copyWith(
-      isWorkHoursFieldEmpty: _isWorkHoursFieldEmpty,
-    ));
+void pp(){
+
+
+  final from=state.availableFromTime;
+  final to=state.availableToTime;
+  print('DoctorProfileCubit.From $from');
+  print('DoctorProfileCubit.TO $to');
+  }
+
+
+  void checkWorkHours(TimeRangeResult? range) {
+
+    if(range==null){
+      emit(state.copyWith(
+        isWorkHoursFieldEmpty:true,
+      ));
+    }else{
+      emit(state.copyWith(
+        isWorkHoursFieldEmpty:false,
+      ));
+    }
+
   }
 
 
 
-    void ppppp(){
-
-
-
-   print('DoctorProfileCubit.ppppp  $_isWorkHoursFieldEmpty');
-  }
 
   DoctorProfileControllers? _cachedControllers;
 
@@ -121,3 +149,10 @@ class DoctorProfileCubit extends Cubit<DoctorProfileState> {
 
   void resetStates() => emit(DoctorProfileState.initial());
 }
+// extension TimeOfDayExtensions on TimeOfDay {
+//   String formatTime() {
+//     final hour = this.hour.toString().padLeft(2, '0');
+//     final minute = this.minute.toString().padLeft(2, '0');
+//     return '$hour:$minute';
+//   }
+// }
