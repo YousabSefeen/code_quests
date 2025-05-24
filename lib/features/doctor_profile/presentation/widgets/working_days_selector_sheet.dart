@@ -8,8 +8,8 @@ import '../controller/states/doctor_profile_state.dart';
 import 'doctor_availability/confirm_selected_days_button.dart';
 import 'doctor_availability/working_day_checkbox_tile.dart';
 
-class SelectWorkingDaysBottomSheet extends StatelessWidget {
-  const SelectWorkingDaysBottomSheet({super.key});
+class WorkingDaysSelectorSheet extends StatelessWidget {
+  const WorkingDaysSelectorSheet({super.key});
 
   @override
   Widget build(BuildContext context) {

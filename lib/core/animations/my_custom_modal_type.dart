@@ -4,8 +4,10 @@ import 'package:wolt_modal_sheet/wolt_modal_sheet.dart';
 class MyCustomModalType extends WoltModalType {
   MyCustomModalType()
       : super(
+    dismissDirection: WoltModalDismissDirection.down,
             transitionDuration: const Duration(milliseconds: 700),
             reverseTransitionDuration: const Duration(milliseconds: 700),
+
             shapeBorder: const RoundedRectangleBorder(
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(20),

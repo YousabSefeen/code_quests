@@ -56,7 +56,7 @@ class SaveButton extends StatelessWidget {
           context: context,
           message: 'Successfully',
         );
-        Future.delayed(const Duration(milliseconds: 1500), () {
+        Future.delayed(const Duration(seconds: 1), () {
           if (!context.mounted) return;
           AppRouter.pushNamedAndRemoveUntil(
             context,

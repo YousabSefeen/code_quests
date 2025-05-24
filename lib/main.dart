@@ -21,7 +21,7 @@ import 'features/auth/presentation/controller/cubit/register_cubit.dart';
 import 'features/doctor_list/presentation/controller/cubit/doctor_list_cubit.dart';
 import 'features/doctor_list/presentation/screen/doctor_list_view_screen.dart';
 import 'features/doctor_profile/presentation/controller/cubit/doctor_profile_cubit.dart';
-import 'features/doctor_profile/presentation/widgets/select_working_days_bottom_sheet.dart';
+import 'features/doctor_profile/presentation/widgets/working_days_selector_sheet.dart';
 import 'features/sheet_package.dart';
 import 'firebase_options.dart';
 

@@ -14,15 +14,17 @@ class AppLightTheme {
     appBarTheme: AppBarTheme(
       backgroundColor: AppColors.softBlue,
       elevation: 0,
-      titleTextStyle: GoogleFonts.saira(
+      centerTitle: true,
+      iconTheme: IconThemeData(color: AppColors.white, size: 25.sp),
+      titleTextStyle: GoogleFonts.poppins(
         textStyle: TextStyle(
           fontSize: 22.sp,
           color: AppColors.white,
+          fontWeight: FontWeight.w500,
           letterSpacing: 1,
         ),
       ),
-      centerTitle: true,
-      iconTheme: IconThemeData(color: AppColors.white, size: 25.sp),
+
     ),
     iconTheme: IconThemeData(
       color: Colors.white,

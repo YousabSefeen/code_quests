@@ -1,15 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_task/core/enum/lazy_request_state.dart';
 
-import '../../../../core/constants/app_alerts/app_alerts.dart';
-import '../../../../core/constants/app_routes/app_router.dart';
-import '../../../../core/constants/app_routes/app_router_names.dart';
 import '../../../../core/constants/app_strings/app_strings.dart';
-import '../controller/cubit/doctor_profile_cubit.dart';
 import '../controller/form_controllers/doctor_profile_controllers.dart';
 import '../controller/form_controllers/doctor_profile_validator.dart';
-import '../controller/states/doctor_profile_state.dart';
 import '../widgets/doctor_profile_body.dart';
 
 class DoctorProfileScreen extends StatefulWidget {
@@ -45,7 +38,6 @@ class _DoctorProfileScreenState extends State<DoctorProfileScreen> {
       backgroundColor: Colors.white,
       appBar: AppBar(title: const Text(AppStrings.doctorProfileTitle)),
       body: Padding(
-
         padding: const EdgeInsets.symmetric(vertical: 16.0,horizontal: 10),
         child: SingleChildScrollView(
           controller: _scrollController,

@@ -76,9 +76,9 @@ class AppAlerts {
       context: context,
       barrierDismissible: true,
       barrierLabel: message,
-      transitionDuration: const Duration(milliseconds: 800),
+      transitionDuration: const Duration(milliseconds:300),
       pageBuilder: (context, _, __) {
-        Future.delayed(const Duration(milliseconds: 1200), () {
+        Future.delayed(const Duration(milliseconds: 600), () {
           if (!context.mounted) return;
           Navigator.of(context).pop();
         });
