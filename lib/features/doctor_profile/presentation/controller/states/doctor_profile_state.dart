@@ -8,7 +8,7 @@ class DoctorProfileState extends Equatable {
   final bool isWorkHoursExpanded;
 
   final Map<String, String> workHoursSelected;
-
+  final bool hasValidatedBefore;
   final String? doctorProfileError;
   final LazyRequestState doctorProfileState;
 
@@ -17,6 +17,7 @@ class DoctorProfileState extends Equatable {
     required this.confirmedWorkingDays,
     required this.isWorkHoursExpanded,
     required this.workHoursSelected,
+    required this.hasValidatedBefore,
     required this.doctorProfileError,
     required this.doctorProfileState,
   });
@@ -27,6 +28,7 @@ class DoctorProfileState extends Equatable {
       confirmedWorkingDays: [],
       isWorkHoursExpanded: false,
       workHoursSelected: {},
+      hasValidatedBefore: false,
       doctorProfileError: '',
       doctorProfileState: LazyRequestState.lazy,
     );
@@ -37,6 +39,7 @@ class DoctorProfileState extends Equatable {
     List<String>? confirmedWorkingDays,
     bool? isWorkHoursExpanded,
     Map<String, String>? workHoursSelected,
+    bool? hasValidatedBefore,
     String? doctorProfileError,
     LazyRequestState? doctorProfileState,
   }) {
@@ -45,6 +48,7 @@ class DoctorProfileState extends Equatable {
       confirmedWorkingDays: confirmedWorkingDays ?? this.confirmedWorkingDays,
       isWorkHoursExpanded: isWorkHoursExpanded ?? this.isWorkHoursExpanded,
       workHoursSelected: workHoursSelected ?? this.workHoursSelected,
+      hasValidatedBefore: hasValidatedBefore ?? this.hasValidatedBefore,
       doctorProfileError: doctorProfileError ?? this.doctorProfileError,
       doctorProfileState: doctorProfileState ?? this.doctorProfileState,
     );
@@ -56,6 +60,7 @@ class DoctorProfileState extends Equatable {
         confirmedWorkingDays,
         isWorkHoursExpanded,
         workHoursSelected,
+        hasValidatedBefore,
         doctorProfileError,
         doctorProfileState,
       ];

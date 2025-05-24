@@ -7,7 +7,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../../core/constants/app_alerts/app_alerts.dart';
-import '../../../../core/constants/app_assets/app_assets.dart';
+
+import '../../../../generated/assets.dart';
 import 'developer_note_dialog.dart';
 
 class DoctorProfileImage extends StatefulWidget {
@@ -38,7 +39,7 @@ class _DoctorProfileImageState extends State<DoctorProfileImage> {
 
       setState(() {
         _image = File(imageCapture.path);
-        fakeImageUrl = AppAssets.images[0];
+        fakeImageUrl =  Assets.images[0];
       });
     } else {
       if (kDebugMode) {
@@ -58,7 +59,7 @@ class _DoctorProfileImageState extends State<DoctorProfileImage> {
               radius: 50.r,
               backgroundColor: Colors.grey.shade400,
               backgroundImage: fakeImageUrl == null
-                  ? const AssetImage(AppAssets.uploadProfileIcons)
+                  ? const AssetImage( Assets.imagesUploadProfileIcons)
                   : NetworkImage(fakeImageUrl!),
             ),
           )

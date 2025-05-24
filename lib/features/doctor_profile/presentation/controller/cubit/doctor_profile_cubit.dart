@@ -51,25 +51,28 @@ class DoctorProfileCubit extends Cubit<DoctorProfileState> {
 
   DoctorProfileControllers? _cachedControllers;
 
-  void  validateAndCacheInputs(DoctorProfileControllers controllers) {
+  void validateInputsAndCache(DoctorProfileControllers controllers) {
+    _markAsValidatedIfNeeded();
 
-
-    if (!controllers.formKey.currentState!.validate()) {
-
-    }else {
-      _cachedControllers = controllers;
-
-
-      uploadDoctorProfile(imageUrl: Assets.imagesUploadProfileIcons);
-
+    if (_isFormValid(controllers)) {
+      _cacheControllers(controllers);
+      _uploadCachedDoctorProfile(imageUrl: Assets.images[0]);
     }
-
   }
 
-  Future<void> uploadDoctorProfile({
-    required String imageUrl,
+  void _markAsValidatedIfNeeded() {
+    if (!state.hasValidatedBefore) {
+      emit(state.copyWith(hasValidatedBefore: true));
+    }
+  }
 
-  }) async {
+  bool _isFormValid(DoctorProfileControllers controllers) =>
+      controllers.formKey.currentState?.validate() ?? false;
+
+  void _cacheControllers(DoctorProfileControllers controllers) =>
+      _cachedControllers = controllers;
+
+  Future<void> _uploadCachedDoctorProfile({required String imageUrl}) async {
     final response = await doctorRepository.uploadDoctorProfile(
       DoctorModel(
         imageUrl: imageUrl,

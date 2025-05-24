@@ -24,6 +24,9 @@ class SelectedDaysContainer extends StatelessWidget {
     return CustomFieldContainer(
       isFieldHasError: field.hasError,
       child: Row(
+        crossAxisAlignment: isWorkingDaysEmpty
+            ? CrossAxisAlignment.center
+            : CrossAxisAlignment.start,
         children: [
           Expanded(
             child: isWorkingDaysEmpty
@@ -37,9 +40,12 @@ class SelectedDaysContainer extends StatelessWidget {
   }
 
   /// Build  the hint text when no working days are selected.
-  Widget _buildHintText(BuildContext context) => Text(
-        AppStrings.workingDaysHint,
-        style: Theme.of(context).textTheme.hintFieldStyle,
+  Widget _buildHintText(BuildContext context) => Align(
+        alignment: Alignment.centerLeft,
+        child: Text(
+          AppStrings.workingDaysHint,
+          style: Theme.of(context).textTheme.hintFieldStyle,
+        ),
       );
 
   /// Build  a Wrap of confirmed selected days.
@@ -54,7 +60,7 @@ class SelectedDaysContainer extends StatelessWidget {
 
   /// Build  an individual chip for a selected day.
   Widget _buildDayChip(BuildContext context, String day) => Container(
-        padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
         decoration: BoxDecoration(
           color: AppColors.green,
           borderRadius: BorderRadius.circular(50.r),

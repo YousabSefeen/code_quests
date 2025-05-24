@@ -54,34 +54,28 @@ class DoctorProfileBody extends StatelessWidget {
         'keyboardType': TextInputType.number,
       },
     ];
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 2),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        spacing: 15,
-        children: [
-          const Align(
-            alignment: Alignment.topCenter,
-            child: DoctorProfileImage(),
-          ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      spacing: 15,
+      children: [
+        const Align(
+          alignment: Alignment.topCenter,
+          child: DoctorProfileImage(),
+        ),
 
-          ...fields.map((field) => DoctorInfoField(
-                label: field['label'],
-                hintText: field['hint'],
-                controller: field['controller'],
-                validator: field['validator'],
-                maxLines: field['maxLines'] ?? 1,
-                keyboardType: field['keyboardType'] ?? TextInputType.text,
-              )),
-          // const WorkingDaysSection(),
-          //   const DoctorAvailabilityTimeFields(),
+        ...fields.map((field) => DoctorInfoField(
+              label: field['label'],
+              hintText: field['hint'],
+              controller: field['controller'],
+              validator: field['validator'],
+              maxLines: field['maxLines'] ?? 1,
+              keyboardType: field['keyboardType'] ?? TextInputType.text,
+            )),
+        const SizedBox(height: 5),
+        const WeeklyScheduleCard(),
 
-          const SizedBox(height: 5),
-          const WeeklyScheduleCard(),
-
-          SaveButton(controllers: doctorProfileControllers),
-        ],
-      ),
+        SaveButton(controllers: doctorProfileControllers),
+      ],
     );
   }
 }

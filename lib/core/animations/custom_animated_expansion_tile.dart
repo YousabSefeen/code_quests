@@ -21,14 +21,8 @@ class CustomAnimatedExpansionTile extends StatelessWidget {
     return Column(
       children: [
         ListTile(
-          contentPadding: const EdgeInsets.symmetric(horizontal: 5),
+          contentPadding: const EdgeInsets.only(left: 5, right: 10),
           title:  baseChild,
-          // trailing: AnimatedRotation(
-          //   turns: isExpanded ? 1 : 0,
-          //   duration: const Duration(milliseconds: 500),
-          //   child: const Icon(Icons.keyboard_arrow_down),
-          // ),
-
           trailing: CircleAvatar(
             radius: 13,
             backgroundColor: Colors.grey.shade100,

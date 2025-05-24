@@ -30,13 +30,12 @@ class SaveButton extends StatelessWidget {
         ),
         onPressed: () => context
               .read<DoctorProfileCubit>()
-              .validateAndCacheInputs(controllers),
+            .validateInputsAndCache(controllers),
         child: BlocSelector<DoctorProfileCubit,DoctorProfileState, LazyRequestState>(
 
           selector: (state)=>state.doctorProfileState,
           builder: (context,doctorProfileState) {
             _handelState(doctorProfileState, context);
-            //***
             return doctorProfileState==LazyRequestState.lazy?
         const Text(
             AppStrings.saveButtonText,
