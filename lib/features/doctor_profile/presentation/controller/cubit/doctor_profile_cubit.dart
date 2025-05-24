@@ -94,6 +94,7 @@ class DoctorProfileCubit extends Cubit<DoctorProfileState> {
       (success) =>
           emit(state.copyWith(doctorProfileState: LazyRequestState.loaded)),
     );
+
   }
 
   void resetStates() => emit(DoctorProfileState.initial());

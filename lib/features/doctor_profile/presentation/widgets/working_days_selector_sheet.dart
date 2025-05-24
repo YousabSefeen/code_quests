@@ -5,8 +5,8 @@ import 'package:flutter_task/core/constants/themes/app_colors.dart';
 
 import '../controller/cubit/doctor_profile_cubit.dart';
 import '../controller/states/doctor_profile_state.dart';
-import 'doctor_availability/confirm_selected_days_button.dart';
-import 'doctor_availability/working_day_checkbox_tile.dart';
+import 'confirm_selected_days_button.dart';
+import 'working_day_checkbox_tile.dart';
 
 class WorkingDaysSelectorSheet extends StatelessWidget {
   const WorkingDaysSelectorSheet({super.key});

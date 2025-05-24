@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_task/core/constants/app_strings/app_strings.dart';
 import 'package:flutter_task/core/constants/themes/app_text_styles.dart';
 
-import '../../../../../core/constants/themes/app_colors.dart';
+import '../../../../core/constants/themes/app_colors.dart';
 
 class WorkingDaysDialogHeader extends StatelessWidget {
   const WorkingDaysDialogHeader({

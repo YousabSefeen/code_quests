@@ -6,7 +6,7 @@ import 'package:flutter_task/core/constants/app_strings/app_strings.dart';
 import 'package:flutter_task/core/constants/themes/app_colors.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../controller/cubit/doctor_profile_cubit.dart';
+import '../controller/cubit/doctor_profile_cubit.dart';
 
 class ConfirmSelectedDaysButton extends StatelessWidget {
   const ConfirmSelectedDaysButton({super.key});

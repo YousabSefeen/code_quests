@@ -74,7 +74,7 @@ class AppAlerts {
       {required BuildContext context, required String message}) {
     showGeneralDialog(
       context: context,
-      barrierDismissible: true,
+      barrierDismissible: false,
       barrierLabel: message,
       transitionDuration: const Duration(milliseconds:300),
       pageBuilder: (context, _, __) {

@@ -8,7 +8,7 @@ import '../../../../../core/animations/custom_animated_expansion_tile.dart';
 import '../../../../core/animations/animated_fade_transition.dart';
 import '../controller/cubit/doctor_profile_cubit.dart';
 import '../controller/states/doctor_profile_state.dart';
-import 'doctor_availability/selected_work_hours_display.dart';
+import 'selected_work_hours_display.dart';
 import 'time_range_picker.dart';
 
 class WorkHoursSelector extends StatelessWidget {

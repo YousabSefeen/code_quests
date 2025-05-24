@@ -22,7 +22,7 @@ class SelectedDaysContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomFieldContainer(
-      isFieldHasError: field.hasError,
+      field: field,
       child: Row(
         crossAxisAlignment: isWorkingDaysEmpty
             ? CrossAxisAlignment.center

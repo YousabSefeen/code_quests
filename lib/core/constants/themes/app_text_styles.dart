@@ -128,4 +128,11 @@ extension AppTextStyles on TextTheme {
     color: Colors.black,
     letterSpacing: 0.5,
   );
+
+  TextStyle get buttonStyle => GoogleFonts.poppins(
+        fontSize: 20.sp,
+        fontWeight: FontWeight.w600,
+        color: Colors.white,
+        letterSpacing: 1,
+      );
 }

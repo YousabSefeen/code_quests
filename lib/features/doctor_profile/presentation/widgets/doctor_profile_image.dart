@@ -7,7 +7,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../../core/constants/app_alerts/app_alerts.dart';
-
 import '../../../../generated/assets.dart';
 import 'developer_note_dialog.dart';
 
@@ -39,6 +38,7 @@ class _DoctorProfileImageState extends State<DoctorProfileImage> {
 
       setState(() {
         _image = File(imageCapture.path);
+
         fakeImageUrl =  Assets.images[0];
       });
     } else {

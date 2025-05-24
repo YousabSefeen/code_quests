@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_task/core/constants/themes/app_text_styles.dart';
 import 'package:flutter_task/core/enum/lazy_request_state.dart';
 import 'package:flutter_task/features/doctor_profile/presentation/controller/states/doctor_profile_state.dart';
 
@@ -35,36 +36,60 @@ class SaveButton extends StatelessWidget {
 
           selector: (state)=>state.doctorProfileState,
           builder: (context,doctorProfileState) {
-            _handelState(doctorProfileState, context);
-            return doctorProfileState==LazyRequestState.lazy?
-        const Text(
-            AppStrings.saveButtonText,
-            style: TextStyle(fontSize: 20),
-          ):const CircularProgressIndicator(color: Colors.white,);
+            _handleDoctorProfileState(doctorProfileState, context);
+            return doctorProfileState == LazyRequestState.lazy
+                ? Text(
+                    AppStrings.saveButtonText,
+                    style: Theme.of(context).textTheme.buttonStyle,
+                  )
+                : const CircularProgressIndicator(
+                    color: Colors.white,
+                  );
           },
         ),
       ),
     );
   }
 
-  void _handelState(LazyRequestState doctorProfileState, BuildContext context) {
-    if (doctorProfileState == LazyRequestState.loaded) {
-      Future.microtask(() {
+  // Handles post-upload effects when profile upload succeeds:
+  // - Resets Cubit states
+  // - Shows success dialog
+  // - Navigates to doctor list screen
+  void _handleDoctorProfileState(LazyRequestState state, BuildContext context) {
+    if (state != LazyRequestState.loaded) return;
+    _dismissKeyboard();
+    _resetCubitStatesAfterDelay(context);
+    _showSuccessDialogAfterDelay(context);
+    _navigateToDoctorListAfterDelay(context);
+  }
+
+  // Dismisses the keyboard if it's currently open.
+  void _dismissKeyboard() => AppRouter.dismissKeyboard();
+
+  // - Resets Cubit states
+  void _resetCubitStatesAfterDelay(BuildContext context) =>
+      Future.delayed(const Duration(milliseconds: 200), () {
+        if (!context.mounted) return;
+        context.read<DoctorProfileCubit>().resetStates();
+      });
+
+  // - Shows success dialog
+  void _showSuccessDialogAfterDelay(BuildContext context) =>
+      Future.delayed(const Duration(milliseconds: 600), () {
         if (!context.mounted) return;
         AppAlerts.showAppointmentSuccessDialog(
           context: context,
           message: 'Successfully',
         );
-        Future.delayed(const Duration(seconds: 1), () {
-          if (!context.mounted) return;
-          AppRouter.pushNamedAndRemoveUntil(
-            context,
-            AppRouterNames.doctorListView,
-          );
-          context.read<DoctorProfileCubit>().resetStates();
-        });
       });
-    }
-  }
 
+  // - Navigates to doctor list screen
+  void _navigateToDoctorListAfterDelay(BuildContext context) =>
+      Future.delayed(const Duration(milliseconds: 2000), () {
+        if (!context.mounted) return;
+        AppRouter.pushNamedAndRemoveUntil(
+          context,
+          AppRouterNames.doctorListView,
+        );
+      });
 }

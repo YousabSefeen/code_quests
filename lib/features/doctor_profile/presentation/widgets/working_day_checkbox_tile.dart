@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_task/core/constants/themes/app_text_styles.dart';
 
-import '../../controller/cubit/doctor_profile_cubit.dart';
+import '../controller/cubit/doctor_profile_cubit.dart';
 
 class WorkingDayCheckboxTile extends StatelessWidget {
   final String day;
@@ -20,7 +20,6 @@ class WorkingDayCheckboxTile extends StatelessWidget {
       checkColor: Colors.white,
       side: const BorderSide(color: Colors.black38),
       checkboxScaleFactor: 1.3,
-      // checkboxShape: const OvalBorder(side: BorderSide(width: 3)),
       checkboxShape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(5),
       ),

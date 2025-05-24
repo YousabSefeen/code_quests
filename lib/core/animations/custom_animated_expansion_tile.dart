@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../constants/themes/app_colors.dart';
+import '../constants/common_widgets/circular_dropdown_icon.dart';
 
 class CustomAnimatedExpansionTile extends StatelessWidget {
   final Widget baseChild;
@@ -23,18 +22,10 @@ class CustomAnimatedExpansionTile extends StatelessWidget {
         ListTile(
           contentPadding: const EdgeInsets.only(left: 5, right: 10),
           title:  baseChild,
-          trailing: CircleAvatar(
-            radius: 13,
-            backgroundColor: Colors.grey.shade100,
-            child: AnimatedRotation(
-              turns: isExpanded ? 1 : 0,
-              duration: const Duration(milliseconds: 500),
-              child: Icon(
-                Icons.keyboard_arrow_down,
-                size: 25.sp,
-                color: AppColors.black,
-              ),
-            ),
+          trailing: AnimatedRotation(
+            turns: isExpanded ? 1 : 0,
+            duration: const Duration(milliseconds: 500),
+            child: const CircularDropdownIcon(),
           ),
 
           onTap: onTap,

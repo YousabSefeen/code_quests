@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_task/features/doctor_profile/presentation/widgets/section_title.dart';
+import 'package:flutter_task/features/doctor_profile/presentation/widgets/work_hours_section.dart';
+import 'package:flutter_task/features/doctor_profile/presentation/widgets/working_days_section.dart';
 
 import '../../../../core/constants/app_strings/app_strings.dart';
 import '../../../../core/constants/themes/app_colors.dart';
-import 'doctor_availability/work_hours_section.dart';
-import 'doctor_availability/working_days_section.dart';
 import 'form_title.dart';
 
 class WeeklyScheduleCard extends StatelessWidget {

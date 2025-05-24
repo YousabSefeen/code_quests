@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_task/core/constants/app_strings/app_strings.dart';
 import 'package:flutter_task/core/constants/themes/app_text_styles.dart';
 
-import '../../../../../core/animations/animated_fade_transition.dart';
+import '../../../../core/animations/animated_fade_transition.dart';
 
 class SelectedWorkHoursDisplay extends StatelessWidget {
   final Map<String, String> workHoursSelected;
@@ -28,6 +28,7 @@ class SelectedWorkHoursDisplay extends StatelessWidget {
   Widget _buildTimeText(BuildContext context, String label, String value) {
     final textTheme = Theme.of(context).textTheme;
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         Text(
           '$label: ',
