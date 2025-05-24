@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart' as dartz;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_task/core/constants/app_strings/app_strings.dart';
@@ -7,37 +8,30 @@ import '../../../../../core/animations/custom_animated_expansion_tile.dart';
 import '../../../../core/animations/animated_fade_transition.dart';
 import '../controller/cubit/doctor_profile_cubit.dart';
 import '../controller/states/doctor_profile_state.dart';
-import 'custom_field_container.dart';
-import 'custom_time_tange_widget.dart';
 import 'doctor_availability/selected_work_hours_display.dart';
+import 'time_range_picker.dart';
 
-class WorkHoursSelector extends StatefulWidget {
-  final DoctorProfileState stateValues;
+class WorkHoursSelector extends StatelessWidget {
+  const WorkHoursSelector({super.key});
 
-  const WorkHoursSelector({super.key, required this.stateValues});
-
-  @override
-  State<WorkHoursSelector> createState() => _WorkHoursSelectorState();
-}
-
-class _WorkHoursSelectorState extends State<WorkHoursSelector> {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: CustomFieldContainer(
-        child: CustomAnimatedExpansionTile(
-          baseChild: buildBaseChild(),
-          isExpanded: widget.stateValues.isWorkHoursExpanded,
-          onTap: () =>
-              context.read<DoctorProfileCubit>().toggleWorkHoursExpanded(),
-          child: _buildTimeRangePicker(),
-        ),
+    return BlocSelector<DoctorProfileCubit, DoctorProfileState,
+        dartz.Tuple2<bool, Map<String, String>>>(
+      selector: (state) =>
+          dartz.Tuple2(state.isWorkHoursExpanded, state.workHoursSelected),
+      builder: (context, values) => CustomAnimatedExpansionTile(
+        baseChild: buildBaseChild(context, values.value2),
+        isExpanded: values.value1,
+        onTap: () => buildToggleWorkHoursExpanded(context),
+        child: _buildTimeRangePicker( values.value1),
       ),
     );
   }
 
-  Widget buildBaseChild() {
-    if (widget.stateValues.availableFromTime == '') {
+  Widget buildBaseChild(
+      BuildContext context, Map<String, String> workHoursSelected) {
+    if (workHoursSelected.isEmpty) {
       return AnimatedFadeTransition(
         child: Text(AppStrings.workHoursHint,
             style: Theme.of(context)
@@ -46,14 +40,12 @@ class _WorkHoursSelectorState extends State<WorkHoursSelector> {
                 .copyWith(fontWeight: FontWeight.w400)),
       );
     } else {
-      return const SelectedWorkHoursDisplay();
+      return SelectedWorkHoursDisplay(workHoursSelected: workHoursSelected);
     }
   }
 
-  Widget _buildTimeRangePicker() =>
-      CustomFieldContainer(
-        child: CustomTimeRangeWidget(stateValues: widget.stateValues),
-    );
+  void buildToggleWorkHoursExpanded(BuildContext context) =>
+      context.read<DoctorProfileCubit>().toggleWorkHoursExpanded();
 
-
+  Widget _buildTimeRangePicker(bool isWorkHoursExpanded) =>   TimeRangePicker(isWorkHoursExpanded: isWorkHoursExpanded );
 }

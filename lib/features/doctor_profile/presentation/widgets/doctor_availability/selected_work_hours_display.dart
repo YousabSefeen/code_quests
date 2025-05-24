@@ -1,58 +1,65 @@
-import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_task/core/constants/app_strings/app_strings.dart';
 import 'package:flutter_task/core/constants/themes/app_text_styles.dart';
-import 'package:time_range/time_range.dart';
 
 import '../../../../../core/animations/animated_fade_transition.dart';
-import '../../controller/cubit/doctor_profile_cubit.dart';
-import '../../controller/states/doctor_profile_state.dart';
-import 'package:dartz/dartz.dart' as dartz;
+
 class SelectedWorkHoursDisplay extends StatelessWidget {
-  const SelectedWorkHoursDisplay({super.key});
+  final Map<String, String> workHoursSelected;
+
+  const SelectedWorkHoursDisplay({super.key, required this.workHoursSelected});
 
   @override
   Widget build(BuildContext context) {
-    return BlocSelector<DoctorProfileCubit, DoctorProfileState,
-        dartz.Tuple2<String?,String?>>(
-      selector: (state) =>
-     dartz.Tuple2 (state.availableFromTime,state.availableToTime),
-      builder: (context, values) => AnimatedFadeTransition(
-
-
-
-        child: Row(
-          spacing: 25,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            _buildTimeText(context, AppStrings.from,values.value1?? 'Null'),
-            _buildTimeText(context, AppStrings.to, values.value2?? 'Null'),
-          ],
-        ),
+    return AnimatedFadeTransition(
+      child: Row(
+        spacing: 25,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          _buildTimeText(
+              context, AppStrings.from, workHoursSelected[AppStrings.from]!),
+          _buildTimeText(
+              context, AppStrings.to, workHoursSelected[AppStrings.to]!),
+        ],
       ),
     );
   }
-
   Widget _buildTimeText(BuildContext context, String label, String value) {
     final textTheme = Theme.of(context).textTheme;
-    return RichText(
-      text: TextSpan(children: [
-        TextSpan(
-          text: '$label:',
+    return Row(
+      children: [
+        Text(
+          '$label: ',
           style: textTheme.styleField.copyWith(
             color: const Color(0xff3A59D1),
             letterSpacing: 1.3,
           ),
         ),
-        TextSpan(
-          text: ' $value',
-          style: textTheme.numbersStyle.copyWith(
-            fontWeight: FontWeight.w700,
+        AnimatedSwitcher(
+          duration: const Duration(milliseconds: 600),
+          transitionBuilder: (Widget child, Animation<double> animation) {
+            final offsetAnimation = Tween<Offset>(
+              begin: const Offset(0.0,0.9),
+              end: Offset.zero,
+            ).animate(animation);
+
+            return SlideTransition(
+              position: offsetAnimation,
+              child: child,
+            );
+          },
+          child: Text(
+            value,
+            key: ValueKey(value),
+            style: textTheme.numbersStyle.copyWith(
+              fontWeight: FontWeight.w700,
+            ),
           ),
         ),
-      ]),
+      ],
     );
   }
+
+
 }

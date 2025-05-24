@@ -1,24 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_task/core/constants/themes/app_text_styles.dart';
 import 'package:flutter_task/features/doctor_profile/presentation/controller/cubit/doctor_profile_cubit.dart';
 import 'package:time_range/time_range.dart';
 
 import '../../../../core/constants/themes/app_colors.dart';
-import '../controller/states/doctor_profile_state.dart';
 
-class CustomTimeRangeWidget extends StatefulWidget {
+class TimeRangePicker extends StatefulWidget {
+  final bool isWorkHoursExpanded;
 
- final DoctorProfileState stateValues;
-  const CustomTimeRangeWidget({super.key, required this.stateValues, });
+  const TimeRangePicker({super.key, required this.isWorkHoursExpanded});
 
   @override
-  State<CustomTimeRangeWidget> createState() => _CustomTimeRangeWidgetState();
+  State<TimeRangePicker> createState() => _TimeRangePickerState();
 }
 
-class _CustomTimeRangeWidgetState extends State<CustomTimeRangeWidget> {
-
-
+class _TimeRangePickerState extends State<TimeRangePicker> {
   final _defaultTimeRange = TimeRangeResult(
     const TimeOfDay(hour: 8, minute: 00),
     const TimeOfDay(hour: 22, minute: 00),
@@ -30,42 +28,38 @@ class _CustomTimeRangeWidgetState extends State<CustomTimeRangeWidget> {
     super.initState();
     _timeRange = _defaultTimeRange;
   }
-
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
     return SafeArea(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-
-
           TimeRange(
-            fromTitle: Text('FROM', style: _getLabelFieldStyle(context)),
-            toTitle: Text('TO', style: _getLabelFieldStyle(context)),
+            fromTitle: widget.isWorkHoursExpanded
+                ? Text('FROM', style: _getLabelFieldStyle(textTheme))
+                : null,
+            toTitle: widget.isWorkHoursExpanded
+                ? Text('TO', style: _getLabelFieldStyle(textTheme))
+                : null,
+            titlePadding: 3,
             textStyle: Theme.of(context).textTheme.numbersStyle,
-            activeTextStyle: _getActiveTextStyle(context),
+            activeTextStyle: _getActiveTextStyle(textTheme),
             activeBackgroundColor: AppColors.green,
             activeBorderColor: Colors.black12,
             borderColor: Colors.black26,
-            // backgroundColor: Colors.transparent,
             firstTime: const TimeOfDay(hour: 8, minute: 00),
             lastTime: const TimeOfDay(hour: 20, minute: 00),
             initialRange: _timeRange,
             timeStep: 60,
             timeBlock: 60,
             onRangeCompleted: (range) {
-
-
               setState(() => _timeRange = range);
-
-              if(_timeRange != null){
-                context.read<DoctorProfileCubit>().updateWorkHoursValues(from: _timeRange?.start.format(context), to:  _timeRange?.end.format(context));
-
-
-              }else{
-                context.read<DoctorProfileCubit>().deleteWorkHours(  );
-              }
-
+              context.read<DoctorProfileCubit>().updateWorkHoursSelected(
+                    _timeRange != null,
+                    _timeRange?.start.format(context),
+                    _timeRange?.end.format(context),
+                  );
             },
             onFirstTimeSelected: (startHour) {
             },
@@ -75,17 +69,10 @@ class _CustomTimeRangeWidgetState extends State<CustomTimeRangeWidget> {
       ),
     );
   }
-  TextStyle _getActiveTextStyle(BuildContext context) {
-    return Theme.of(context)
-        .textTheme
-        .numbersStyle
-        .copyWith(color: Colors.white, fontWeight: FontWeight.w600);
-  }
 
-  TextStyle _getLabelFieldStyle(BuildContext context) {
-    return Theme.of(context)
-        .textTheme
-        .styleField
-        .copyWith(color: const Color(0xff3A59D1));
-  }
+  TextStyle _getActiveTextStyle(TextTheme textTheme) => textTheme.numbersStyle
+        .copyWith(color: Colors.white, fontWeight: FontWeight.w600);
+
+  TextStyle _getLabelFieldStyle(TextTheme textTheme) => textTheme.styleField
+      .copyWith(fontSize: 13.sp, color: const Color(0xff3A59D1));
 }

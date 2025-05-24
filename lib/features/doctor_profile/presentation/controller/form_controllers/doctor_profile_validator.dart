@@ -1,18 +1,14 @@
 import 'package:flutter_task/features/doctor_profile/presentation/controller/form_controllers/doctor_profile_controllers.dart';
 
+import '../../../../../core/constants/app_strings/app_strings.dart';
+
 class DoctorProfileValidator {
   static final DoctorProfileValidator _instance =
-  DoctorProfileValidator._internal();
+      const DoctorProfileValidator._internal();
 
   factory DoctorProfileValidator() => _instance;
 
-  DoctorProfileValidator._internal();
-
-
-
-
-
-
+  const DoctorProfileValidator._internal();
 
   // 🧩 Name - required and at least 5 characters
   String? validateName(String? value) {
@@ -75,9 +71,18 @@ class DoctorProfileValidator {
     return null;
   }
 
+//  🧩 Working Days - both start and end times are required
+  String? validateWorkingDays(bool isWorkingDaysEmpty) {
+    if (isWorkingDaysEmpty) {
+      return AppStrings.workingDaysValidationMessage;
+    } else {
+      return null;
+    }
+  }
+
 //  🧩 Working Hours - both start and end times are required
-  String? validateWorkingHours(String? availableFrom) {
-    if (availableFrom == null) {
+  String? validateWorkingHours(Map<String, String> workHoursSelected) {
+    if (workHoursSelected.isEmpty) {
       return 'Please select your available working hours.';
     } else {
       return null;

@@ -99,6 +99,7 @@ class CreateAppointmentScreen extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   spacing: 20,
                   children: [
                     const SizedBox(height: 5),

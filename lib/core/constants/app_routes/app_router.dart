@@ -65,6 +65,6 @@ class AppRouter {
   static popWithKeyboardDismiss(BuildContext context) {
     pop(context);
 
-    FocusManager.instance.primaryFocus?.unfocus();
+   // FocusManager.instance.primaryFocus?.unfocus();
   }
 }

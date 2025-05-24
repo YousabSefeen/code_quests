@@ -44,43 +44,20 @@ class _DoctorProfileScreenState extends State<DoctorProfileScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(title: const Text(AppStrings.doctorProfileTitle)),
-      body: BlocSelector<DoctorProfileCubit, DoctorProfileState,
-          LazyRequestState>(
-        selector: (state) => state.doctorProfileState,
-        builder: (context, doctorProfileState) {
-          if (doctorProfileState == LazyRequestState.loaded) {
-            Future.microtask(() {
-              if (!context.mounted) return;
-              AppAlerts.showAppointmentSuccessDialog(
-                context: context,
-                message: 'Successfully',
-              );
-              Future.delayed(const Duration(milliseconds: 1500), () {
-                if (!context.mounted) return;
-                AppRouter.pushNamedAndRemoveUntil(
-                  context,
-                  AppRouterNames.doctorListView,
-                );
-                context.read<DoctorProfileCubit>().resetStates();
-              });
-            });
-          }
-          return Padding(
-            //padding: const EdgeInsets.all(16.0),
-            padding: const EdgeInsets.symmetric(vertical: 16.0,horizontal: 10),
-            child: SingleChildScrollView(
-              controller: _scrollController,
-              child: Form(
-                key: doctorProfileControllers.formKey,
-                autovalidateMode: AutovalidateMode.disabled,
-                child: DoctorProfileBody(
-                  doctorProfileControllers: doctorProfileControllers,
-                    doctorProfileValidator:doctorProfileValidator,
-                ),
-              ),
+      body: Padding(
+
+        padding: const EdgeInsets.symmetric(vertical: 16.0,horizontal: 10),
+        child: SingleChildScrollView(
+          controller: _scrollController,
+          child: Form(
+            key: doctorProfileControllers.formKey,
+            autovalidateMode: AutovalidateMode.disabled,
+            child: DoctorProfileBody(
+              doctorProfileControllers: doctorProfileControllers,
+              doctorProfileValidator:doctorProfileValidator,
             ),
-          );
-        },
+          ),
+        ),
       ),
     );
   }

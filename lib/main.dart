@@ -9,7 +9,9 @@ import 'package:flutter_task/features/auth/presentation/screens/login_screen.dar
 import 'package:flutter_task/features/doctor_profile/presentation/screens/doctor_profile_screen.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:time_range/time_range.dart';
+import 'package:wolt_modal_sheet/wolt_modal_sheet.dart';
 
+import 'core/animations/animated_fade_transition.dart';
 import 'core/constants/app_routes/app_router.dart';
 import 'core/constants/themes/app_light_theme.dart';
 import 'core/base/my_bloc_observer.dart';
@@ -19,6 +21,8 @@ import 'features/auth/presentation/controller/cubit/register_cubit.dart';
 import 'features/doctor_list/presentation/controller/cubit/doctor_list_cubit.dart';
 import 'features/doctor_list/presentation/screen/doctor_list_view_screen.dart';
 import 'features/doctor_profile/presentation/controller/cubit/doctor_profile_cubit.dart';
+import 'features/doctor_profile/presentation/widgets/select_working_days_bottom_sheet.dart';
+import 'features/sheet_package.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -71,16 +75,112 @@ class MyApp extends StatelessWidget {
         themeMode: ThemeMode.light,
         onGenerateRoute: AppRouter.generateRoute,
 
-        // home: FirebaseAuth.instance.currentUser == null
-        //     ? const LoginScreen()
-        //     : const DoctorListViewScreen(),
-           home: DoctorProfileScreen(),
-        //   home: HomePage(),
+        home: FirebaseAuth.instance.currentUser == null
+            ? const LoginScreen()
+            : const DoctorListViewScreen(),
+       //  home: DoctorProfileScreen(),
+        //   home: NewPage(),
 
       ),
     );
   }
 }
+
+
+
+
+class NewPage extends StatelessWidget {
+  const NewPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('data'),
+      ),
+      body: Center(
+        child: ElevatedButton(onPressed: (){
+          WoltModalSheet.show<void>(
+
+            context: context,
+            
+            barrierDismissible: true,
+            
+            pageListBuilder: (modalSheetContext) { 
+              final textTheme = Theme.of(context).textTheme;
+              return [
+
+                 WoltModalSheetPage(
+
+                hasSabGradient: false,
+               
+                stickyActionBar: Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    children: [
+                     // Container(
+                     //   height: 200,
+                     //   width: 200,color: Colors.amber,
+                     // ),
+                     //  const SizedBox(height: 8),
+                     //  Container(
+                     //    height: 200,
+                     //    width: 200,color: Colors.deepOrange,
+                     //  ),
+                    ],
+                  ),
+                ),
+                topBarTitle: Text('Pagination', style: textTheme.titleSmall),
+                isTopBarLayerAlwaysVisible: true,
+
+                trailingNavBarWidget: IconButton(
+                  padding: const EdgeInsets.all(20),
+                  icon: const Icon(Icons.close,color: Colors.black,),
+                  onPressed: Navigator.of(modalSheetContext).pop,
+                ),
+                child:   Padding(
+                    padding: EdgeInsets.fromLTRB(
+                      10,
+                      10,
+                      10,
+                      10,
+                    ),
+                    child: Column(
+                      children: [
+                        Container(
+                          height: 200,
+                          width: 200,color: Colors.amber,
+                        ),
+                        const SizedBox(height: 8),
+                        Container(
+                          height: 200,
+                          width: 200,color: Colors.deepOrange,
+                        ),
+                        Text(
+                          '''
+Pagination involves a sequence of screens the user navigates sequentially. We chose a lateral motion for these transitions. When proceeding forward, the next screen emerges from the right; moving backward, the screen reverts to its original position. We felt that sliding the next screen entirely from the right could be overly distracting. As a result, we decided to move and fade in the next page using 30% of the modal side.
+''',
+                        ),
+                      ],
+                    )),
+              )
+
+
+              ];
+            },
+
+            onModalDismissedWithBarrierTap: () {
+              debugPrint('Closed modal sheet with barrier tap');
+              Navigator.of(context).pop();
+            },
+          );
+
+        }, child: Text('data')),
+      ),
+    );
+  }
+}
+
+
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);

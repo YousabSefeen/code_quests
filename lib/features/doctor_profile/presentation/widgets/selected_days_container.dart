@@ -3,18 +3,21 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_task/core/constants/app_strings/app_strings.dart';
 import 'package:flutter_task/core/constants/themes/app_colors.dart';
 import 'package:flutter_task/core/constants/themes/app_text_styles.dart';
-import 'package:flutter_task/features/doctor_profile/presentation/widgets/select_working_days_dialog.dart';
+import 'package:flutter_task/features/doctor_profile/presentation/widgets/select_working_days_bottom_sheet.dart';
+import 'package:wolt_modal_sheet/wolt_modal_sheet.dart';
 
+import '../../../../core/animations/my_custom_modal_type.dart';
 import 'custom_field_container.dart';
+import 'doctor_availability/working_days_dialog_header.dart';
 
 class SelectedDaysContainer extends StatelessWidget {
-  final bool isFieldEmpty;
+  final bool isWorkingDaysEmpty;
   final List<String> confirmedDays;
   final FormFieldState<List<String>> field;
 
   const SelectedDaysContainer({
     super.key,
-    required this.isFieldEmpty,
+    required this.isWorkingDaysEmpty,
     required this.confirmedDays,
     required this.field,
   });
@@ -26,7 +29,7 @@ class SelectedDaysContainer extends StatelessWidget {
       child: Row(
         children: [
           Expanded(
-            child: isFieldEmpty
+            child: isWorkingDaysEmpty
                 ? _buildHintText(context)
                 : _buildDaysWrap(context),
           ),
@@ -75,13 +78,32 @@ class SelectedDaysContainer extends StatelessWidget {
           size: 23.sp,
           color: AppColors.black,
         ),
-        onPressed: () => _showDaySelectionDialog(context),
+        // onPressed: () => _showDaySelectionDialog(context),
+        onPressed: () => _showDaySelectionSheet(context),
       );
 
-  /// Show  the custom dialog for selecting working days.
-  void _showDaySelectionDialog(BuildContext context) => showDialog(
+  /// Show  the custom BottomSheet for selecting working days.
+
+  void _showDaySelectionSheet(BuildContext context) => WoltModalSheet.show(
         context: context,
-        barrierDismissible: false,
-        builder: (_) => const SelectWorkingDaysDialog(),
+        modalTypeBuilder: (_) => MyCustomModalType(),
+        barrierDismissible: true,
+        pageListBuilder: (modalSheetContext) => [
+          WoltModalSheetPage(
+            hasSabGradient: false,
+            topBar: const WorkingDaysDialogHeader(),
+            isTopBarLayerAlwaysVisible: true,
+            trailingNavBarWidget: IconButton(
+              padding: const EdgeInsets.all(20),
+              icon: const Icon(Icons.close, color: Colors.white),
+              onPressed: Navigator.of(modalSheetContext).pop,
+            ),
+            child: const SelectWorkingDaysBottomSheet(),
+          )
+        ],
+        onModalDismissedWithBarrierTap: () {
+          debugPrint('Closed modal sheet with barrier tap');
+          Navigator.of(context).pop();
+        },
       );
 }

@@ -1,19 +1,14 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_task/core/enum/lazy_request_state.dart';
-import 'package:time_range/time_range.dart';
 
 class DoctorProfileState extends Equatable {
   final List<String> tempSelectedDays;
   final List<String> confirmedWorkingDays;
 
   final bool isWorkHoursExpanded;
-  final bool isWorkHoursFieldEmpty;
-  final TimeRangeResult? workHoursRange;
-  final TimeRangeResult? confirmWorkHoursRange;
 
-  final String? availableFromTime;
-  final String? availableToTime;
+  final Map<String, String> workHoursSelected;
+
   final String? doctorProfileError;
   final LazyRequestState doctorProfileState;
 
@@ -21,29 +16,17 @@ class DoctorProfileState extends Equatable {
     required this.tempSelectedDays,
     required this.confirmedWorkingDays,
     required this.isWorkHoursExpanded,
-    required this.isWorkHoursFieldEmpty,
-    required this.workHoursRange,
-    required this.confirmWorkHoursRange,
-    required this.availableFromTime,
-    required this.availableToTime,
+    required this.workHoursSelected,
     required this.doctorProfileError,
     required this.doctorProfileState,
   });
 
   factory DoctorProfileState.initial() {
-    return DoctorProfileState(
-      tempSelectedDays: const [],
-      confirmedWorkingDays: const [],
+    return const DoctorProfileState(
+      tempSelectedDays: [],
+      confirmedWorkingDays: [],
       isWorkHoursExpanded: false,
-      isWorkHoursFieldEmpty: true,
-      workHoursRange: TimeRangeResult(
-          TimeOfDay(hour: 8, minute: 00),
-          TimeOfDay(hour: 22, minute: 00),
-      ),
-
-      confirmWorkHoursRange: null,
-      availableFromTime: '',
-      availableToTime: '',
+      workHoursSelected: {},
       doctorProfileError: '',
       doctorProfileState: LazyRequestState.lazy,
     );
@@ -52,13 +35,8 @@ class DoctorProfileState extends Equatable {
   DoctorProfileState copyWith({
     List<String>? tempSelectedDays,
     List<String>? confirmedWorkingDays,
-    TimeRangeResult? defaultWorkingHours,
     bool? isWorkHoursExpanded,
-    bool? isWorkHoursFieldEmpty,
-    TimeRangeResult? workHoursRange,
-    TimeRangeResult? confirmWorkHoursRange,
-    String? availableFromTime,
-    String? availableToTime,
+    Map<String, String>? workHoursSelected,
     String? doctorProfileError,
     LazyRequestState? doctorProfileState,
   }) {
@@ -66,14 +44,9 @@ class DoctorProfileState extends Equatable {
       tempSelectedDays: tempSelectedDays ?? this.tempSelectedDays,
       confirmedWorkingDays: confirmedWorkingDays ?? this.confirmedWorkingDays,
       isWorkHoursExpanded: isWorkHoursExpanded ?? this.isWorkHoursExpanded,
-      workHoursRange: workHoursRange ?? this.workHoursRange,
-      confirmWorkHoursRange: confirmWorkHoursRange ?? this.confirmWorkHoursRange,
-      availableFromTime: availableFromTime ?? this.availableFromTime,
-      availableToTime: availableToTime ?? this.availableToTime,
+      workHoursSelected: workHoursSelected ?? this.workHoursSelected,
       doctorProfileError: doctorProfileError ?? this.doctorProfileError,
       doctorProfileState: doctorProfileState ?? this.doctorProfileState,
-      isWorkHoursFieldEmpty:
-          isWorkHoursFieldEmpty ?? this.isWorkHoursFieldEmpty,
     );
   }
 
@@ -82,12 +55,8 @@ class DoctorProfileState extends Equatable {
         tempSelectedDays,
         confirmedWorkingDays,
         isWorkHoursExpanded,
-        workHoursRange,
-        confirmWorkHoursRange,
-        availableFromTime,
-        availableToTime,
+        workHoursSelected,
         doctorProfileError,
         doctorProfileState,
-        isWorkHoursFieldEmpty
       ];
 }
