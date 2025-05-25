@@ -86,5 +86,6 @@ static const String  to='TO';
   static const String bookingsIsEmpty =
       'There are no bookings currently. Please check back later or add a new booking.';
 
-
+  static const String oops='Oops! something is wrong!';
+  static const String tryAgain='TRY AGAIN';
 }

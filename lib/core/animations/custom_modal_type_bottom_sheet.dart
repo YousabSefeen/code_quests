@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:wolt_modal_sheet/wolt_modal_sheet.dart';
 
-class MyCustomModalType extends WoltModalType {
-  MyCustomModalType()
+class CustomModalTypeBottomSheet extends WoltModalType {
+  CustomModalTypeBottomSheet()
       : super(
     dismissDirection: WoltModalDismissDirection.down,
             transitionDuration: const Duration(milliseconds: 700),

@@ -18,6 +18,7 @@ import 'features/auth/presentation/controller/cubit/register_cubit.dart';
 import 'features/doctor_list/presentation/controller/cubit/doctor_list_cubit.dart';
 import 'features/doctor_list/presentation/screen/doctor_list_view_screen.dart';
 import 'features/doctor_profile/presentation/controller/cubit/doctor_profile_cubit.dart';
+import 'features/doctor_profile/presentation/screens/doctor_profile_screen.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -70,10 +71,10 @@ class MyApp extends StatelessWidget {
         themeMode: ThemeMode.light,
         onGenerateRoute: AppRouter.generateRoute,
 
-        home: FirebaseAuth.instance.currentUser == null
-            ? const LoginScreen()
-            : const DoctorListViewScreen(),
-       //  home: DoctorProfileScreen(),
+          //     home: FirebaseAuth.instance.currentUser == null
+         //   ? const LoginScreen()
+    //        : const DoctorListViewScreen(),
+        home: DoctorProfileScreen(),
         //   home: NewPage(),
 
       ),
