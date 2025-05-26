@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_task/features/doctor_list/data/models/doctor_list_model.dart';
@@ -21,7 +23,16 @@ class DoctorListRepository extends DoctorListRepositoryBase {
         return DoctorListModel.fromJson(combinedData);
       }).toList();
       return right(doctorList);
-    } catch (e) {
+    }  on SocketException catch(e){
+      print('FirebaseException: ${e.message}');
+      return left(ServerFailure(catchError: e));
+    }
+    on FirebaseException catch (e) {
+      // خطأ من Firebase (غالباً بسبب عدم وجود إنترنت أو مشكلة صلاحيات)
+      print('FirebaseException: ${e.message}');
+      return left(ServerFailure(catchError: e ));
+    }
+    catch (e) {
       print('DoctorListRepository.getAllDoctorsError $e');
 
       return left(ServerFailure(catchError: e));

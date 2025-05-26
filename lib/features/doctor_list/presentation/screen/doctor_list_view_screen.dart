@@ -37,7 +37,7 @@ class _DoctorListViewScreenState extends State<DoctorListViewScreen> {
             case RequestState.loading:
               return const CustomLoadingList(height: 150);
             case RequestState.loaded:
-              return DoctorListView(doctorList: state.doctorList);
+              return   state.doctorList.isEmpty ?   Container(height: 400,width: 200,color: Colors.red,): DoctorListView(doctorList: state.doctorList);
             case RequestState.error:
               return Center(
                 child: Text(

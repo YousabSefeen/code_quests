@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_task/core/constants/themes/app_text_styles.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -46,9 +47,10 @@ class InfoIconWithText extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       spacing: 10,
       children: [
-        FaIcon(icon, color: Colors.blue),
+        FaIcon(icon, color: Colors.blue ,size: 22.sp),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+
           children: [
             Text(
               title,

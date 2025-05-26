@@ -4,7 +4,7 @@ import 'widgets/app_alert_widgets.dart';
 
 class AppAlerts {
   static void showErrorSnackBar(BuildContext context, String errorMessage) {
-    ScaffoldMessenger.of(context).removeCurrentSnackBar();
+  //  ScaffoldMessenger.of(context).removeCurrentSnackBar();
     ScaffoldMessenger.of(context).showSnackBar(
       AppAlertWidgets.errorSnackBar(errorMessage),
     );

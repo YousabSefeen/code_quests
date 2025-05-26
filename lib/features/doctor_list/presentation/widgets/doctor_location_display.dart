@@ -23,8 +23,11 @@ class DoctorLocationDisplay extends StatelessWidget {
             child: Lottie.asset(
               Assets.imagesLocation,
               fit: BoxFit.fill,
+              height: 55
             ),
           ),
+
+
           Text(location,
               style: GoogleFonts.poppins(
                 fontWeight: FontWeight.w600,

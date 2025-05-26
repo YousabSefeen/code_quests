@@ -10,6 +10,8 @@ class LoginCubit extends Cubit<LoginState> {
   final AuthRepository authRepository;
 
   LoginCubit({required this.authRepository}) : super(LoginState.initial());
+
+
   void togglePasswordVisibility() => emit(
         state.copyWith(isPasswordVisible: !state.isPasswordVisible),
       );

@@ -9,15 +9,17 @@ import '../../features/doctor_list/data/repository/doctor_list_repository.dart';
 import '../../features/doctor_list/presentation/controller/cubit/doctor_list_cubit.dart';
 import '../../features/doctor_profile/data/repository/doctor_profile_repository.dart';
 import '../../features/doctor_profile/presentation/controller/cubit/doctor_profile_cubit.dart';
+import '../app_settings/controller/cubit/app_settings_cubit.dart';
 
 final serviceLocator = GetIt.instance;
 
 class ServicesLocator {
   void init() {
-    /// تسجيل الخدمات الأساسية
-    //******************************* sl.registerLazySingleton<ApiServices>(() => ApiServices());
 
-    /// خدمات الدفع Paymob
+    serviceLocator.registerFactory<AppSettingsCubit>(
+      () => AppSettingsCubit( ),
+    );
+
     serviceLocator.registerFactory<LoginCubit>(
       () => LoginCubit(authRepository: serviceLocator()),
     );
@@ -35,6 +37,7 @@ class ServicesLocator {
 
     serviceLocator.registerFactory<AppointmentCubit>(
       () => AppointmentCubit(
+          appSettingsCubit: serviceLocator(),
         appointmentRepository: serviceLocator(),
       ),
     );

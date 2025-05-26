@@ -1,25 +1,37 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:async';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_task/core/app_settings/controller/cubit/app_settings_cubit.dart';
+import 'package:flutter_task/core/enum/internet_state.dart';
 import 'package:flutter_task/features/auth/presentation/controller/cubit/login_cubit.dart';
-import 'package:flutter_task/features/auth/presentation/screens/login_screen.dart';
+import 'package:flutter_task/features/doctor_profile/data/models/doctor_model.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:time_range/time_range.dart';
 import 'package:wolt_modal_sheet/wolt_modal_sheet.dart';
-
+import 'dart:developer' as developer;
+import 'core/app_settings/controller/states/app_settings_states.dart';
 import 'core/constants/app_routes/app_router.dart';
+import 'core/constants/common_widgets/consultation_fee_and_wait_row.dart';
+import 'core/constants/themes/app_colors.dart';
 import 'core/constants/themes/app_light_theme.dart';
 import 'core/services/server_locator.dart';
 import 'features/appointments/presentation/controller/cubit/appointment_cubit.dart';
+import 'features/appointments/presentation/widgets/custom_action_button.dart';
 import 'features/auth/presentation/controller/cubit/register_cubit.dart';
+import 'features/doctor_list/data/models/doctor_list_model.dart';
 import 'features/doctor_list/presentation/controller/cubit/doctor_list_cubit.dart';
 import 'features/doctor_list/presentation/screen/doctor_list_view_screen.dart';
+import 'features/doctor_list/presentation/widgets/doctor_location_display.dart';
+import 'features/doctor_list/presentation/widgets/doctor_profile_header.dart';
 import 'features/doctor_profile/presentation/controller/cubit/doctor_profile_cubit.dart';
-import 'features/doctor_profile/presentation/screens/doctor_profile_screen.dart';
 import 'firebase_options.dart';
+import 'generated/assets.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,6 +40,7 @@ void main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
+
   ///Bloc.observer = MyBlocObserver();
   ServicesLocator().init();
   await Future.wait([
@@ -35,6 +48,7 @@ void main() async {
       options: DefaultFirebaseOptions.currentPlatform,
     ),
   ]);
+
   runApp(MultiBlocProvider(providers: [
     BlocProvider(
       create: (_) => serviceLocator<LoginCubit>(),
@@ -51,39 +65,145 @@ void main() async {
     BlocProvider(
       create: (_) => serviceLocator<AppointmentCubit>(),
     ),
-  ], child: const MyApp()));
+    BlocProvider(
+      create: (_) =>
+          serviceLocator<AppSettingsCubit>()..checkInternetConnection(),
+    ),
+  ], child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MyApp({super.key});
 
+  final navigatorKey = GlobalKey<NavigatorState>();
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
       designSize: const Size(360, 690),
       minTextAdapt: true,
       splitScreenMode: true,
-      builder: (context, child) => MaterialApp(
-        title: 'Flutter task',
-        debugShowCheckedModeBanner: false,
-        theme: AppLightTheme.theme,
-
+        builder: (context, child) => MaterialApp(
+              title: 'Flutter Task',
+              debugShowCheckedModeBanner: false,
+              theme: AppLightTheme.theme,
         themeMode: ThemeMode.light,
         onGenerateRoute: AppRouter.generateRoute,
+              builder: (context, child) {
+                return BlocListener<AppSettingsCubit, AppSettingsStates>(
+                  listenWhen: (previous, current) =>
+                      previous.internetState != current.internetState,
+                  listener: (context, state) {
+                    if (state.internetState == InternetState.disconnected) {
+                      ScaffoldMessenger.of(context).clearSnackBars();
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text("🚫 لا يوجد اتصال بالإنترنت"),
+                          duration: Duration(seconds: 3),
+                          behavior: SnackBarBehavior.floating,
+                          backgroundColor: Colors.redAccent,
+                        ),
+                      );
+                    } else if (state.internetState == InternetState.connected) {
+                      ScaffoldMessenger.of(context).clearSnackBars();
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text("🚫 تم اتصال بالإنترنت"),
+                          duration: Duration(seconds: 3),
+                          behavior: SnackBarBehavior.floating,
+                          backgroundColor: Colors.green,
+                        ),
+                      );
+                    }
+                  },
+                  child: child!,
+                );
+              },
+             home: const DoctorListViewScreen(), // أو شاشتك الرئيسية
+          //  home: const FirestoreTestScreen(), // أو شاشتك الرئيسية
+            ));
+  }
+}
 
-          //     home: FirebaseAuth.instance.currentUser == null
-         //   ? const LoginScreen()
-    //        : const DoctorListViewScreen(),
-        home: DoctorProfileScreen(),
-        //   home: NewPage(),
+class FirestoreTestScreen extends StatefulWidget {
+  const FirestoreTestScreen({super.key});
 
+  @override
+  State<FirestoreTestScreen> createState() => _FirestoreTestScreenState();
+}
+
+class _FirestoreTestScreenState extends State<FirestoreTestScreen> {
+  List<ConnectivityResult> _connectionStatus = [ConnectivityResult.none];
+  final Connectivity _connectivity = Connectivity();
+  late StreamSubscription<List<ConnectivityResult>> _connectivitySubscription;
+
+  @override
+  void initState() {
+    super.initState();
+    initConnectivity();
+
+    _connectivitySubscription =
+        _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
+  }
+
+  @override
+  void dispose() {
+    _connectivitySubscription.cancel();
+    super.dispose();
+  }
+
+
+    var xxx;
+  // Platform messages are asynchronous, so we initialize in an async method.
+  Future<void> initConnectivity() async {
+    late List<ConnectivityResult> result;
+    // Platform messages may fail, so we use a try/catch PlatformException.
+    try {
+      result = await _connectivity.checkConnectivity();
+      xxx=result;
+    } on PlatformException catch (e) {
+      developer.log('Couldn\'t check connectivity status', error: e);
+      return;
+    }
+
+    // If the widget was removed from the tree while the asynchronous platform
+    // message was in flight, we want to discard the reply rather than calling
+    // setState to update our non-existent appearance.
+    if (!mounted) {
+      return Future.value(null);
+    }
+
+    return _updateConnectionStatus(result);
+  }
+
+  Future<void> _updateConnectionStatus(List<ConnectivityResult> result) async {
+    setState(() {
+      _connectionStatus = result;
+    });
+    // ignore: avoid_print
+    print('Connectivity changed: $_connectionStatus');
+  }
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("Firestore اختبار")),
+      body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+
+            children: [
+
+              Text('data',style: TextStyle(fontSize: 30,color: Colors.black),),
+              ElevatedButton(onPressed: (){
+                print('_FirestoreTestScreenState.build ${xxx}');
+              }, child: Text('data'))
+            ],
+          )
       ),
     );
   }
 }
-
-
-
 
 class NewPage extends StatelessWidget {
   const NewPage({super.key});
@@ -94,83 +214,96 @@ class NewPage extends StatelessWidget {
       appBar: AppBar(title: Text('data'),
       ),
       body: Center(
-        child: ElevatedButton(onPressed: (){
-          WoltModalSheet.show<void>(
-
-            context: context,
-            
-            barrierDismissible: true,
-            
-            pageListBuilder: (modalSheetContext) { 
-              final textTheme = Theme.of(context).textTheme;
-              return [
-
-                 WoltModalSheetPage(
-
-                hasSabGradient: false,
-               
-                stickyActionBar: Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Column(
-                    children: [
-                     // Container(
-                     //   height: 200,
-                     //   width: 200,color: Colors.amber,
-                     // ),
-                     //  const SizedBox(height: 8),
-                     //  Container(
-                     //    height: 200,
-                     //    width: 200,color: Colors.deepOrange,
-                     //  ),
-                    ],
-                  ),
-                ),
-                topBarTitle: Text('Pagination', style: textTheme.titleSmall),
-                isTopBarLayerAlwaysVisible: true,
-
-                trailingNavBarWidget: IconButton(
-                  padding: const EdgeInsets.all(20),
-                  icon: const Icon(Icons.close,color: Colors.black,),
-                  onPressed: Navigator.of(modalSheetContext).pop,
-                ),
-                child:   Padding(
-                    padding: EdgeInsets.fromLTRB(
-                      10,
-                      10,
-                      10,
-                      10,
-                    ),
-                    child: Column(
-                      children: [
-                        Container(
-                          height: 200,
-                          width: 200,color: Colors.amber,
-                        ),
-                        const SizedBox(height: 8),
-                        Container(
-                          height: 200,
-                          width: 200,color: Colors.deepOrange,
-                        ),
-                        Text(
-                          '''
-Pagination involves a sequence of screens the user navigates sequentially. We chose a lateral motion for these transitions. When proceeding forward, the next screen emerges from the right; moving backward, the screen reverts to its original position. We felt that sliding the next screen entirely from the right could be overly distracting. As a result, we decided to move and fade in the next page using 30% of the modal side.
-''',
-                        ),
-                      ],
-                    )),
-              )
-
-
-              ];
-            },
-
-            onModalDismissedWithBarrierTap: () {
-              debugPrint('Closed modal sheet with barrier tap');
-              Navigator.of(context).pop();
-            },
-          );
-
-        }, child: Text('data')),
+        child: BlocBuilder<AppSettingsCubit, AppSettingsStates>(
+          builder: (context, state) => Column(
+            spacing: 30,
+            children: [
+              Container(
+                height: 100,
+                width: 100,
+                color: state.internetState == InternetState.connected
+                    ? Colors.amber
+                    : Colors.blueAccent,
+                child: Text('data'),
+              ),
+              ElevatedButton(onPressed: () {}, child: Text('xxxxxxxxxxxx')),
+              ElevatedButton(
+                  onPressed: () {
+                    WoltModalSheet.show<void>(
+                      context: context,
+                      barrierDismissible: true,
+                      pageListBuilder: (modalSheetContext) {
+                        final textTheme = Theme.of(context).textTheme;
+                        return [
+                          WoltModalSheetPage(
+                            hasSabGradient: false,
+                            stickyActionBar: Padding(
+                              padding: const EdgeInsets.all(20),
+                              child: Column(
+                                children: [
+                                  // Container(
+                                  //   height: 200,
+                                  //   width: 200,color: Colors.amber,
+                                  // ),
+                                  //  const SizedBox(height: 8),
+                                  //  Container(
+                                  //    height: 200,
+                                  //    width: 200,color: Colors.deepOrange,
+                                  //  ),
+                                ],
+                              ),
+                            ),
+                            topBarTitle:
+                                Text('Pagination', style: textTheme.titleSmall),
+                            isTopBarLayerAlwaysVisible: true,
+                            trailingNavBarWidget: IconButton(
+                              padding: const EdgeInsets.all(20),
+                              icon: const Icon(
+                                Icons.close,
+                                color: Colors.black,
+                              ),
+                              onPressed: Navigator.of(modalSheetContext).pop,
+                            ),
+                            child: Padding(
+                                padding: EdgeInsets.fromLTRB(
+                                  10,
+                                  10,
+                                  10,
+                                  10,
+                                ),
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      height: 200,
+                                      width: 200,
+                                      color: Colors.amber,
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Container(
+                                      height: 200,
+                                      width: 200,
+                                      color: Colors.deepOrange,
+                                    ),
+                                    Text(
+                                      '''
+              Pagination involves a sequence of screens the user navigates sequentially. We chose a lateral motion for these transitions. When proceeding forward, the next screen emerges from the right; moving backward, the screen reverts to its original position. We felt that sliding the next screen entirely from the right could be overly distracting. As a result, we decided to move and fade in the next page using 30% of the modal side.
+              ''',
+                                    ),
+                                  ],
+                                )),
+                          )
+                        ];
+                      },
+                      onModalDismissedWithBarrierTap: () {
+                        debugPrint('Closed modal sheet with barrier tap');
+                        Navigator.of(context).pop();
+                      },
+                    );
+                  },
+                  child: Text('data')),
+            ],
+          ),
+        ),
       ),
     );
   }

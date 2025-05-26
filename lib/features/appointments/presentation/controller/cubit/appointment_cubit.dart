@@ -1,5 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../core/app_settings/controller/cubit/app_settings_cubit.dart';
+import '../../../../../core/enum/internet_state.dart';
 import '../../../../../core/enum/lazy_request_state.dart';
 import '../../../../../core/enum/request_state.dart';
 import '../../../../../core/utils/date_time_formatter.dart';
@@ -9,9 +11,11 @@ import '../../../data/repository/appointment_repository.dart';
 import '../states/appointment_state.dart';
 
 class AppointmentCubit extends Cubit<AppointmentState> {
-  AppointmentRepository appointmentRepository;
+  final AppSettingsCubit appSettingsCubit;
+   AppointmentRepository appointmentRepository;
 
   AppointmentCubit({
+    required this.appSettingsCubit,
     required this.appointmentRepository,
   }) : super(const AppointmentState());
 
@@ -117,8 +121,29 @@ class AppointmentCubit extends Cubit<AppointmentState> {
       state.copyWith(bookAppointmentState: LazyRequestState.lazy),
     );
   }
+     void checkInternet(){
 
+       if (appSettingsCubit.state.internetState==InternetState.none) {
+
+         emit(state.copyWith(
+           bookAppointmentState: LazyRequestState.error,
+
+           bookAppointmentError: 'No Internet Connection',
+         ));
+
+       }
+     }
   Future<void> createAppointmentForDoctor({required String doctorId}) async {
+
+    if (appSettingsCubit.state.internetState==InternetState.none) {
+
+      emit(state.copyWith(
+        bookAppointmentState: LazyRequestState.error,
+
+        bookAppointmentError: 'No Internet Connection',
+      ));
+return;
+    }
     emit(state.copyWith(bookAppointmentState: LazyRequestState.loading));
     final response = await appointmentRepository.createAppointmentForDoctor(
       doctorId: doctorId,

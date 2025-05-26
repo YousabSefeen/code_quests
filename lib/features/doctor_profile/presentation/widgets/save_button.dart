@@ -1,16 +1,11 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_task/core/constants/themes/app_text_styles.dart';
 import 'package:flutter_task/core/enum/lazy_request_state.dart';
 import 'package:flutter_task/features/doctor_profile/presentation/controller/states/doctor_profile_state.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:wolt_modal_sheet/wolt_modal_sheet.dart';
 
-import '../../../../core/animations/custom_modal_type_dialog.dart';
 import '../../../../core/constants/app_alerts/app_alerts.dart';
-import '../../../../core/constants/app_alerts/app_error_dialogs.dart';
 import '../../../../core/constants/app_routes/app_router.dart';
 import '../../../../core/constants/app_routes/app_router_names.dart';
 import '../../../../core/constants/app_strings/app_strings.dart';
@@ -42,8 +37,7 @@ class SaveButton extends StatelessWidget {
 
           selector: (state)=>Tuple2(state.doctorProfileState,state.doctorProfileError),
           builder: (context,values) {
-            _showErrorModal( context,values.value1,values.value2);
-           // _handleDoctorProfileState( context,values.value1,values.value2);
+            _handleDoctorProfileState(context, values.value1, values.value2);
             return values.value1 == LazyRequestState.lazy
                 ? Text(
                     AppStrings.saveButtonText,
@@ -58,20 +52,13 @@ class SaveButton extends StatelessWidget {
     );
   }
 
- void _showErrorModal( BuildContext context, LazyRequestState state,String? errorMessage){
 
-    if(state!=LazyRequestState.error)return;
-    print('SaveButton._showErrorModal');
-    AppErrorDialogs.showErrorModal(context: context, errorMessage: errorMessage??'Null Error message' );
-
-  }
 
   // Handles post-upload effects when profile upload succeeds:
   // - Resets Cubit states
   // - Shows success dialog
   // - Navigates to doctor list screen
   void _handleDoctorProfileState( BuildContext context, LazyRequestState state,String? errorMessage) {
-
     if (state != LazyRequestState.loaded) return;
     _dismissKeyboard();
     _resetCubitStatesAfterDelay(context);
