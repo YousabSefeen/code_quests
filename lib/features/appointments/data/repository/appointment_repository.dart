@@ -9,7 +9,7 @@ import 'appointment_repository_base.dart';
 
 class AppointmentRepository extends AppointmentRepositoryBase {
   @override
-  Future<Either<Failure, List<DoctorAppointmentModel>>> getDoctorAppointments(
+  Future<Either<Failure, List<DoctorAppointmentModel>>> fetchDoctorAppointments(
       {required String doctorId}) async {
     try {
       final snapshot = await FirebaseFirestore.instance
@@ -35,7 +35,7 @@ class AppointmentRepository extends AppointmentRepositoryBase {
   }
 
   @override
-  Future<Either<Failure, List<String>>> getReservedTimeSlotsForDoctorOnDate(
+  Future<Either<Failure, List<String>>> fetchReservedTimeSlotsForDoctorOnDate(
       {required String doctorId, required String date}) async {
     try {
       final appointmentsSnapshot = await FirebaseFirestore.instance

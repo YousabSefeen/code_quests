@@ -19,9 +19,9 @@ class AppointmentCubit extends Cubit<AppointmentState> {
     required this.appointmentRepository,
   }) : super(const AppointmentState());
 
-  Future getDoctorAppointments({required String doctorId}) async {
+  Future fetchDoctorAppointments({required String doctorId}) async {
     final response =
-        await appointmentRepository.getDoctorAppointments(doctorId: doctorId);
+        await appointmentRepository.fetchDoctorAppointments(doctorId: doctorId);
 
     response.fold(
         (failure) => emit(
@@ -38,11 +38,11 @@ class AppointmentCubit extends Cubit<AppointmentState> {
             ));
   }
 
-  Future getReservedTimeSlotsForDoctorOnDate(
+  Future fetchReservedTimeSlotsForDoctorOnDate(
       {required String doctorId, required String date}) async {
-    print('AppointmentCubit.getReservedTimeSlotsForDoctorOnDate');
+
     final response = await appointmentRepository
-        .getReservedTimeSlotsForDoctorOnDate(doctorId: doctorId, date: date);
+        .fetchReservedTimeSlotsForDoctorOnDate(doctorId: doctorId, date: date);
 
     response.fold(
       (failure) => state.copyWith(
@@ -52,7 +52,8 @@ class AppointmentCubit extends Cubit<AppointmentState> {
       (success) => emit(
         state.copyWith(
             reservedTimeSlotsState: RequestState.loaded,
-            reservedTimeSlots: success),
+            reservedTimeSlots: success,
+        ),
       ),
     );
   }
@@ -95,7 +96,7 @@ class AppointmentCubit extends Cubit<AppointmentState> {
       endTime: doctor.doctorModel.availableTo!,
     );
 
-    await getReservedTimeSlotsForDoctorOnDate(
+    await fetchReservedTimeSlotsForDoctorOnDate(
       doctorId: doctor.doctorId,
       date: selectedDateFormatted!,
     );

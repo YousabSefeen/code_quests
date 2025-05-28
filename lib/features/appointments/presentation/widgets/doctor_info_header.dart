@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_task/core/constants/themes/app_text_styles.dart';
 
 import '../../../doctor_profile/data/models/doctor_model.dart';
@@ -21,23 +22,32 @@ class DoctorInfoHeader extends StatelessWidget {
         ),
         _customRichText(
           context: context,
+          title: 'Location: ',
+          info: doctorInfo.location,
+
+        ),
+        _customRichText(
+          context: context,
           title: 'Working Days: ',
-          info: '${doctorInfo.workingDays}',
+
+
+          info:getWorkingDays(),
         ),
       ],
     );
   }
-
+   getWorkingDays()=> doctorInfo.workingDays.toString().replaceAll('[', '').replaceAll(']', '');
   RichText _customRichText({
     required BuildContext context,
     required String title,
     required String info,
+
   }) {
     final textTheme = Theme.of(context).textTheme;
     return RichText(
       text: TextSpan(
         children: [
-          TextSpan(text: title, style: textTheme.mediumBlueBold),
+          TextSpan(text: title, style: textTheme.mediumBlueBold  ),
           TextSpan(text: info, style: textTheme.smallGreyMedium),
         ],
       ),

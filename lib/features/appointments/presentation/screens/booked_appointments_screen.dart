@@ -38,6 +38,7 @@ class _BookedAppointmentsScreenState extends State<BookedAppointmentsScreen> {
             case RequestState.loading:
               return const CustomLoadingList(height: 100);
             case RequestState.loaded:
+              return BookingEmptyWidget();
               return state.getClientAppointmentsList.isEmpty
                   ? const BookingEmptyWidget()
                   : BookedAppointmentsList(

@@ -36,15 +36,20 @@ class AppLightTheme {
     ),
 
     scrollbarTheme: ScrollbarThemeData(
-      interactive: true,
-      trackVisibility: const WidgetStatePropertyAll(true),
-      thumbColor: WidgetStateProperty.all(const Color(0xff4F98CA)),
-      trackColor: WidgetStateProperty.all(Colors.black12),
-      trackBorderColor: WidgetStateProperty.all(Colors.white),
-      radius: const Radius.circular(10),
-      thickness: WidgetStateProperty.all(7),
-    ),
-    drawerTheme: const DrawerThemeData(
+        // Margin on both sides (right/left)
+        crossAxisMargin: 5,
+
+        interactive: true,
+        trackVisibility: const WidgetStatePropertyAll(true),
+
+        thumbColor: WidgetStateProperty.all(AppColors.softBlue),
+
+        trackColor: WidgetStateProperty.all(Colors.amber),
+        trackBorderColor: WidgetStateProperty.all(Colors.black),
+        radius: const Radius.circular(8),
+        thickness: WidgetStateProperty.all(5),
+      ),
+      drawerTheme: const DrawerThemeData(
       backgroundColor: Colors.white,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(

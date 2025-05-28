@@ -18,7 +18,7 @@ class BookingEmptyWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(15),
         ),
         child: Text(
-          AppStrings.bookingsIsEmpty,
+          AppStrings.noBookingsMessage,
           style: TextStyle(fontSize: 22.sp, color: Colors.black, height: 2),
           textAlign: TextAlign.center,
         ),

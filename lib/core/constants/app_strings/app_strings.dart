@@ -82,9 +82,9 @@ static const String  to='TO';
 
   static const String imageNotFound =
       'Incorrect image URLs or changes in the image file\'s location';
+  static const String noAppointmentsAvailableToday = 'There are no appointments available today. Please choose another day.';
 
-  static const String bookingsIsEmpty =
-      'There are no bookings currently. Please check back later or add a new booking.';
+  static const String noBookingsMessage = 'You have no bookings at the moment. Start by making a new appointment or check back later.';
 
   static const String oops='Oops! something is wrong!';
   static const String tryAgain='TRY AGAIN';

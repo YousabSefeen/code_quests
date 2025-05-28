@@ -5,11 +5,11 @@ import '../models/client_appointments_model.dart';
 import '../models/doctor_appointment_model.dart';
 
 abstract class AppointmentRepositoryBase {
-  Future<Either<Failure, List<DoctorAppointmentModel>>> getDoctorAppointments({
+  Future<Either<Failure, List<DoctorAppointmentModel>>> fetchDoctorAppointments({
     required String doctorId,
   });
 
-  Future<Either<Failure, List<String>>> getReservedTimeSlotsForDoctorOnDate({
+  Future<Either<Failure, List<String>>> fetchReservedTimeSlotsForDoctorOnDate({
     required String doctorId,
     required String date,
   });

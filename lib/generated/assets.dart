@@ -3,8 +3,11 @@ class Assets {
   Assets._();
 
   static const String imagesErrorImage = 'assets/images/errorImage.png';
+  static const String imagesListEmpty = 'assets/images/list_empty.json';
   static const String imagesLocation = 'assets/images/location.json';
+  static const String imagesNew = 'assets/images/new.json';
   static const String imagesUploadProfileIcons = 'assets/images/uploadProfileIcons.jpeg';
+  static const String imagesXMarker = 'assets/images/x_marker.json';
   static List<String> images = [
     //boy
     'https://as1.ftcdn.net/v2/jpg/02/95/51/80/1000_F_295518052_aO5d9CqRhPnjlNDTRDjKLZHNftqfsxzI.jpg',

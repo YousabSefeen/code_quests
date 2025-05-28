@@ -25,7 +25,7 @@ class CustomSliverAppBar extends StatelessWidget {
     final deviceWidth = deviceSize.height;
     return SliverAppBar(
       pinned: true,
-      expandedHeight: deviceHeight * 0.25,
+      expandedHeight: deviceHeight * 0.3,
       flexibleSpace: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
           final isCollapsed = constraints.maxHeight <=

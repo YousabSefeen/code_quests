@@ -1,6 +1,6 @@
 import 'dart:async';
+import 'dart:developer' as developer;
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -10,28 +10,20 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_task/core/app_settings/controller/cubit/app_settings_cubit.dart';
 import 'package:flutter_task/core/enum/internet_state.dart';
 import 'package:flutter_task/features/auth/presentation/controller/cubit/login_cubit.dart';
-import 'package:flutter_task/features/doctor_profile/data/models/doctor_model.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:time_range/time_range.dart';
 import 'package:wolt_modal_sheet/wolt_modal_sheet.dart';
-import 'dart:developer' as developer;
+
 import 'core/app_settings/controller/states/app_settings_states.dart';
 import 'core/constants/app_routes/app_router.dart';
-import 'core/constants/common_widgets/consultation_fee_and_wait_row.dart';
-import 'core/constants/themes/app_colors.dart';
 import 'core/constants/themes/app_light_theme.dart';
 import 'core/services/server_locator.dart';
 import 'features/appointments/presentation/controller/cubit/appointment_cubit.dart';
-import 'features/appointments/presentation/widgets/custom_action_button.dart';
 import 'features/auth/presentation/controller/cubit/register_cubit.dart';
-import 'features/doctor_list/data/models/doctor_list_model.dart';
 import 'features/doctor_list/presentation/controller/cubit/doctor_list_cubit.dart';
 import 'features/doctor_list/presentation/screen/doctor_list_view_screen.dart';
-import 'features/doctor_list/presentation/widgets/doctor_location_display.dart';
-import 'features/doctor_list/presentation/widgets/doctor_profile_header.dart';
 import 'features/doctor_profile/presentation/controller/cubit/doctor_profile_cubit.dart';
 import 'firebase_options.dart';
-import 'generated/assets.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -73,9 +65,8 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  MyApp({super.key});
+  const MyApp({super.key});
 
-  final navigatorKey = GlobalKey<NavigatorState>();
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(

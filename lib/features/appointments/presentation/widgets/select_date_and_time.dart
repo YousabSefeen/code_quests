@@ -29,25 +29,18 @@ class _SelectDateAndTimeState extends State<SelectDateAndTime> {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
 
-    final activeTextStyle = textTheme.smallWhiteRegular;
-
-    final inactiveDayStyle = activeTextStyle.copyWith(color: Colors.black);
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      spacing: 5,
       children: [
         Text(
           'Select Date',
           style: textTheme.mediumBlackBold,
           textAlign: TextAlign.start,
         ),
+
         SelectDateWidget(doctor: widget.doctor),
-        Text(
-          'Select Time',
-          style: textTheme.mediumBlackBold,
-          textAlign: TextAlign.start,
-        ),
-        const SizedBox(height: 5),
+
         const SelectTimeWidget(),
       ],
     );
