@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_task/core/constants/common_widgets/custom_error_widget.dart';
 import 'package:flutter_task/core/constants/common_widgets/custom_shimmer.dart';
 import 'package:flutter_task/core/enum/request_state.dart';
+import 'package:flutter_task/features/appointments/presentation/widgets/time_slots_grid_view.dart';
 
 import '../../../../core/enum/appointment_availability_status.dart';
 import '../controller/cubit/appointment_cubit.dart';
@@ -17,19 +18,13 @@ class SelectTimeWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocSelector<AppointmentCubit, AppointmentState,
-        DoctorAvailabilityStatus>(
-      selector: (state) => DoctorAvailabilityStatus(
-        appointmentAvailabilityStatus: state.appointmentAvailabilityStatus,
-        requestState: state.reservedTimeSlotsState,
-        reservedTimeSlotsError: state.reservedTimeSlotsError,
-      ),
+        AppointmentAvailabilityStatus>(
+      selector: (state) =>   state.appointmentAvailabilityStatus,
+
       builder: (context, status) {
-        switch (status.appointmentAvailabilityStatus) {
+        switch (status ) {
           case AppointmentAvailabilityStatus.available:
-            return _buildTimeSlotsContent(
-              status.requestState,
-              status.reservedTimeSlotsError,
-            );
+            return const TimeSlotsGridView();
           case AppointmentAvailabilityStatus.pastDate:
             return const DoctorNotAvailableMessage(
               appointmentAvailabilityStatus:
@@ -45,37 +40,6 @@ class SelectTimeWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildTimeSlotsContent(
-      RequestState requestState, String reservedTimeSlotsError) {
-    switch (requestState) {
-      case RequestState.loading:
-        return _buildLoadingShimmer();
-      case RequestState.loaded:
-        return const AvailableDoctorTimeSlotsGrid();
-      case RequestState.error:
-        return _buildErrorWidget(reservedTimeSlotsError);
-    }
-  }
 
-  Widget _buildLoadingShimmer() => CustomShimmer(
-        height: 100.h,
-        width: double.infinity,
-      );
-
-  Widget _buildErrorWidget(String reservedTimeSlotsError) => CustomErrorWidget(
-        errorMessage: reservedTimeSlotsError,
-      );
 }
 
-class DoctorAvailabilityStatus {
-  final AppointmentAvailabilityStatus appointmentAvailabilityStatus;
-
-  final RequestState requestState;
-  final String reservedTimeSlotsError;
-
-  DoctorAvailabilityStatus({
-    required this.appointmentAvailabilityStatus,
-    required this.requestState,
-    required this.reservedTimeSlotsError,
-  });
-}

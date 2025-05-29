@@ -47,8 +47,8 @@ class AppointmentCubit extends Cubit<AppointmentState> {
 
     response.fold(
       (failure) => state.copyWith(
-        doctorAppointmentState: RequestState.error,
-        doctorAppointmentError: failure.toString(),
+        reservedTimeSlotsState: RequestState.error,
+        reservedTimeSlotsError: failure.toString(),
       ),
       (success) => emit(
         state.copyWith(
@@ -81,12 +81,14 @@ class AppointmentCubit extends Cubit<AppointmentState> {
         availabilityStatus = true;
         emit(state.copyWith(
             appointmentAvailabilityStatus:
-                AppointmentAvailabilityStatus.available));
+                AppointmentAvailabilityStatus.available,
+        ));
       } else {
         availabilityStatus = false;
         emit(state.copyWith(
             appointmentAvailabilityStatus:
-                AppointmentAvailabilityStatus.doctorNotWorkingOnSelectedDate));
+                AppointmentAvailabilityStatus.doctorNotWorkingOnSelectedDate,
+        ));
       }
     }
     return availabilityStatus;
