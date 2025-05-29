@@ -59,7 +59,7 @@ void main() async {
     ),
     BlocProvider(
       create: (_) =>
-          serviceLocator<AppSettingsCubit>()..checkInternetConnection(),
+          serviceLocator<AppSettingsCubit>(),
     ),
   ], child: MyApp()));
 }

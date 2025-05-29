@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_task/features/appointments/presentation/controller/cubit/appointment_cubit.dart';
 import 'package:flutter_task/features/appointments/presentation/widgets/select_date_widget.dart';
-import 'package:flutter_task/features/appointments/presentation/widgets/select_time_widget.dart';
+import 'package:flutter_task/features/appointments/presentation/widgets/appointment_time_selector.dart';
 
 import '../../../doctor_list/data/models/doctor_list_model.dart';
 
@@ -34,7 +34,7 @@ class _SelectDateAndTimeState extends State<SelectDateAndTime> {
       children: [
         SelectDateWidget(doctor: widget.doctor),
 
-        const SelectTimeWidget(),
+        const AppointmentTimeSelector(),
       ],
     );
   }

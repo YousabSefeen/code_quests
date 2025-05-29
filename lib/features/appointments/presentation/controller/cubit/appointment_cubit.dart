@@ -13,174 +13,70 @@ import '../states/appointment_state.dart';
 
 class AppointmentCubit extends Cubit<AppointmentState> {
   final AppSettingsCubit appSettingsCubit;
-   AppointmentRepository appointmentRepository;
+  final AppointmentRepository appointmentRepository;
+  String? _selectedDateFormatted;
 
   AppointmentCubit({
     required this.appSettingsCubit,
     required this.appointmentRepository,
   }) : super(const AppointmentState());
 
-  Future fetchDoctorAppointments({required String doctorId}) async {
+  // Public APIs
+  Future<void> fetchDoctorAppointments(String doctorId) async {
     final response =
         await appointmentRepository.fetchDoctorAppointments(doctorId: doctorId);
-
     response.fold(
-        (failure) => emit(
-              state.copyWith(
-                doctorAppointmentState: RequestState.error,
-                doctorAppointmentError: failure.toString(),
-              ),
-            ),
-        (success) => emit(
-              state.copyWith(
-                doctorAppointmentState: RequestState.loaded,
-                doctorAppointmentModel: success,
-              ),
-            ));
-  }
-
-  Future _fetchReservedTimeSlotsForDoctorOnDate(
-      {required String doctorId, required String date}) async {
-
-    final response = await appointmentRepository
-        .fetchReservedTimeSlotsForDoctorOnDate(doctorId: doctorId, date: date);
-
-    response.fold(
-      (failure) => state.copyWith(
-        reservedTimeSlotsState: RequestState.error,
-        reservedTimeSlotsError: failure.toString(),
-      ),
-      (success) => emit(
-        state.copyWith(
-            reservedTimeSlotsState: RequestState.loaded,
-            reservedTimeSlots: success,
-        ),
-      ),
+      (failure) => _emitDoctorAppointmentsError(failure),
+      (appointments) => emit(state.copyWith(
+        doctorAppointmentState: RequestState.loaded,
+        doctorAppointmentModel: appointments,
+      )),
     );
   }
-
-  Future<bool> _checkIfDoctorWorksOnDate({
-    required DateTime selectedDate,
-    required List<String> doctorWorkingDays,
-  }) async {
-    bool? availabilityStatus;
-
-    bool isSelectedDateBeforeToday =
-        TimeSlotHelper.isSelectedDateBeforeToday(selectedDate);
-    if (isSelectedDateBeforeToday) {
-      availabilityStatus = false;
-      emit(state.copyWith(
-          appointmentAvailabilityStatus:
-              AppointmentAvailabilityStatus.pastDate));
-    } else {
-      final isAvailable = TimeSlotHelper.doesDoctorWorkOnDate(
-        selectedDate: selectedDate,
-        doctorWorkingDays: doctorWorkingDays,
-      );
-      if (isAvailable) {
-        availabilityStatus = true;
-        emit(state.copyWith(
-            appointmentAvailabilityStatus:
-                AppointmentAvailabilityStatus.available,
-        ));
-      } else {
-        availabilityStatus = false;
-        emit(state.copyWith(
-            appointmentAvailabilityStatus:
-                AppointmentAvailabilityStatus.doctorNotWorkingOnSelectedDate,
-        ));
-      }
-    }
-    return availabilityStatus;
-  }
-
-  String? _selectedDateFormatted;
 
   Future<void> getAvailableDoctorTimeSlots({
     required DateTime selectedDate,
     required DoctorListModel doctor,
   }) async {
-    final isDoctorAvailable = await _checkIfDoctorWorksOnDate(
+    final isAvailable = await _checkDoctorAvailability(
       selectedDate: selectedDate,
-      doctorWorkingDays: doctor.doctorModel.workingDays,
+      workingDays: doctor.doctorModel.workingDays,
     );
 
-    if (!isDoctorAvailable) {
-      return;
-    } else {
-      if (state.selectedTimeSlot != null) {
-        _clearSelectedTimeSlot();
-       }
+    if (!isAvailable) return;
 
-      _selectedDateFormatted = DateTimeFormatter.convertSelectedDateToString(
-         selectedDate,
-       );
+    _clearSelectedTimeSlot();
 
-       final allTimeSlots = TimeSlotHelper.generateHourlyTimeSlots(
-         startTime: doctor.doctorModel.availableFrom!,
-         endTime: doctor.doctorModel.availableTo!,
-       );
+    _selectedDateFormatted =
+        DateTimeFormatter.convertSelectedDateToString(selectedDate);
 
-       await _fetchReservedTimeSlotsForDoctorOnDate(
-         doctorId: doctor.doctorId,
-         date: _selectedDateFormatted!,
-       );
+    final allTimeSlots = TimeSlotHelper.generateHourlyTimeSlots(
+      startTime: doctor.doctorModel.availableFrom!,
+      endTime: doctor.doctorModel.availableTo!,
+    );
 
-       final availableTimeSlots = TimeSlotHelper.filterAvailableTimeSlots(
-         totalTimeSlots: allTimeSlots,
-         reservedTimeSlots: state.reservedTimeSlots,
-       );
+    await _loadReservedSlots(doctor.doctorId, _selectedDateFormatted!);
 
-       emit(state.copyWith(availableDoctorTimeSlots: availableTimeSlots));
+    final availableSlots = TimeSlotHelper.filterAvailableTimeSlots(
+      totalTimeSlots: allTimeSlots,
+      reservedTimeSlots: state.reservedTimeSlots,
+    );
 
-
-     }
-
-
+    emit(state.copyWith(availableDoctorTimeSlots: availableSlots));
   }
 
-
-
-
-
-
-
-  /// Updates the state with the time slot selected by the user for appointment
-  /// [selectedTimeSlot] The time slot string in format 'HH:MM AM/PM'
-  void updateSelectedTimeSlot(String selectedTimeSlot) => emit(state.copyWith(
-    selectedTimeSlot: selectedTimeSlot,
-  ));
-  /// Clears the currently selected time slot from the state
-  void _clearSelectedTimeSlot() => emit(state.copyWith(
-    selectedTimeSlot: '',
-  ));
-
-    void printData(){
-      print('AppointmentCubit.printData   ${state.selectedTimeSlot}');
+  void updateSelectedTimeSlot(String selectedSlot) {
+    emit(state.copyWith(selectedTimeSlot: selectedSlot));
   }
-  void checkInternet() {
-    if (appSettingsCubit.state.internetState==InternetState.none) {
 
-         emit(state.copyWith(
-           bookAppointmentState: LazyRequestState.error,
-
-           bookAppointmentError: 'No Internet Connection',
-         ));
-
-       }
-     }
   Future<void> createAppointmentForDoctor({required String doctorId}) async {
-
-    if (appSettingsCubit.state.internetState==InternetState.none) {
-
-      emit(state.copyWith(
-        bookAppointmentState: LazyRequestState.error,
-
-        bookAppointmentError: 'No Internet Connection',
-      ));
+    if (_isInternetDisconnected()) {
+      _emitNoInternetForBooking();
       return;
     }
+
     emit(state.copyWith(bookAppointmentState: LazyRequestState.loading));
+
     final response = await appointmentRepository.createAppointmentForDoctor(
       doctorId: doctorId,
       date: _selectedDateFormatted!,
@@ -188,36 +84,100 @@ class AppointmentCubit extends Cubit<AppointmentState> {
     );
 
     response.fold(
-        (failure) => state.copyWith(
-              bookAppointmentState: LazyRequestState.error,
-              bookAppointmentError: failure.toString(),
-            ),
-        (success) => emit(state.copyWith(
-              bookAppointmentState: LazyRequestState.loaded,
-            )));
+      (failure) => emit(state.copyWith(
+        bookAppointmentState: LazyRequestState.error,
+        bookAppointmentError: failure.toString(),
+      )),
+      (_) =>
+          emit(state.copyWith(bookAppointmentState: LazyRequestState.loaded)),
+    );
   }
 
-  fetchClientAppointmentsWithDoctorDetails() async {
+  Future<void> fetchClientAppointmentsWithDoctorDetails() async {
     final response =
         await appointmentRepository.fetchClientAppointmentsWithDoctorDetails();
-
     response.fold(
       (failure) => emit(state.copyWith(
         getClientAppointmentsListState: RequestState.error,
         getClientAppointmentsListError: failure.toString(),
       )),
-      (appointmentList) => emit(state.copyWith(
-        getClientAppointmentsList: appointmentList,
+      (appointments) => emit(state.copyWith(
+        getClientAppointmentsList: appointments,
         getClientAppointmentsListState: RequestState.loaded,
       )),
     );
   }
 
   void deleteData() {
-    emit(state.copyWith(selectedTimeSlot: ''));
-
     emit(state.copyWith(
+      selectedTimeSlot: '',
       bookAppointmentState: LazyRequestState.lazy,
     ));
+  }
+
+  // --- Private Helpers ---
+
+  bool _isInternetDisconnected() =>
+      appSettingsCubit.state.internetState == InternetState.disconnected;
+
+  void _emitNoInternetForBooking() {
+    emit(state.copyWith(
+      bookAppointmentState: LazyRequestState.error,
+      bookAppointmentError: 'No Internet Connection',
+    ));
+  }
+
+  void _emitDoctorAppointmentsError(dynamic failure) {
+    emit(state.copyWith(
+      doctorAppointmentState: RequestState.error,
+      doctorAppointmentError: failure.toString(),
+    ));
+  }
+
+  void _clearSelectedTimeSlot() {
+    emit(state.copyWith(selectedTimeSlot: ''));
+  }
+
+  Future<void> _loadReservedSlots(String doctorId, String date) async {
+    final response =
+        await appointmentRepository.fetchReservedTimeSlotsForDoctorOnDate(
+      doctorId: doctorId,
+      date: date,
+    );
+
+    response.fold(
+      (failure) => emit(state.copyWith(
+        reservedTimeSlotsState: RequestState.error,
+        reservedTimeSlotsError: failure.toString(),
+      )),
+      (slots) => emit(state.copyWith(
+        reservedTimeSlotsState: RequestState.loaded,
+        reservedTimeSlots: slots,
+      )),
+    );
+  }
+
+  Future<bool> _checkDoctorAvailability({
+    required DateTime selectedDate,
+    required List<String> workingDays,
+  }) async {
+    if (TimeSlotHelper.isSelectedDateBeforeToday(selectedDate)) {
+      emit(state.copyWith(
+          appointmentAvailabilityStatus:
+              AppointmentAvailabilityStatus.pastDate));
+      return false;
+    }
+
+    final isWorking = TimeSlotHelper.doesDoctorWorkOnDate(
+      selectedDate: selectedDate,
+      doctorWorkingDays: workingDays,
+    );
+
+    final status = isWorking
+        ? AppointmentAvailabilityStatus.available
+        : AppointmentAvailabilityStatus.doctorNotWorkingOnSelectedDate;
+
+    emit(state.copyWith(appointmentAvailabilityStatus: status));
+    return isWorking;
   }
 }

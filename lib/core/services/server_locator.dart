@@ -16,9 +16,12 @@ final serviceLocator = GetIt.instance;
 class ServicesLocator {
   void init() {
 
-    serviceLocator.registerFactory<AppSettingsCubit>(
-      () => AppSettingsCubit( ),
-    );
+    serviceLocator.registerLazySingleton<AppSettingsCubit>(() {
+      final cubit = AppSettingsCubit();
+      cubit.checkInitialInternetConnection();
+      cubit.startMonitoring();
+      return cubit;
+    });
 
     serviceLocator.registerFactory<LoginCubit>(
       () => LoginCubit(authRepository: serviceLocator()),

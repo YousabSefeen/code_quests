@@ -10,20 +10,35 @@ class AppSettingsCubit extends Cubit<AppSettingsStates> {
 
   StreamSubscription<List<ConnectivityResult>>? _streamSubscription;
 
-  Future<void> checkInternetConnection() async {
-    // فحص أولي عند بداية التطبيق
+  ///  Initial check for current internet connectivity (only once)
+  Future<void> checkInitialInternetConnection() async {
     final result = await Connectivity().checkConnectivity();
     _handleResult(result);
+  }
 
-    // الاشتراك في تغيّرات الاتصال
+   /// Starts monitoring internet connection changes (only triggers once)
+  void startMonitoring() {
+    // If a subscription is already active, do not create a new one
+    if (_streamSubscription != null) return;
+
     _streamSubscription = Connectivity()
         .onConnectivityChanged
         .listen(_handleResult);
   }
 
-  void _handleResult(List<ConnectivityResult> result) {
-    if (result.contains(ConnectivityResult.mobile) ||
-        result.contains(ConnectivityResult.wifi)) {
+  ///  Stops the subscription when needed (important for clean-up)
+  Future<void> stopMonitoring() async {
+    await _streamSubscription?.cancel();
+    _streamSubscription = null;
+  }
+
+  ///   Internal handler to update the state based on the result
+  void _handleResult(dynamic result) {
+    // If the result is a List<ConnectivityResult> (as in the stream callback)
+    final results = result is List<ConnectivityResult> ? result : [result];
+
+    if (results.contains(ConnectivityResult.mobile) ||
+        results.contains(ConnectivityResult.wifi)) {
       emit(state.copyWith(internetState: InternetState.connected));
     } else {
       emit(state.copyWith(internetState: InternetState.disconnected));
@@ -31,8 +46,8 @@ class AppSettingsCubit extends Cubit<AppSettingsStates> {
   }
 
   @override
-  Future<void> close() {
-    _streamSubscription?.cancel();
+  Future<void> close() async {
+    await stopMonitoring();
     return super.close();
   }
 }
