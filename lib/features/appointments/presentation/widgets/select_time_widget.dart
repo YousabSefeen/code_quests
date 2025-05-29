@@ -5,6 +5,7 @@ import 'package:flutter_task/core/constants/common_widgets/custom_error_widget.d
 import 'package:flutter_task/core/constants/common_widgets/custom_shimmer.dart';
 import 'package:flutter_task/core/enum/request_state.dart';
 
+import '../../../../core/enum/appointment_availability_status.dart';
 import '../controller/cubit/appointment_cubit.dart';
 import '../controller/states/appointment_state.dart';
 import 'available_doctor_time_slots_grid.dart';
@@ -18,25 +19,27 @@ class SelectTimeWidget extends StatelessWidget {
     return BlocSelector<AppointmentCubit, AppointmentState,
         DoctorAvailabilityStatus>(
       selector: (state) => DoctorAvailabilityStatus(
-        isSelectedDateBeforeToday: state.isSelectedDateBeforeToday,
+        appointmentAvailabilityStatus: state.appointmentAvailabilityStatus,
         requestState: state.reservedTimeSlotsState,
         reservedTimeSlotsError: state.reservedTimeSlotsError,
-        isAvailable: state.isDoctorAvailable,
       ),
       builder: (context, status) {
-        if (status.isSelectedDateBeforeToday) {
-          return const DoctorNotAvailableMessage(
-            isSelectedDateBeforeToday: true,
-          );
-        } else if (status.isAvailable) {
-          return _buildTimeSlotsContent(
-            status.requestState,
-            status.reservedTimeSlotsError,
-          );
-        } else {
-          return const DoctorNotAvailableMessage(
-            isSelectedDateBeforeToday: false,
-          );
+        switch (status.appointmentAvailabilityStatus) {
+          case AppointmentAvailabilityStatus.available:
+            return _buildTimeSlotsContent(
+              status.requestState,
+              status.reservedTimeSlotsError,
+            );
+          case AppointmentAvailabilityStatus.pastDate:
+            return const DoctorNotAvailableMessage(
+              appointmentAvailabilityStatus:
+                  AppointmentAvailabilityStatus.pastDate,
+            );
+          case AppointmentAvailabilityStatus.doctorNotWorkingOnSelectedDate:
+            return const DoctorNotAvailableMessage(
+              appointmentAvailabilityStatus:
+                  AppointmentAvailabilityStatus.doctorNotWorkingOnSelectedDate,
+            );
         }
       },
     );
@@ -65,15 +68,14 @@ class SelectTimeWidget extends StatelessWidget {
 }
 
 class DoctorAvailabilityStatus {
-  final bool isSelectedDateBeforeToday;
-  final bool isAvailable;
+  final AppointmentAvailabilityStatus appointmentAvailabilityStatus;
+
   final RequestState requestState;
   final String reservedTimeSlotsError;
 
   DoctorAvailabilityStatus({
-    required this.isSelectedDateBeforeToday,
+    required this.appointmentAvailabilityStatus,
     required this.requestState,
     required this.reservedTimeSlotsError,
-    required this.isAvailable,
   });
 }

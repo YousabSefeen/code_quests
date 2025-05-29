@@ -9,7 +9,7 @@ class TimeSlotHelper {
     final now = DateTime.now();
     return selectedDate.isBefore(DateTime(now.year, now.month, now.day));
   }
-  static doesDoctorWorkOnDate({
+  static bool doesDoctorWorkOnDate({
     required DateTime selectedDate,
     required List<String> doctorWorkingDays,
   }) {

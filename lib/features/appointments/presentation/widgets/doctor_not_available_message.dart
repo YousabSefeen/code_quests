@@ -4,13 +4,14 @@ import 'package:flutter_task/core/constants/themes/app_text_styles.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../../../core/constants/app_strings/app_strings.dart';
+import '../../../../core/enum/appointment_availability_status.dart';
 import '../../../../generated/assets.dart';
 
 class DoctorNotAvailableMessage extends StatelessWidget {
-  final bool isSelectedDateBeforeToday;
+ final AppointmentAvailabilityStatus appointmentAvailabilityStatus;
 
   const DoctorNotAvailableMessage(
-      {super.key, required this.isSelectedDateBeforeToday});
+      {super.key, required this.appointmentAvailabilityStatus});
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +50,7 @@ class DoctorNotAvailableMessage extends StatelessWidget {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.only(bottom: 10, left: 5, right: 5),
-        child: isSelectedDateBeforeToday
+        child: appointmentAvailabilityStatus==AppointmentAvailabilityStatus.pastDate
             ? Text(
                 AppStrings.pastDateBookingError,
                 style: textStyle,

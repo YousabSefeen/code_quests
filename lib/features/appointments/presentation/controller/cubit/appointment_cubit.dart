@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/app_settings/controller/cubit/app_settings_cubit.dart';
+import '../../../../../core/enum/appointment_availability_status.dart';
 import '../../../../../core/enum/internet_state.dart';
 import '../../../../../core/enum/lazy_request_state.dart';
 import '../../../../../core/enum/request_state.dart';
@@ -62,13 +63,33 @@ class AppointmentCubit extends Cubit<AppointmentState> {
     required DateTime selectedDate,
     required List<String> doctorWorkingDays,
   }) async {
-    final isAvailable = TimeSlotHelper.doesDoctorWorkOnDate(
-      selectedDate: selectedDate,
-      doctorWorkingDays: doctorWorkingDays,
-    );
+    bool? availabilityStatus;
 
-    emit(state.copyWith(isDoctorAvailable: isAvailable));
-    return isAvailable;
+    bool isSelectedDateBeforeToday =
+        TimeSlotHelper.isSelectedDateBeforeToday(selectedDate);
+    if (isSelectedDateBeforeToday) {
+      availabilityStatus = false;
+      emit(state.copyWith(
+          appointmentAvailabilityStatus:
+              AppointmentAvailabilityStatus.pastDate));
+    } else {
+      final isAvailable = TimeSlotHelper.doesDoctorWorkOnDate(
+        selectedDate: selectedDate,
+        doctorWorkingDays: doctorWorkingDays,
+      );
+      if (isAvailable) {
+        availabilityStatus = true;
+        emit(state.copyWith(
+            appointmentAvailabilityStatus:
+                AppointmentAvailabilityStatus.available));
+      } else {
+        availabilityStatus = false;
+        emit(state.copyWith(
+            appointmentAvailabilityStatus:
+                AppointmentAvailabilityStatus.doctorNotWorkingOnSelectedDate));
+      }
+    }
+    return availabilityStatus;
   }
 
   String? _selectedDateFormatted;
@@ -77,25 +98,19 @@ class AppointmentCubit extends Cubit<AppointmentState> {
     required DateTime selectedDate,
     required DoctorListModel doctor,
   }) async {
+    final isDoctorAvailable = await _checkIfDoctorWorksOnDate(
+      selectedDate: selectedDate,
+      doctorWorkingDays: doctor.doctorModel.workingDays,
+    );
 
-     bool  isSelectedDateBeforeToday=TimeSlotHelper.isSelectedDateBeforeToday(selectedDate);
-
-     if(isSelectedDateBeforeToday){
-         emit(state.copyWith(isSelectedDateBeforeToday:isSelectedDateBeforeToday));
-
-     }  else{
-       emit(state.copyWith(isSelectedDateBeforeToday:isSelectedDateBeforeToday));
-       if(state.selectedTimeSlot!=null){
-         _clearSelectedTimeSlot();
+    if (!isDoctorAvailable) {
+      return;
+    } else {
+      if (state.selectedTimeSlot != null) {
+        _clearSelectedTimeSlot();
        }
-       final isDoctorAvailable = await _checkIfDoctorWorksOnDate(
-         selectedDate: selectedDate,
-         doctorWorkingDays: doctor.doctorModel.workingDays,
-       );
 
-       if (!isDoctorAvailable) return;
-
-       _selectedDateFormatted = DateTimeFormatter.convertSelectedDateToString(
+      _selectedDateFormatted = DateTimeFormatter.convertSelectedDateToString(
          selectedDate,
        );
 
@@ -140,7 +155,6 @@ class AppointmentCubit extends Cubit<AppointmentState> {
 
     void printData(){
       print('AppointmentCubit.printData   ${state.selectedTimeSlot}');
-      print('isSelectedDateBeforeToday.printData   ${state.isSelectedDateBeforeToday}');
   }
   void checkInternet() {
     if (appSettingsCubit.state.internetState==InternetState.none) {
