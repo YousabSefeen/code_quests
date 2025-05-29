@@ -1,74 +1,117 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_task/core/constants/app_strings/app_strings.dart';
+import 'package:flutter_task/core/constants/themes/app_text_styles.dart';
 
 class CustomErrorWidget extends StatelessWidget {
   final String errorMessage;
 
+  final Color headerColor;
+  final Color iconColor;
+  final EdgeInsetsGeometry margin;
+
   const CustomErrorWidget({
-    required this.errorMessage,
     super.key,
+    required this.errorMessage,
+    this.headerColor = Colors.red,
+    this.iconColor = Colors.white,
+    this.margin = const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
   });
 
+  final _radiusValue = 8.0;
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-        padding: const EdgeInsets.all(20),
-        margin: EdgeInsets.symmetric(horizontal: 15.w, vertical: 15.h),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20.r),
-          color: Colors.white,
+        margin: EdgeInsets.symmetric(
+          horizontal: margin.horizontal.w,
+          vertical: margin.vertical.h,
         ),
+        decoration: _buildErrorBoxDecoration(context),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            TextButton.icon(
-              onPressed: null,
-              icon: Icon(
-                Icons.error,
-                size: 35.sp,
-                color: Colors.red,
-              ),
-              label: Text(
-                'An error occurred while displaying ',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 17.sp,
-                  fontWeight: FontWeight.w800,
-                  letterSpacing: 1.2,
-                ),
-                maxLines: 3,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
-            const Divider(thickness: 2, color: Colors.black54),
-            FittedBox(
-              child: RichText(
-                text: TextSpan(
-                    text: 'Error Message: ',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w800,
-                      letterSpacing: 1.2,
-                    ),
-                    children: [
-                      TextSpan(
-                        text: errorMessage,
-                        style: TextStyle(
-                          color: Colors.blueGrey.shade900,
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w500,
-                          height: 1.4,
-                        ),
-                      ),
-                    ]),
-              ),
-            ),
+            _buildErrorHeader(context),
+            _buildErrorMessageContent(context),
           ],
         ),
       ),
+    );
+  }
+
+  BoxDecoration _buildErrorBoxDecoration(BuildContext context) {
+    return BoxDecoration(
+      borderRadius: BorderRadius.circular(_radiusValue.r),
+      color: Theme.of(context).cardColor,
+      border: Border.all(color: headerColor),
+    );
+  }
+
+  Widget _buildErrorHeader(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(_radiusValue.r),
+          topRight: Radius.circular(_radiusValue.r),
+        ),
+        color: headerColor,
+      ),
+      child: Row(
+        spacing: 3,
+        children: [
+          Icon(Icons.error, size: 25.sp, color: iconColor),
+          _buildErrorTitle(context),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildErrorTitle(BuildContext context) {
+    return Expanded(
+      child: FittedBox(
+        child: Text(
+          AppStrings.errorDisplayTitle,
+          style: Theme.of(context).textTheme.styleField.copyWith(
+                color: iconColor,
+              ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildErrorMessageContent(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+      child: RichText(
+        text: TextSpan(
+          children: [
+            _buildErrorLabelTextSpan(context),
+            _buildErrorMessageTextSpan(context),
+          ],
+        ),
+      ),
+    );
+  }
+
+  TextSpan _buildErrorLabelTextSpan(BuildContext context) {
+    return TextSpan(
+      text: AppStrings.errorMessageLabel,
+      style: Theme.of(context)
+          .textTheme
+          .styleField
+          .copyWith(fontSize: 14.sp, fontWeight: FontWeight.w700),
+    );
+  }
+
+  TextSpan _buildErrorMessageTextSpan(BuildContext context) {
+    return TextSpan(
+      text: errorMessage,
+      style: Theme.of(context).textTheme.hintFieldStyle.copyWith(
+            fontSize: 16.sp,
+            letterSpacing: 1.5,
+          ),
     );
   }
 }

@@ -27,7 +27,7 @@ class BookAppointmentButton extends StatelessWidget {
       child: BlocSelector<AppointmentCubit, AppointmentState,
           Tuple2<String?, LazyRequestState>>(
         selector: (state) =>
-            Tuple2(state.selectedTimeByUser, state.bookAppointmentState),
+            Tuple2(state.selectedTimeSlot, state.bookAppointmentState),
         builder: (context, values) {
           _handleBookAppointmentState(values, context);
 

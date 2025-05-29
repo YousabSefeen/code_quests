@@ -9,7 +9,7 @@ class AppointmentState {
   final String doctorAppointmentError;
 
 //New
-
+    final bool isSelectedDateBeforeToday;
   final List<String> reservedTimeSlots;
   final RequestState reservedTimeSlotsState;
   final String reservedTimeSlotsError;
@@ -18,7 +18,7 @@ class AppointmentState {
   final List<String> availableDoctorTimeSlots;
 
   final bool isDoctorAvailable;
-  final String? selectedTimeByUser;
+  final String? selectedTimeSlot;
 
   final LazyRequestState bookAppointmentState;
   final String bookAppointmentError;
@@ -31,12 +31,14 @@ class AppointmentState {
     this.doctorAppointmentModel = const [],
     this.doctorAppointmentState = RequestState.loading,
     this.doctorAppointmentError = '',
+
+    this.isSelectedDateBeforeToday=false,
     this.reservedTimeSlots = const [],
     this.reservedTimeSlotsState = RequestState.loading,
     this.reservedTimeSlotsError = '',
     this.availableDoctorTimeSlots = const [],
     this.isDoctorAvailable = true,
-    this.selectedTimeByUser,
+    this.selectedTimeSlot,
     this.bookAppointmentState = LazyRequestState.lazy,
     this.bookAppointmentError = '',
     this.getClientAppointmentsList = const [],
@@ -48,12 +50,13 @@ class AppointmentState {
     List<DoctorAppointmentModel>? doctorAppointmentModel,
     RequestState? doctorAppointmentState,
     String? doctorAppointmentError,
+     bool? isSelectedDateBeforeToday,
     List<String>? reservedTimeSlots,
     RequestState? reservedTimeSlotsState,
     String? reservedTimeSlotsError,
     List<String>? availableDoctorTimeSlots,
     bool? isDoctorAvailable,
-    String? selectedTimeByUser,
+    String? selectedTimeSlot,
     LazyRequestState? bookAppointmentState,
     String? bookAppointmentError,
     List<ClientAppointmentsModel>? getClientAppointmentsList,
@@ -67,6 +70,7 @@ class AppointmentState {
           doctorAppointmentState ?? this.doctorAppointmentState,
       doctorAppointmentError:
           doctorAppointmentError ?? this.doctorAppointmentError,
+      isSelectedDateBeforeToday:isSelectedDateBeforeToday?? this.isSelectedDateBeforeToday,
       reservedTimeSlots: reservedTimeSlots ?? this.reservedTimeSlots,
       reservedTimeSlotsState:
           reservedTimeSlotsState ?? this.reservedTimeSlotsState,
@@ -75,7 +79,7 @@ class AppointmentState {
       availableDoctorTimeSlots:
           availableDoctorTimeSlots ?? this.availableDoctorTimeSlots,
       isDoctorAvailable: isDoctorAvailable ?? this.isDoctorAvailable,
-      selectedTimeByUser: selectedTimeByUser ?? this.selectedTimeByUser,
+      selectedTimeSlot: selectedTimeSlot ?? this.selectedTimeSlot,
       bookAppointmentState: bookAppointmentState ?? this.bookAppointmentState,
       bookAppointmentError: bookAppointmentError ?? this.bookAppointmentError,
       getClientAppointmentsList:
@@ -92,12 +96,13 @@ class AppointmentState {
         doctorAppointmentModel,
         doctorAppointmentState,
         doctorAppointmentError,
+    isSelectedDateBeforeToday,
         reservedTimeSlots,
         reservedTimeSlotsState,
         reservedTimeSlotsError,
         availableDoctorTimeSlots,
         isDoctorAvailable,
-        selectedTimeByUser,
+        selectedTimeSlot,
         bookAppointmentState,
         bookAppointmentError,
         getClientAppointmentsList,

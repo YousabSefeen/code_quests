@@ -88,4 +88,10 @@ static const String  to='TO';
 
   static const String oops='Oops! something is wrong!';
   static const String tryAgain='TRY AGAIN';
+  //Error
+  static const String errorDisplayTitle = 'An error occurred while displaying';
+  static const String errorMessageLabel = 'Error Message: ';
+  static const String pastDateBookingError =
+      'Appointments cannot be scheduled for past dates. '
+      'Please select today\'s date or a future date.';
 }

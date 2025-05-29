@@ -22,7 +22,7 @@ class _BookedAppointmentsScreenState extends State<BookedAppointmentsScreen> {
   void initState() {
     super.initState();
 
-    context.read<AppointmentCubit>().getClientAppointmentsWithDoctorDetails();
+    context.read<AppointmentCubit>().fetchClientAppointmentsWithDoctorDetails();
   }
 
   @override

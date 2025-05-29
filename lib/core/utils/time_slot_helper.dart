@@ -3,6 +3,12 @@ import 'package:intl/intl.dart';
 import 'date_time_formatter.dart';
 
 class TimeSlotHelper {
+
+
+ static bool isSelectedDateBeforeToday(DateTime selectedDate) {
+    final now = DateTime.now();
+    return selectedDate.isBefore(DateTime(now.year, now.month, now.day));
+  }
   static doesDoctorWorkOnDate({
     required DateTime selectedDate,
     required List<String> doctorWorkingDays,

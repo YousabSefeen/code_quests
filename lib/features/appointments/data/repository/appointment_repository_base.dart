@@ -21,5 +21,5 @@ abstract class AppointmentRepositoryBase {
   });
 
   Future<Either<Failure, List<ClientAppointmentsModel>?>>
-      getClientAppointmentsWithDoctorDetails();
+      fetchClientAppointmentsWithDoctorDetails();
 }

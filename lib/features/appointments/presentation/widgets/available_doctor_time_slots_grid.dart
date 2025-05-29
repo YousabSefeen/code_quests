@@ -17,7 +17,7 @@ class AvailableDoctorTimeSlotsGrid extends StatelessWidget {
     return BlocSelector<AppointmentCubit, AppointmentState,
         Tuple2<String?, List<String>>>(
       selector: (state) => Tuple2(
-        state.selectedTimeByUser,
+        state.selectedTimeSlot,
         state.availableDoctorTimeSlots,
       ),
       builder: (context, timeSlotsData) =>
@@ -40,8 +40,12 @@ class AvailableDoctorTimeSlotsGrid extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SizedBox(height: 5),
-        _buildTitle(context),
-        const SizedBox(height: 5),
+        GestureDetector(
+            onTap: (){
+         context.read<AppointmentCubit>().printData();
+            },
+            child: _buildTitle(context)),
+        const SizedBox(height: 20),
         _buildTimeSlotsGridView(context, timeSlotsData),
       ],
     );
@@ -71,9 +75,9 @@ class AvailableDoctorTimeSlotsGrid extends StatelessWidget {
           itemCount: timeSlotsData.value2.length,
           itemBuilder: (context, index) {
             return _buildTimeSlotItem(
-              context,
-              timeSlotsData.value2[index],
-              timeSlotsData.value1 == timeSlotsData.value2[index],
+              context:context,
+            time:   timeSlotsData.value2[index],
+             isSelected:  timeSlotsData.value1 == timeSlotsData.value2[index],
             );
           },
         ),
@@ -105,10 +109,10 @@ class AvailableDoctorTimeSlotsGrid extends StatelessWidget {
       );
 
   Widget _buildTimeSlotItem(
-          BuildContext context, String time, bool isSelected) =>
+          {required BuildContext context,required String time,required bool isSelected}) =>
       TimeSlotItem(
         time: time,
         isSelected: isSelected,
-        onTap: () => context.read<AppointmentCubit>().setUserTime(time),
+        onTap: () => context.read<AppointmentCubit>().updateSelectedTimeSlot(time),
       );
 }

@@ -7,7 +7,10 @@ import '../../../../core/constants/app_strings/app_strings.dart';
 import '../../../../generated/assets.dart';
 
 class DoctorNotAvailableMessage extends StatelessWidget {
-  const DoctorNotAvailableMessage({super.key});
+  final bool isSelectedDateBeforeToday;
+
+  const DoctorNotAvailableMessage(
+      {super.key, required this.isSelectedDateBeforeToday});
 
   @override
   Widget build(BuildContext context) {
@@ -38,13 +41,22 @@ class DoctorNotAvailableMessage extends StatelessWidget {
   }
 
   Widget _buildRichTextMessage(BuildContext context) {
-    final textStyle = Theme.of(context).textTheme.smallOrangeMedium;
+    final textStyle = Theme.of(context)
+        .textTheme
+        .smallOrangeMedium
+        .copyWith(color: Colors.black);
 
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.only(bottom: 10, left: 5, right: 5),
-        child: Text.rich(
-          TextSpan(
+        child: isSelectedDateBeforeToday
+            ? Text(
+                AppStrings.pastDateBookingError,
+                style: textStyle,
+                textAlign: TextAlign.center,
+              )
+            : Text.rich(
+                TextSpan(
             text: AppStrings.doctorNotAvailableMessage[0],
             style: textStyle,
             children: [

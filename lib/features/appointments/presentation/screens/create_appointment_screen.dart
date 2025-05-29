@@ -65,7 +65,7 @@ class _CreateAppointmentScreenState extends State<CreateAppointmentScreen> {
                       ConsultationFeeAndWaitRow(
                           fee: doctorInfo.fees.toString(),
                       ),
-                      Divider(color: Colors.black12,thickness: 1.7,),
+                      const Divider(color: Colors.black12,thickness: 1.7,),
                       SelectDateAndTime(doctor: doctor),
 
 

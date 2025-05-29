@@ -132,7 +132,7 @@ class AppointmentRepository extends AppointmentRepositoryBase {
 
   @override
   Future<Either<Failure, List<ClientAppointmentsModel>?>>
-      getClientAppointmentsWithDoctorDetails() async {
+      fetchClientAppointmentsWithDoctorDetails() async {
     try {
       final clientId = FirebaseAuth.instance.currentUser!.uid;
 
