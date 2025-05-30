@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_task/core/constants/app_strings/app_strings.dart';
 
 import '../../../../../core/app_settings/controller/cubit/app_settings_cubit.dart';
 import '../../../../../core/enum/appointment_availability_status.dart';
@@ -38,6 +39,7 @@ class AppointmentCubit extends Cubit<AppointmentState> {
     required DateTime selectedDate,
     required DoctorListModel doctor,
   }) async {
+    _clearSelectedTimeSlot();
     final isAvailable = await _checkDoctorAvailability(
       selectedDate: selectedDate,
       workingDays: doctor.doctorModel.workingDays,
@@ -45,7 +47,7 @@ class AppointmentCubit extends Cubit<AppointmentState> {
 
     if (!isAvailable) return;
 
-    _clearSelectedTimeSlot();
+
 
     _selectedDateFormatted =
         DateTimeFormatter.convertSelectedDateToString(selectedDate);
@@ -69,7 +71,7 @@ class AppointmentCubit extends Cubit<AppointmentState> {
     emit(state.copyWith(selectedTimeSlot: selectedSlot));
   }
 
-  Future<void> createAppointmentForDoctor({required String doctorId}) async {
+  Future<void> bookAppointment({required String doctorId}) async {
     if (_isInternetDisconnected()) {
       _emitNoInternetForBooking();
       return;
@@ -77,7 +79,7 @@ class AppointmentCubit extends Cubit<AppointmentState> {
 
     emit(state.copyWith(bookAppointmentState: LazyRequestState.loading));
 
-    final response = await appointmentRepository.createAppointmentForDoctor(
+    final response = await appointmentRepository.bookAppointment(
       doctorId: doctorId,
       date: _selectedDateFormatted!,
       time: state.selectedTimeSlot!,
@@ -108,13 +110,12 @@ class AppointmentCubit extends Cubit<AppointmentState> {
     );
   }
 
-  void deleteData() {
-    emit(state.copyWith(
-      selectedTimeSlot: '',
-      bookAppointmentState: LazyRequestState.lazy,
-    ));
-  }
 
+
+  void resetBookingState() => emit(state.copyWith(
+        bookAppointmentState: LazyRequestState.lazy,
+        bookAppointmentError: '',
+      ));
   // --- Private Helpers ---
 
   bool _isInternetDisconnected() =>
@@ -123,7 +124,7 @@ class AppointmentCubit extends Cubit<AppointmentState> {
   void _emitNoInternetForBooking() {
     emit(state.copyWith(
       bookAppointmentState: LazyRequestState.error,
-      bookAppointmentError: 'No Internet Connection',
+      bookAppointmentError: AppStrings.noInternetConnection,
     ));
   }
 
@@ -134,9 +135,7 @@ class AppointmentCubit extends Cubit<AppointmentState> {
     ));
   }
 
-  void _clearSelectedTimeSlot() {
-    emit(state.copyWith(selectedTimeSlot: ''));
-  }
+  void _clearSelectedTimeSlot() => emit(state.copyWith(selectedTimeSlot: ''));
 
   Future<void> _loadReservedSlots(String doctorId, String date) async {
     final response =

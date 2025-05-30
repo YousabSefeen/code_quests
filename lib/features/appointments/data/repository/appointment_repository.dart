@@ -57,7 +57,7 @@ class AppointmentRepository extends AppointmentRepositoryBase {
   }
 
   @override
-  Future<Either<Failure, void>> createAppointmentForDoctor({
+  Future<Either<Failure, void>> bookAppointment({
     required String doctorId,
     required String date,
     required String time,

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_task/core/constants/app_alerts/no_internet_dialog.dart';
 
+import 'error_dialogs.dart';
 import 'widgets/app_alert_widgets.dart';
 
 class AppAlerts {
@@ -67,6 +69,10 @@ class AppAlerts {
     );
   }
 
+  static showNoInternetDialog(BuildContext context) =>
+      NoInternetDialog.showErrorModal(context: context);
 
-
+  static showErrorDialog(BuildContext context, String errorMessage) =>
+      ErrorDialogs.showErrorDialog(
+          context: context, errorMessage: errorMessage);
 }

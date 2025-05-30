@@ -94,4 +94,8 @@ static const String  to='TO';
   static const String pastDateBookingError =
       'Appointments cannot be scheduled for past dates. '
       'Please select today\'s date or a future date.';
+  static String noInternetConnection='No Internet Connection';
+  static const String kNoInternetBookingErrorMessage =
+      'Booking an appointment requires an active internet connection to confirm and secure your reservation.\nPlease check your connection and try again.';
+
 }

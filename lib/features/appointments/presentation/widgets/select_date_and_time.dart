@@ -19,7 +19,7 @@ class _SelectDateAndTimeState extends State<SelectDateAndTime> {
   @override
   void initState() {
     super.initState();
-    context.read<AppointmentCubit>().deleteData();
+
     context.read<AppointmentCubit>().getAvailableDoctorTimeSlots(
           selectedDate: DateTime.now(),
           doctor: widget.doctor,

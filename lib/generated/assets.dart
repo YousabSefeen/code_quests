@@ -6,6 +6,7 @@ class Assets {
   static const String imagesListEmpty = 'assets/images/list_empty.json';
   static const String imagesLocation = 'assets/images/location.json';
   static const String imagesNew = 'assets/images/new.json';
+  static const String imagesNoInternet = 'assets/images/no_internet.jpeg';
   static const String imagesUploadProfileIcons = 'assets/images/uploadProfileIcons.jpeg';
   static const String imagesXMarker = 'assets/images/x_marker.json';
   static List<String> images = [

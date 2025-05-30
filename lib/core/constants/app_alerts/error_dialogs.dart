@@ -1,8 +1,9 @@
-// core/app_alerts/app_error_dialogs.dart
+
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_task/core/constants/app_routes/app_router.dart';
+import 'package:flutter_task/core/constants/app_alerts/widgets/try_again_button.dart';
+
 import 'package:flutter_task/core/constants/themes/app_text_styles.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:wolt_modal_sheet/wolt_modal_sheet.dart';
@@ -11,8 +12,8 @@ import '../../animations/custom_modal_type_dialog.dart';
 import '../app_strings/app_strings.dart';
 import '../themes/app_colors.dart';
 
-class AppErrorDialogs {
-  static void showErrorModal({
+class  ErrorDialogs {
+  static void showErrorDialog({
     required BuildContext context,
     required String errorMessage,
   }) {
@@ -29,7 +30,7 @@ class AppErrorDialogs {
           navBarHeight: 130,
 
           child: _buildErrorBody(context, errorMessage),
-          stickyActionBar: _buildTryAgainButton(context),
+          stickyActionBar: TryAgainButton(backgroundColor: AppColors.red),
           isTopBarLayerAlwaysVisible: true,
 
         )
@@ -91,24 +92,6 @@ class AppErrorDialogs {
             ),
           ],
         ),
-      ),
-    );
-  }
-  static Widget _buildTryAgainButton(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      height: 45,
-      width: double.infinity,
-      child: ElevatedButton(
-        onPressed: () => AppRouter.pop(context),
-        style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.red,
-          foregroundColor: Colors.white,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-        ),
-        child: const Text(AppStrings.tryAgain),
       ),
     );
   }

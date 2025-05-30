@@ -14,7 +14,7 @@ abstract class AppointmentRepositoryBase {
     required String date,
   });
 
-  Future<Either<Failure, void>> createAppointmentForDoctor({
+  Future<Either<Failure, void>> bookAppointment({
     required String doctorId,
     required String date,
     required String time,
