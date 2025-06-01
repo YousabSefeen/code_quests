@@ -9,6 +9,7 @@ part of 'client_appointments_model.dart';
 ClientAppointmentsModel _$ClientAppointmentsModelFromJson(
         Map<String, dynamic> json) =>
     ClientAppointmentsModel(
+          appointmentId: json['appointmentId'] as String,
       clientId: json['clientId'] as String,
       doctorId: json['doctorId'] as String,
       name: json['name'] as String,
@@ -22,6 +23,7 @@ ClientAppointmentsModel _$ClientAppointmentsModelFromJson(
 Map<String, dynamic> _$ClientAppointmentsModelToJson(
         ClientAppointmentsModel instance) =>
     <String, dynamic>{
+      'appointmentId': instance.appointmentId,
       'clientId': instance.clientId,
       'doctorId': instance.doctorId,
       'name': instance.name,

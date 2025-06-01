@@ -87,12 +87,31 @@ class AppLightTheme {
             fontWeight: FontWeight.w500)),
     elevatedButtonTheme: ElevatedButtonThemeData(
         style: ButtonStyle(
+          elevation:const WidgetStatePropertyAll(1),
+          shape: WidgetStatePropertyAll(RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+            side: const BorderSide(color: Colors.black12, width: 1.7),
+          )),
       backgroundColor: const WidgetStatePropertyAll(AppColors.darkBlue),
       foregroundColor: WidgetStatePropertyAll(AppColors.white),
       overlayColor: WidgetStatePropertyAll(AppColors.grey),
       textStyle: WidgetStatePropertyAll(GoogleFonts.raleway(
-          color: Colors.white, fontSize: 13.sp, fontWeight: FontWeight.w700)),
-    )),
+          color: Colors.white,
+          fontSize: 13.sp,
+          fontWeight: FontWeight.w700,
+          letterSpacing: 1,
+        )),
+      )),
+    /*
+     shape: WidgetStatePropertyAll(RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8),
+        side: const BorderSide(color: Colors.black26, width: 1.7),
+      )),
+      elevation: const WidgetStatePropertyAll(0),
+      backgroundColor: const WidgetStatePropertyAll(Colors.white),
+      foregroundColor: const WidgetStatePropertyAll(Colors.black),
+      overlayColor: const WidgetStatePropertyAll(Colors.black12),
+     */
     textButtonTheme: TextButtonThemeData(
       style: ButtonStyle(
         padding: const WidgetStatePropertyAll(EdgeInsets.only(left: 5)),

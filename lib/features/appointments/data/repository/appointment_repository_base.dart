@@ -22,4 +22,7 @@ abstract class AppointmentRepositoryBase {
 
   Future<Either<Failure, List<ClientAppointmentsModel>?>>
       fetchClientAppointmentsWithDoctorDetails();
+  Future<Either<Failure, void>>
+  deleteAppointment({required String appointmentId,required String doctorId});
+
 }

@@ -179,4 +179,22 @@ class AppointmentCubit extends Cubit<AppointmentState> {
     emit(state.copyWith(appointmentAvailabilityStatus: status));
     return isWorking;
   }
+
+  Future<void> deleteAppointment(
+      {required String appointmentId, required String doctorId}) async {
+    final response = await appointmentRepository.deleteAppointment(
+      appointmentId: appointmentId,
+      doctorId: doctorId,
+    );
+    response.fold((failure) {
+      emit(state.copyWith(
+        deleteAppointment: LazyRequestState.error,
+        deleteAppointmentError: failure.toString(),
+      ));
+    }, (success) {
+      emit(state.copyWith(
+        deleteAppointment: LazyRequestState.loaded,
+      ));
+    });
+  }
 }

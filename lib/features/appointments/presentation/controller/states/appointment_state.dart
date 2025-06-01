@@ -1,21 +1,21 @@
+import 'package:equatable/equatable.dart';
+
 import '../../../../../core/enum/appointment_availability_status.dart';
 import '../../../../../core/enum/lazy_request_state.dart';
 import '../../../../../core/enum/request_state.dart';
 import '../../../data/models/client_appointments_model.dart';
 import '../../../data/models/doctor_appointment_model.dart';
 
-class AppointmentState {
+class AppointmentState extends Equatable{
   final List<DoctorAppointmentModel> doctorAppointmentModel;
   final RequestState doctorAppointmentState;
   final String doctorAppointmentError;
 
-//New
   final AppointmentAvailabilityStatus appointmentAvailabilityStatus;
   final List<String> reservedTimeSlots;
   final RequestState reservedTimeSlotsState;
   final String reservedTimeSlotsError;
 
-// new
   final List<String> availableDoctorTimeSlots;
 
   final String? selectedTimeSlot;
@@ -27,6 +27,10 @@ class AppointmentState {
   final RequestState getClientAppointmentsListState;
   final String getClientAppointmentsListError;
 
+  //New
+
+  final LazyRequestState deleteAppointment;
+  final String deleteAppointmentError;
   const AppointmentState({
     this.doctorAppointmentModel = const [],
     this.doctorAppointmentState = RequestState.loading,
@@ -42,6 +46,8 @@ class AppointmentState {
     this.getClientAppointmentsList = const [],
     this.getClientAppointmentsListState = RequestState.loading,
     this.getClientAppointmentsListError = '',
+    this.deleteAppointment = LazyRequestState.lazy,
+    this.deleteAppointmentError = '',
   });
 
   AppointmentState copyWith({
@@ -59,6 +65,8 @@ class AppointmentState {
     List<ClientAppointmentsModel>? getClientAppointmentsList,
     RequestState? getClientAppointmentsListState,
     String? getClientAppointmentsListError,
+    LazyRequestState? deleteAppointment,
+    String? deleteAppointmentError,
   }) {
     return AppointmentState(
       doctorAppointmentModel:
@@ -85,6 +93,9 @@ class AppointmentState {
           getClientAppointmentsListState ?? this.getClientAppointmentsListState,
       getClientAppointmentsListError:
           getClientAppointmentsListError ?? this.getClientAppointmentsListError,
+      deleteAppointment: deleteAppointment ?? this.deleteAppointment,
+      deleteAppointmentError:
+          deleteAppointmentError ?? this.deleteAppointmentError,
     );
   }
 
@@ -103,6 +114,8 @@ class AppointmentState {
         bookAppointmentError,
         getClientAppointmentsList,
         getClientAppointmentsListState,
-        getClientAppointmentsListError
+        getClientAppointmentsListError,
+        deleteAppointment,
+        deleteAppointmentError,
       ];
 }

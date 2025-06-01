@@ -4,6 +4,7 @@ part 'client_appointments_model.g.dart';
 
 @JsonSerializable()
 class ClientAppointmentsModel {
+  final String appointmentId;
   final String clientId;
   final String doctorId;
   final String name;
@@ -14,7 +15,9 @@ class ClientAppointmentsModel {
   final String status;
 
   ClientAppointmentsModel(
-      {required this.clientId,
+      {
+        required this.appointmentId,
+        required this.clientId,
       required this.doctorId,
       required this.name,
       required this.specialization,

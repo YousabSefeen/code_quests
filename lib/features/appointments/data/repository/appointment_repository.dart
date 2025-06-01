@@ -157,9 +157,37 @@ class AppointmentRepository extends AppointmentRepositoryBase {
         .where('clientId', isEqualTo: clientId)
         .orderBy('date')
         .get();
-    return snapshot.docs.map((doc) => doc.data()).toList();
-  }
 
+
+
+    return snapshot.docs.map((doc) {
+      final data = doc.data();
+      data['appointmentId'] = doc.id;
+      return data;
+    }).toList();
+  }
+  @override
+  deleteAppointment({required String appointmentId,required String doctorId})async{
+     try{
+       await FirebaseFirestore.instance
+           .collection('appointments')
+           .doc(appointmentId)
+           .delete();
+       // حذف من تحت الدكتور
+       await FirebaseFirestore.instance
+           .collection('doctors')
+           .doc(doctorId)
+           .collection('appointments')
+           .doc(appointmentId)
+           .delete();
+
+       return right(null);
+     }catch(e){
+       print('AppointmentRepository.deleteAppointmentId  $e');
+       return left(ServerFailure(catchError: e));
+    }
+
+  }
   List<String> _extractUniqueDoctorIds(
       List<Map<String, dynamic>> appointments) {
     return appointments
@@ -200,4 +228,6 @@ class AppointmentRepository extends AppointmentRepositoryBase {
       appointment['imageUrl'] = doctorData?['imageUrl'];
     }
   }
+
+
 }

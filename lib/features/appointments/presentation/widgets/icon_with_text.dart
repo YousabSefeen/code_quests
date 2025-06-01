@@ -17,14 +17,14 @@ class IconWithText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Icon(icon, size: 20.sp, color: Colors.grey.shade600),
+        Icon(icon, size: 18.sp, color: Colors.grey.shade600),
         const SizedBox(width: 5),
         Text(
           text,
           style: textStyle.copyWith(
-            fontSize: 14.sp,
+            fontSize: 13.sp,
             fontWeight: FontWeight.w500,
-            color: Colors.red,
+            color: Colors.black,
           ),
         ),
       ],
