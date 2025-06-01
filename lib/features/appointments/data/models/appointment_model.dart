@@ -5,15 +5,15 @@ part 'appointment_model.g.dart';
 @JsonSerializable()
 class AppointmentModel {
   final String clientId;
-  final String date;
-  final String time;
-  final String status;
+  final String appointmentDate;
+  final String appointmentTime;
+  final String appointmentStatus;
 
   AppointmentModel({
     required this.clientId,
-    required this.date,
-    required this.time,
-    required this.status,
+    required this.appointmentDate,
+    required this.appointmentTime,
+    required this.appointmentStatus,
   });
 
   factory AppointmentModel.fromJson(Map<String, dynamic> json) =>

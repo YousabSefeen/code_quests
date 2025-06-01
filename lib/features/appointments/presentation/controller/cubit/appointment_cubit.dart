@@ -103,10 +103,13 @@ class AppointmentCubit extends Cubit<AppointmentState> {
         getClientAppointmentsListState: RequestState.error,
         getClientAppointmentsListError: failure.toString(),
       )),
-      (appointments) => emit(state.copyWith(
+      (appointments) {
+        print('AppointmentCubit.fetchClientAppointmentsWithDoctorDetails  ${appointments}');
+        emit(state.copyWith(
         getClientAppointmentsList: appointments,
         getClientAppointmentsListState: RequestState.loaded,
-      )),
+      ));
+      },
     );
   }
 

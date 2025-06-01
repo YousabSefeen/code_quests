@@ -4,19 +4,20 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_task/core/constants/themes/app_text_styles.dart';
 
 import '../../../../../core/constants/app_strings/app_strings.dart';
+import '../../../../doctor_profile/data/models/doctor_model.dart';
 import '../../../data/models/client_appointments_model.dart';
 
 
 
 class BookedAppointmentHeader extends StatelessWidget {
-  final ClientAppointmentsModel appointment;
-  const BookedAppointmentHeader({super.key, required this.appointment});
+  final DoctorModel doctorModel;
+  const BookedAppointmentHeader({super.key, required this.doctorModel});
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       contentPadding: EdgeInsets.zero,
-      leading: _buildDoctorAvatar(appointment.imageUrl),
+      leading: _buildDoctorAvatar(doctorModel.imageUrl),
       title: _buildDoctorName(context),
       subtitle: _buildDoctorSpecialization(context),
     );
@@ -32,7 +33,7 @@ class BookedAppointmentHeader extends StatelessWidget {
 
   Widget _buildDoctorName(BuildContext context) {
     return Text(
-      '${AppStrings.dR} ${appointment.name}',
+      '${AppStrings.dR} ${doctorModel.name}',
       style: Theme.of(context).textTheme.largeBlackBold,
       maxLines: 1,
       overflow: TextOverflow.ellipsis,
@@ -41,7 +42,7 @@ class BookedAppointmentHeader extends StatelessWidget {
 
   Widget _buildDoctorSpecialization(BuildContext context) {
     return Text(
-      appointment.specialization,
+      doctorModel.specialization,
       style: Theme.of(context)
           .listTileTheme
           .subtitleTextStyle!

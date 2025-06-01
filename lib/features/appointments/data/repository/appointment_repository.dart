@@ -3,6 +3,8 @@ import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_task/core/error/failure.dart';
 
+
+import '../../../doctor_profile/data/models/doctor_model.dart';
 import '../models/client_appointments_model.dart';
 import '../models/doctor_appointment_model.dart';
 import 'appointment_repository_base.dart';
@@ -38,14 +40,15 @@ class AppointmentRepository extends AppointmentRepositoryBase {
   Future<Either<Failure, List<String>>> fetchReservedTimeSlotsForDoctorOnDate(
       {required String doctorId, required String date}) async {
     try {
+
       final appointmentsSnapshot = await FirebaseFirestore.instance
           .collection('appointments')
           .where('doctorId', isEqualTo: doctorId)
-          .where('date', isEqualTo: date)
+          .where('appointmentDate', isEqualTo: date)
           .get();
 
       final reservedTimeSlots = appointmentsSnapshot.docs
-          .map((doc) => doc['time'] as String)
+          .map((doc) => doc['appointmentTime'] as String)
           .toList();
 
       return right(reservedTimeSlots);
@@ -105,9 +108,9 @@ class AppointmentRepository extends AppointmentRepositoryBase {
         .doc(appointmentId)
         .set({
       'clientId': clientId,
-      'date': date,
-      'time': time,
-      'status': 'pending',
+      'appointmentDate': date,
+      'appointmentTime': time,
+      'appointmentStatus': 'pending',
     });
   }
 
@@ -124,9 +127,9 @@ class AppointmentRepository extends AppointmentRepositoryBase {
         .set({
       'doctorId': doctorId,
       'clientId': clientId,
-      'date': date,
-      'time': time,
-      'status': 'pending',
+      'appointmentDate': date,
+      'appointmentTime': time,
+      'appointmentStatus': 'pending',
     });
   }
 
@@ -135,15 +138,28 @@ class AppointmentRepository extends AppointmentRepositoryBase {
       fetchClientAppointmentsWithDoctorDetails() async {
     try {
       final clientId = FirebaseAuth.instance.currentUser!.uid;
-
+      //  جلب جميع المواعيد المحجوزة بواسطة الclientId
       final appointments = await _fetchAppointmentsByClientId(clientId);
+
+
+       // بعمل فورلوب علي ال الحجوزات وبجيب ال doctorIds  لجميع الحجوزات
       final doctorIds = _extractUniqueDoctorIds(appointments);
+
       final doctorDataMap = await _fetchDoctorsDataByIds(doctorIds);
 
-      _attachDoctorDetailsToAppointments(appointments, doctorDataMap);
 
-      final models =
-          appointments.map(ClientAppointmentsModel.fromJson).toList();
+
+      final models = appointments.map((appointment) {
+        final doctorId = appointment['doctorId'] as String;
+        final doctorModel = doctorDataMap[doctorId];
+
+        return ClientAppointmentsModel.fromJson({
+          ...appointment,
+          'doctorModel': doctorModel?.toJson() ?? {},
+        });
+      }).toList();
+
+
       return Right(models);
     } catch (e) {
       return left(ServerFailure(catchError: e));
@@ -152,10 +168,12 @@ class AppointmentRepository extends AppointmentRepositoryBase {
 
   Future<List<Map<String, dynamic>>> _fetchAppointmentsByClientId(
       String clientId) async {
+
+
     final snapshot = await FirebaseFirestore.instance
         .collection('appointments')
         .where('clientId', isEqualTo: clientId)
-        .orderBy('date')
+        .orderBy('appointmentDate')
         .get();
 
 
@@ -196,7 +214,7 @@ class AppointmentRepository extends AppointmentRepositoryBase {
         .toList();
   }
 
-  Future<Map<String, Map<String, String>>> _fetchDoctorsDataByIds(
+  Future<Map<String,DoctorModel>> _fetchDoctorsDataByIds(
       List<String> doctorIds) async {
     if (doctorIds.isEmpty) {
       return {};
@@ -206,28 +224,14 @@ class AppointmentRepository extends AppointmentRepositoryBase {
         .where(FieldPath.documentId, whereIn: doctorIds)
         .get();
 
+
     return {
       for (var doc in snapshot.docs)
-        doc.id: {
-          'name': doc.data()['name'] ?? 'Unknown',
-          'specialization': doc.data()['specialization'] ?? 'Unknown',
-          'imageUrl': doc.data()['imageUrl'] ?? 'Unknown',
-        }
+        doc.id: DoctorModel.fromJson(doc.data())
     };
   }
 
-  void _attachDoctorDetailsToAppointments(
-    List<Map<String, dynamic>> appointments,
-    Map<String, Map<String, String>> doctorDataMap,
-  ) {
-    for (var appointment in appointments) {
-      final doctorId = appointment['doctorId'] as String;
-      final doctorData = doctorDataMap[doctorId];
-      appointment['name'] = doctorData?['name'];
-      appointment['specialization'] = doctorData?['specialization'];
-      appointment['imageUrl'] = doctorData?['imageUrl'];
-    }
-  }
+
 
 
 }

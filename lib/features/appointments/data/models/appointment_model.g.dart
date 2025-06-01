@@ -9,15 +9,15 @@ part of 'appointment_model.dart';
 AppointmentModel _$AppointmentModelFromJson(Map<String, dynamic> json) =>
     AppointmentModel(
       clientId: json['clientId'] as String,
-      date: json['date'] as String,
-      time: json['time'] as String,
-      status: json['status'] as String,
+      appointmentDate: json['appointmentDate'] as String,
+      appointmentTime: json['appointmentTime'] as String,
+      appointmentStatus: json['appointmentStatus'] as String,
     );
 
 Map<String, dynamic> _$AppointmentModelToJson(AppointmentModel instance) =>
     <String, dynamic>{
       'clientId': instance.clientId,
-      'date': instance.date,
-      'time': instance.time,
-      'status': instance.status,
+      'appointmentDate': instance.appointmentDate,
+      'appointmentTime': instance.appointmentTime,
+      'appointmentStatus': instance.appointmentStatus,
     };

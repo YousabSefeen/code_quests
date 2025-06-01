@@ -16,12 +16,17 @@ class DoctorListRepository extends DoctorListRepositoryBase {
 
       final List<DoctorListModel> doctorList =
           snapshot.docs.map((QueryDocumentSnapshot<Map<String, dynamic>> doc) {
+
+
         final Map<String, Object> combinedData = {
           'doctorId': doc.id,
           'doctorModel': doc.data(),
         };
+
         return DoctorListModel.fromJson(combinedData);
-      }).toList();
+
+          }).toList();
+
       return right(doctorList);
     }  on SocketException catch(e){
       print('FirebaseException: ${e.message}');

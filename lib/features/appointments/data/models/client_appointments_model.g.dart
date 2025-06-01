@@ -9,27 +9,24 @@ part of 'client_appointments_model.dart';
 ClientAppointmentsModel _$ClientAppointmentsModelFromJson(
         Map<String, dynamic> json) =>
     ClientAppointmentsModel(
-          appointmentId: json['appointmentId'] as String,
+      appointmentId: json['appointmentId'] as String,
       clientId: json['clientId'] as String,
       doctorId: json['doctorId'] as String,
-      name: json['name'] as String,
-      specialization: json['specialization'] as String,
-      imageUrl: json['imageUrl'] as String,
-      date: json['date'] as String,
-      time: json['time'] as String,
-      status: json['status'] as String,
+      appointmentDate: json['appointmentDate'] as String,
+      appointmentTime: json['appointmentTime'] as String,
+      appointmentStatus: json['appointmentStatus'] as String,
+      doctorModel:
+          DoctorModel.fromJson(json['doctorModel'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$ClientAppointmentsModelToJson(
         ClientAppointmentsModel instance) =>
     <String, dynamic>{
       'appointmentId': instance.appointmentId,
+      'appointmentDate': instance.appointmentDate,
+      'appointmentTime': instance.appointmentTime,
+      'appointmentStatus': instance.appointmentStatus,
       'clientId': instance.clientId,
       'doctorId': instance.doctorId,
-      'name': instance.name,
-      'specialization': instance.specialization,
-      'imageUrl': instance.imageUrl,
-      'date': instance.date,
-      'time': instance.time,
-      'status': instance.status,
+      'doctorModel': instance.doctorModel.toJson(),
     };

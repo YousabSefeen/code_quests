@@ -36,19 +36,19 @@ class BookedAppointmentFooter extends StatelessWidget {
 
   Widget _buildDateInfo(BuildContext context) => IconWithText(
       icon: Icons.calendar_month,
-      text: appointment.date,
+      text: appointment.appointmentDate,
       textStyle: Theme.of(context).textTheme.smallWhiteRegular,
     );
 
   Widget _buildTimeInfo(BuildContext context) => IconWithText(
       icon: Icons.alarm,
-      text: appointment.time,
+      text: appointment.appointmentTime,
       textStyle: Theme.of(context).textTheme.smallWhiteRegular,
     );
 
   Widget _buildStatusInfo(BuildContext context) => IconWithText(
       icon: Icons.circle_rounded,
-      text: appointment.status,
+      text: appointment.appointmentStatus,
       textStyle: Theme.of(context).textTheme.smallWhiteRegular,
     );
 
