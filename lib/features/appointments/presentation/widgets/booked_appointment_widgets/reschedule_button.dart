@@ -25,8 +25,7 @@ class RescheduleButton extends StatelessWidget {
             overlayColor: const WidgetStatePropertyAll(Colors.white),
           ),
 
-      onPressed: () {
-        AppAlerts.showCustomBottomSheet(
+      onPressed: () => AppAlerts.showCustomBottomSheet(
             context: context,
             title: AppStrings.reschedule,
             body: Padding(
@@ -46,9 +45,7 @@ class RescheduleButton extends StatelessWidget {
                   ),
                 ],
               ),
-            ));
-
-      },
+            )),
       child: const Text(AppStrings.reschedule),
     );
   }

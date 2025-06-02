@@ -143,12 +143,13 @@ class BookAppointmentButton extends StatelessWidget {
       );
 
   /// Navigates back to doctor list screen and removes all previous routes
+  // void _navigateToDoctorList(BuildContext context) =>
+  //     AppRouter.pushNamedAndRemoveUntil(
+  //       context,
+  //       AppRouterNames.doctorListView,
+  //     );
   void _navigateToDoctorList(BuildContext context) =>
-      AppRouter.pushNamedAndRemoveUntil(
-        context,
-        AppRouterNames.doctorListView,
-      );
-
+      AppRouter.pop(context);
   /// Resets booking state to initial values in cubit
   void _resetBookingState(BuildContext context) =>
       context.read<AppointmentCubit>().resetBookingState();
