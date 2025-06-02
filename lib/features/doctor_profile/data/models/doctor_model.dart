@@ -1,6 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
+import '../../../shared/models/availability_model.dart';
+
 part 'doctor_model.g.dart';
 
 @JsonSerializable()
@@ -11,9 +13,9 @@ class DoctorModel extends Equatable {
   final String bio;
 
   final String location;
-  final List<String> workingDays;
-  final String? availableFrom;
-  final String? availableTo;
+
+ final DoctorAvailabilityModel doctorAvailability;
+
   final int fees;
 
   const DoctorModel({
@@ -22,9 +24,9 @@ class DoctorModel extends Equatable {
     required this.specialization,
     required this.bio,
     required this.location,
-    required this.workingDays,
-    required this.availableFrom,
-    required this.availableTo,
+   required this.doctorAvailability,
+
+
     required this.fees,
   });
 
@@ -40,9 +42,7 @@ class DoctorModel extends Equatable {
         specialization,
         bio,
         location,
-        workingDays,
-        availableFrom,
-        availableTo,
+    doctorAvailability,
         fees,
       ];
 }

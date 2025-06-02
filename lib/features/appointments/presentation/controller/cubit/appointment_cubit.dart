@@ -42,7 +42,7 @@ class AppointmentCubit extends Cubit<AppointmentState> {
     _clearSelectedTimeSlot();
     final isAvailable = await _checkDoctorAvailability(
       selectedDate: selectedDate,
-      workingDays: doctor.doctorModel.workingDays,
+      workingDays: doctor.doctorModel.doctorAvailability.workingDays,
     );
 
     if (!isAvailable) return;
@@ -53,8 +53,8 @@ class AppointmentCubit extends Cubit<AppointmentState> {
         DateTimeFormatter.convertSelectedDateToString(selectedDate);
 
     final allTimeSlots = TimeSlotHelper.generateHourlyTimeSlots(
-      startTime: doctor.doctorModel.availableFrom!,
-      endTime: doctor.doctorModel.availableTo!,
+      startTime: doctor.doctorModel.doctorAvailability.availableFrom!,
+      endTime: doctor.doctorModel.doctorAvailability.availableTo!,
     );
 
     await _loadReservedSlots(doctor.doctorId, _selectedDateFormatted!);

@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_task/core/constants/app_strings/app_strings.dart';
 import 'package:flutter_task/core/enum/lazy_request_state.dart';
+import 'package:flutter_task/features/shared/models/availability_model.dart';
 import 'package:flutter_task/generated/assets.dart';
 
 import '../../../data/models/doctor_model.dart';
@@ -80,9 +81,12 @@ class DoctorProfileCubit extends Cubit<DoctorProfileState> {
         specialization: _cachedControllers!.specializationController.text,
         bio:_cachedControllers!.bioController.text,
         location:_cachedControllers!.locationController.text,
-        workingDays: state.confirmedWorkingDays,
-        availableFrom: state.workHoursSelected[AppStrings.from],
-        availableTo: state.workHoursSelected[AppStrings.to],
+        doctorAvailability: DoctorAvailabilityModel(
+          workingDays: state.confirmedWorkingDays,
+          availableFrom: state.workHoursSelected[AppStrings.from],
+          availableTo: state.workHoursSelected[AppStrings.to],
+        ),
+
         fees: int.parse(_cachedControllers!.feesController.text) ,
       ),
     );

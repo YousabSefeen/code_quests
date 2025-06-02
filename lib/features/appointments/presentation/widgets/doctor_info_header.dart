@@ -36,7 +36,7 @@ class DoctorInfoHeader extends StatelessWidget {
       ],
     );
   }
-   getWorkingDays()=> doctorInfo.workingDays.toString().replaceAll('[', '').replaceAll(']', '');
+   getWorkingDays()=> doctorInfo.doctorAvailability.workingDays.toString().replaceAll('[', '').replaceAll(']', '');
   RichText _customRichText({
     required BuildContext context,
     required String title,

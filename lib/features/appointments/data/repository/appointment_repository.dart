@@ -3,7 +3,6 @@ import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_task/core/error/failure.dart';
 
-
 import '../../../doctor_profile/data/models/doctor_model.dart';
 import '../models/client_appointments_model.dart';
 import '../models/doctor_appointment_model.dart';
@@ -230,8 +229,5 @@ class AppointmentRepository extends AppointmentRepositoryBase {
         doc.id: DoctorModel.fromJson(doc.data())
     };
   }
-
-
-
 
 }

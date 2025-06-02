@@ -40,12 +40,7 @@ class _BookedAppointmentsScreenState extends State<BookedAppointmentsScreen> {
             case RequestState.loaded:
 
               return state.getClientAppointmentsList.isEmpty
-                  ? GestureDetector(
-                  onTap: (){
-                    context.read<AppointmentCubit>().fetchClientAppointmentsWithDoctorDetails();
-                  },
-
-                  child: const BookingEmptyWidget())
+                  ? const BookingEmptyWidget()
                   : BookedAppointmentsList(
                       appointmentsList: state.getClientAppointmentsList,
                     );

@@ -12,11 +12,8 @@ DoctorModel _$DoctorModelFromJson(Map<String, dynamic> json) => DoctorModel(
       specialization: json['specialization'] as String,
       bio: json['bio'] as String,
       location: json['location'] as String,
-      workingDays: (json['workingDays'] as List<dynamic>)
-          .map((e) => e as String)
-          .toList(),
-      availableFrom: json['availableFrom'] as String?,
-      availableTo: json['availableTo'] as String?,
+      doctorAvailability: DoctorAvailabilityModel.fromJson(
+          json['doctorAvailability'] as Map<String, dynamic>),
       fees: (json['fees'] as num).toInt(),
     );
 
@@ -27,8 +24,6 @@ Map<String, dynamic> _$DoctorModelToJson(DoctorModel instance) =>
       'specialization': instance.specialization,
       'bio': instance.bio,
       'location': instance.location,
-      'workingDays': instance.workingDays,
-      'availableFrom': instance.availableFrom,
-      'availableTo': instance.availableTo,
+      'doctorAvailability': instance.doctorAvailability.toJson(),
       'fees': instance.fees,
     };
