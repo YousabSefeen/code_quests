@@ -31,7 +31,9 @@ class AnimatedRoute extends PageRouteBuilder {
               return ScaleTransition(scale: scale, child: child);
             }
           },
-          transitionDuration: AppDurations.milliseconds_1000,
-          reverseTransitionDuration: AppDurations.milliseconds_1000,
+    //     transitionDuration: AppDurations.milliseconds_800,
+          transitionDuration: const Duration(milliseconds: 650),
+        //  reverseTransitionDuration: AppDurations.milliseconds_800,
+          reverseTransitionDuration: const Duration(milliseconds: 400),
         );
 }

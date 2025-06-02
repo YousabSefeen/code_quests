@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_task/core/constants/themes/app_text_styles.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../themes/app_colors.dart';
 
@@ -70,5 +71,21 @@ class AppAlertWidgets {
         ),
       ),
     );
+  }
+
+  static customSheetTopBar( BuildContext context ,String title){
+    return Container(
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        color: AppColors.softBlue,
+        borderRadius: BorderRadius.vertical(top: Radius.circular(12.r)),
+      ),
+      child: Text(
+       title,
+        style: Theme.of(context).textTheme.dialogTitleStyle,
+        textAlign: TextAlign.center,
+      ),
+    );
+
   }
 }

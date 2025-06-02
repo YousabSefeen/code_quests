@@ -10,6 +10,7 @@ import '../../../../../core/utils/date_time_formatter.dart';
 import '../../../../../core/utils/time_slot_helper.dart';
 import '../../../../doctor_list/data/models/doctor_list_model.dart';
 import '../../../../shared/models/availability_model.dart';
+import '../../../../shared/models/doctor_schedule_model.dart';
 import '../../../data/repository/appointment_repository.dart';
 import '../states/appointment_state.dart';
 
@@ -38,13 +39,14 @@ class AppointmentCubit extends Cubit<AppointmentState> {
 
   Future<void> getAvailableDoctorTimeSlots({
     required DateTime selectedDate,
-    required String doctorId,
-    required DoctorAvailabilityModel doctorAvailability,
+
+    required DoctorScheduleModel doctorSchedule,
   }) async {
+
     _clearSelectedTimeSlot();
     final isAvailable = await _checkDoctorAvailability(
       selectedDate: selectedDate,
-      workingDays: doctorAvailability.workingDays,
+      workingDays:doctorSchedule.doctorAvailability.workingDays,
     );
 
     if (!isAvailable) return;
@@ -55,11 +57,11 @@ class AppointmentCubit extends Cubit<AppointmentState> {
         DateTimeFormatter.convertSelectedDateToString(selectedDate);
 
     final allTimeSlots = TimeSlotHelper.generateHourlyTimeSlots(
-      startTime: doctorAvailability.availableFrom!,
-      endTime:doctorAvailability.availableTo!,
+      startTime: doctorSchedule.doctorAvailability.availableFrom!,
+      endTime: doctorSchedule.doctorAvailability.availableTo!,
     );
 
-    await _loadReservedSlots( doctorId, _selectedDateFormatted!);
+    await _loadReservedSlots( doctorSchedule.doctorId, _selectedDateFormatted!);
 
     final availableSlots = TimeSlotHelper.filterAvailableTimeSlots(
       totalTimeSlots: allTimeSlots,

@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import '../../data/models/client_appointments_model.dart';
 import 'booked_appointment_widgets/booked_appointment_footer.dart';
 import 'booked_appointment_widgets/booked_appointment_header.dart';
-import 'booked_appointment_widgets/cancel_button.dart';
-import 'booked_appointment_widgets/reschedule_button.dart';
 
 class AppointmentCard extends StatelessWidget {
   final ClientAppointmentsModel appointment;

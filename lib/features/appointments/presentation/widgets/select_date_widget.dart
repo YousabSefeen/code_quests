@@ -5,14 +5,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_task/core/constants/themes/app_colors.dart';
 import 'package:flutter_task/core/constants/themes/app_text_styles.dart';
 
-import '../../../doctor_list/data/models/doctor_list_model.dart';
+
+import '../../../shared/models/availability_model.dart';
+import '../../../shared/models/doctor_schedule_model.dart';
 import '../controller/cubit/appointment_cubit.dart';
 
 class SelectDateWidget extends StatelessWidget {
-  final DoctorListModel doctor;
+  final DoctorScheduleModel doctorSchedule;
 
   const SelectDateWidget({
-    super.key, required this.doctor});
+    super.key,  required this.doctorSchedule, });
 
   @override
   Widget build(BuildContext context) {
@@ -52,8 +54,7 @@ class SelectDateWidget extends StatelessWidget {
   void _handleDateSelection(BuildContext context, DateTime selectedDate) {
     context.read<AppointmentCubit>().getAvailableDoctorTimeSlots(
           selectedDate: selectedDate,
-          doctorId: doctor.doctorId,
-          doctorAvailability: doctor.doctorModel.doctorAvailability,
+       doctorSchedule: doctorSchedule
         );
   }
 

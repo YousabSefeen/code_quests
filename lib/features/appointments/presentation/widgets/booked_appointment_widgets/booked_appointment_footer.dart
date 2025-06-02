@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_task/core/constants/themes/app_text_styles.dart';
 import 'package:flutter_task/features/appointments/presentation/widgets/booked_appointment_widgets/reschedule_button.dart';
+import 'package:flutter_task/features/shared/models/doctor_schedule_model.dart';
 
 import '../../../data/models/client_appointments_model.dart';
 import '../icon_with_text.dart';
@@ -19,7 +20,7 @@ class BookedAppointmentFooter extends StatelessWidget {
         spacing: 5,
         children: [
           _buildDoctorInfoSection(context),
-          _buildActionButtonsSection(),
+          _buildActionButtonsSection(appointment),
         ],
       ),
     );
@@ -52,14 +53,20 @@ class BookedAppointmentFooter extends StatelessWidget {
       textStyle: Theme.of(context).textTheme.smallWhiteRegular,
     );
 
-  Widget _buildActionButtonsSection() => const Padding(
-      padding: EdgeInsets.symmetric(vertical: 3),
-      child: Row(
+  Widget _buildActionButtonsSection(ClientAppointmentsModel appointment) =>
+      Padding(
+        padding: const EdgeInsets.symmetric(vertical: 3),
+        child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          CancelButton(),
-          RescheduleButton(),
-        ],
+            const CancelButton(),
+            RescheduleButton(
+              doctorSchedule: DoctorScheduleModel(
+                doctorId: appointment.doctorId,
+                doctorAvailability: appointment.doctorModel.doctorAvailability,
+              ),
+            ),
+          ],
       ),
     );
 }

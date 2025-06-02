@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_task/core/constants/app_alerts/no_internet_dialog.dart';
+import 'package:wolt_modal_sheet/wolt_modal_sheet.dart';
 
+import '../../../features/doctor_profile/presentation/widgets/working_days_dialog_header.dart';
+import '../../animations/custom_modal_type_bottom_sheet.dart';
 import 'error_dialogs.dart';
 import 'widgets/app_alert_widgets.dart';
 
@@ -68,7 +71,28 @@ class AppAlerts {
       },
     );
   }
-
+static  void  showCustomBottomSheet({required BuildContext context, required String title ,required Widget body}) => WoltModalSheet.show(
+    context: context,
+    modalTypeBuilder: (_) => CustomModalTypeBottomSheet(),
+    barrierDismissible: true,
+    pageListBuilder: (modalSheetContext) => [
+      WoltModalSheetPage(
+        hasSabGradient: false,
+        topBar:AppAlertWidgets.customSheetTopBar(context, title),
+        isTopBarLayerAlwaysVisible: true,
+        trailingNavBarWidget: IconButton(
+          padding: const EdgeInsets.all(20),
+          icon: const Icon(Icons.close, color: Colors.white),
+          onPressed: Navigator.of(modalSheetContext).pop,
+        ),
+        child:  body,
+      )
+    ],
+    onModalDismissedWithBarrierTap: () {
+      debugPrint('Closed modal sheet with barrier tap');
+      Navigator.of(context).pop();
+    },
+  );
   static showNoInternetDialog(BuildContext context) =>
       NoInternetDialog.showErrorModal(context: context);
 

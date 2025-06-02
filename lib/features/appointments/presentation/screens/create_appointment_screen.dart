@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_task/features/appointments/presentation/widgets/custom_sliver_app_bar.dart';
-import 'package:flutter_task/features/appointments/presentation/widgets/select_date_and_time.dart';
+import 'package:flutter_task/features/appointments/presentation/widgets/doctor_appointment_booking_section.dart';
 import 'package:flutter_task/features/doctor_profile/data/models/doctor_model.dart';
+import 'package:flutter_task/features/shared/models/doctor_schedule_model.dart';
 
 import '../../../../core/constants/common_widgets/consultation_fee_and_wait_row.dart';
 import '../../../doctor_list/data/models/doctor_list_model.dart';
-import '../widgets/book_appointment_button.dart';
 import '../widgets/doctor_info_header.dart';
 
 class CreateAppointmentScreen extends StatefulWidget {
@@ -66,10 +66,12 @@ class _CreateAppointmentScreenState extends State<CreateAppointmentScreen> {
                           fee: doctorInfo.fees.toString(),
                       ),
                       const Divider(color: Colors.black12,thickness: 1.7),
-                      SelectDateAndTime(doctor: doctor),
-
-
-                      BookAppointmentButton(doctorId: doctor.doctorId),
+                      DoctorAppointmentBookingSection(
+                        doctorSchedule: DoctorScheduleModel(
+                            doctorId: doctor.doctorId,
+                            doctorAvailability: doctorInfo.doctorAvailability,
+                        ),
+                      ),
                     ],
                   ),
                 ),
