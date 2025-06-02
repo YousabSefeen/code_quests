@@ -52,7 +52,8 @@ class SelectDateWidget extends StatelessWidget {
   void _handleDateSelection(BuildContext context, DateTime selectedDate) {
     context.read<AppointmentCubit>().getAvailableDoctorTimeSlots(
           selectedDate: selectedDate,
-          doctor: doctor,
+          doctorId: doctor.doctorId,
+          doctorAvailability: doctor.doctorModel.doctorAvailability,
         );
   }
 
