@@ -34,6 +34,7 @@ class AppointmentRescheduleButton extends StatelessWidget {
     );
   }
 
+  /// Displays bottom sheet for rescheduling appointment
   void _showRescheduleBottomSheet(BuildContext context) =>
       AppAlerts.showCustomBottomSheet(
         context: context,
@@ -41,6 +42,7 @@ class AppointmentRescheduleButton extends StatelessWidget {
         body: _buildRescheduleContent(),
       );
 
+  /// Builds the content of reschedule bottom sheet
   Widget _buildRescheduleContent() => Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 30),
         child: Column(
@@ -54,6 +56,7 @@ class AppointmentRescheduleButton extends StatelessWidget {
         ),
       );
 
+  /// Builds title widget for reschedule bottom sheet
   Widget _buildRescheduleTitle() => Text(
         'When would you like to come?',
         style: GoogleFonts.roboto(
@@ -65,6 +68,7 @@ class AppointmentRescheduleButton extends StatelessWidget {
         textAlign: TextAlign.start,
       );
 
+  /// Builds doctor booking section widget
   Widget _buildDoctorBookingSection() => DoctorAppointmentBookingSection(
         doctorSchedule: DoctorScheduleModel(
           doctorId: appointment.doctorId,
@@ -72,6 +76,7 @@ class AppointmentRescheduleButton extends StatelessWidget {
         ),
       );
 
+  /// Builds confirmation button for rescheduling
   Widget _buildRescheduleConfirmationButton() => RescheduleConfirmationButton(
         doctorId: appointment.doctorId,
         appointmentId: appointment.appointmentId,
@@ -87,7 +92,6 @@ class RescheduleConfirmationButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return BlocSelector<AppointmentCubit, AppointmentState,
         AppointmentActionState>(
       selector: (state) => AppointmentActionState(
@@ -96,42 +100,40 @@ class RescheduleConfirmationButton extends StatelessWidget {
         actionError: state.rescheduleAppointmentError,
       ),
       builder: (context, appointmentData) {
-        _handleAppointmentResponse(context, appointmentData);
-        return _buildConfirmRescheduleButton(context, appointmentData);
+        _handleRescheduleResponse(context, appointmentData);
+        return _buildRescheduleButton(context, appointmentData);
       },
     );
-
-
-
   }
-  Widget _buildConfirmRescheduleButton(
+
+  /// Builds the reschedule confirmation button with appropriate state
+  Widget _buildRescheduleButton(
       BuildContext context, AppointmentActionState appointmentData) {
     final isButtonDisabled = appointmentData.selectedTimeSlot == '';
-    final isLoading =
-        appointmentData.actionState == LazyRequestState.loading;
+    final isLoading = appointmentData.actionState == LazyRequestState.loading;
 
     return AdaptiveActionButton(
       title: AppStrings.confirmReschedule,
       isButtonDisabled: isButtonDisabled,
       isLoading: isLoading,
-      onPressed: () => _confirmReschedule(context),
+      onPressed: () => _executeReschedule(context),
     );
   }
-  /// Initiates the appointment booking process
-  void _confirmReschedule(BuildContext context) =>
-      context.read<AppointmentCubit>().rescheduleAppointment(doctorId: doctorId, appointmentId: appointmentId);
 
+  /// Triggers the reschedule appointment process
+  void _executeReschedule(BuildContext context) => context
+      .read<AppointmentCubit>()
+      .rescheduleAppointment(doctorId: doctorId, appointmentId: appointmentId);
 
-  /// Handles different states of appointment booking process
-  /// Routes to appropriate handlers based on current state
-  void _handleAppointmentResponse(
+  /// Handles different states of the reschedule process
+  void _handleRescheduleResponse(
       BuildContext context, AppointmentActionState appointmentData) {
     switch (appointmentData.actionState) {
       case LazyRequestState.error:
-        _handleBookingError(context, appointmentData.actionError);
+        _showRescheduleError(context, appointmentData.actionError);
         break;
       case LazyRequestState.loaded:
-        _handleAppointmentRescheduleSuccess(context);
+        _handleSuccessfulReschedule(context);
         break;
       case LazyRequestState.loading:
       case LazyRequestState.lazy:
@@ -139,10 +141,8 @@ class RescheduleConfirmationButton extends StatelessWidget {
     }
   }
 
-  /// Handles error state after failed booking attempt
-  /// Shows appropriate error dialog based on error type
-  /// Resets booking state after showing error
-  void _handleBookingError(BuildContext context, String errorMessage) {
+  /// Shows appropriate error dialog when reschedule fails
+  void _showRescheduleError(BuildContext context, String errorMessage) {
     Future.microtask(() {
       if (!context.mounted) return;
 
@@ -150,52 +150,42 @@ class RescheduleConfirmationButton extends StatelessWidget {
         NoInternetDialog.showErrorModal(context: context);
       } else {
         AppAlerts.showErrorDialog(
-            context, AppStrings.kNoInternetBookingErrorMessage,
+          context,
+          AppStrings.kNoInternetBookingErrorMessage,
         );
       }
 
-      _resetRescheduleAppointmentState(context);
+      _resetRescheduleState(context);
     });
   }
 
-  /// Handles successful booking completion
-  /// Shows success dialog, navigates to doctor list after delay
-  /// Clears current appointment data
-  void _handleAppointmentRescheduleSuccess(BuildContext context) {
+  /// Handles successful reschedule completion
+  void _handleSuccessfulReschedule(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!context.mounted) return;
 
+      _returnToPreviousScreen(context);
 
-
+      Future.delayed(const Duration(milliseconds: 500), () {
         if (!context.mounted) return;
-        _navigateToDoctorList(context);
-        Future.delayed(const Duration(milliseconds: 500),() {
-          if(!context.mounted) return;
-          _showSuccessDialog(context);
-        } );
+        _displaySuccessMessage(context);
+      });
 
-
-
-      _resetRescheduleAppointmentState(context);
+      _resetRescheduleState(context);
     });
   }
 
-  /// Displays success dialog after booking confirmation
-  void _showSuccessDialog(BuildContext context) =>
+  /// Displays success dialog after rescheduling
+  void _displaySuccessMessage(BuildContext context) =>
       AppAlerts.showAppointmentSuccessDialog(
         context: context,
         message: AppStrings.rescheduleSuccessMessage,
       );
 
-  /// Navigates back to doctor list screen and removes all previous routes
-  // void _navigateToDoctorList(BuildContext context) =>
-  //     AppRouter.pushNamedAndRemoveUntil(
-  //       context,
-  //       AppRouterNames.doctorListView,
-  //     );
-  void _navigateToDoctorList(BuildContext context) =>
-      AppRouter.pop(context);
-  /// Resets booking state to initial values in cubit
-  void _resetRescheduleAppointmentState(BuildContext context) =>
-      context.read<AppointmentCubit>().resetRescheduleAppointmentState();
+  /// Navigates back to previous screen
+  void _returnToPreviousScreen(BuildContext context) => AppRouter.pop(context);
 
+  /// Resets the reschedule state in cubit
+  void _resetRescheduleState(BuildContext context) =>
+      context.read<AppointmentCubit>().resetRescheduleAppointmentState();
 }
