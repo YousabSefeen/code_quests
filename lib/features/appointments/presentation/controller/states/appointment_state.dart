@@ -22,6 +22,8 @@ class AppointmentState extends Equatable{
 
   final LazyRequestState bookAppointmentState;
   final String bookAppointmentError;
+  final LazyRequestState rescheduleAppointmentState;
+  final String rescheduleAppointmentError;
 
   final List<ClientAppointmentsModel> getClientAppointmentsList;
   final RequestState getClientAppointmentsListState;
@@ -43,6 +45,8 @@ class AppointmentState extends Equatable{
     this.selectedTimeSlot,
     this.bookAppointmentState = LazyRequestState.lazy,
     this.bookAppointmentError = '',
+    this.rescheduleAppointmentState = LazyRequestState.lazy,
+    this.rescheduleAppointmentError = '',
     this.getClientAppointmentsList = const [],
     this.getClientAppointmentsListState = RequestState.loading,
     this.getClientAppointmentsListError = '',
@@ -62,6 +66,8 @@ class AppointmentState extends Equatable{
     String? selectedTimeSlot,
     LazyRequestState? bookAppointmentState,
     String? bookAppointmentError,
+    LazyRequestState? rescheduleAppointmentState,
+    String? rescheduleAppointmentError,
     List<ClientAppointmentsModel>? getClientAppointmentsList,
     RequestState? getClientAppointmentsListState,
     String? getClientAppointmentsListError,
@@ -87,6 +93,10 @@ class AppointmentState extends Equatable{
       selectedTimeSlot: selectedTimeSlot ?? this.selectedTimeSlot,
       bookAppointmentState: bookAppointmentState ?? this.bookAppointmentState,
       bookAppointmentError: bookAppointmentError ?? this.bookAppointmentError,
+      rescheduleAppointmentState:
+          rescheduleAppointmentState ?? this.rescheduleAppointmentState,
+      rescheduleAppointmentError:
+          rescheduleAppointmentError ?? this.rescheduleAppointmentError,
       getClientAppointmentsList:
           getClientAppointmentsList ?? this.getClientAppointmentsList,
       getClientAppointmentsListState:
@@ -112,6 +122,8 @@ class AppointmentState extends Equatable{
         selectedTimeSlot,
         bookAppointmentState,
         bookAppointmentError,
+        rescheduleAppointmentState,
+        rescheduleAppointmentError,
         getClientAppointmentsList,
         getClientAppointmentsListState,
         getClientAppointmentsListError,

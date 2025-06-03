@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_task/core/constants/app_alerts/app_alerts.dart';
 import 'package:flutter_task/core/constants/app_routes/app_router.dart';
-import 'package:flutter_task/core/constants/app_routes/app_router_names.dart';
-import 'package:flutter_task/core/constants/themes/app_colors.dart';
 import 'package:flutter_task/features/appointments/presentation/controller/cubit/appointment_cubit.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_task/features/appointments/presentation/widgets/custom_widgets/adaptive_action_button.dart';
 
 import '../../../../core/constants/app_alerts/no_internet_dialog.dart';
 import '../../../../core/constants/app_strings/app_strings.dart';
 import '../../../../core/enum/lazy_request_state.dart';
-import '../../data/models/book_appointment_model.dart';
+import '../controller/states/appointment_action_state.dart';
 import '../controller/states/appointment_state.dart';
 
 class BookAppointmentButton extends StatelessWidget {
@@ -21,22 +18,17 @@ class BookAppointmentButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.all(12.0),
-      width: double.infinity,
-      height: 50,
-      child: BlocSelector<AppointmentCubit, AppointmentState,
-          BookAppointmentModel>(
-        selector: (state) => BookAppointmentModel(
-          selectedTimeSlot: state.selectedTimeSlot,
-          bookAppointmentState: state.bookAppointmentState,
-          bookAppointmentError: state.bookAppointmentError,
-        ),
-        builder: (context, appointmentData) {
-          _handleAppointmentResponse(context, appointmentData);
-          return _buildBookingButton(context, appointmentData);
-        },
+    return BlocSelector<AppointmentCubit, AppointmentState,
+        AppointmentActionState>(
+      selector: (state) => AppointmentActionState(
+        selectedTimeSlot: state.selectedTimeSlot,
+        actionState: state.bookAppointmentState,
+        actionError: state.bookAppointmentError,
       ),
+      builder: (context, appointmentData) {
+        _handleAppointmentResponse(context, appointmentData);
+        return _buildBookingButton(context, appointmentData);
+      },
     );
   }
 
@@ -44,53 +36,30 @@ class BookAppointmentButton extends StatelessWidget {
   /// Handles disabled state when no time slot is selected
   /// Shows loading indicator when appointment is being booked
   Widget _buildBookingButton(
-      BuildContext context, BookAppointmentModel appointmentData) {
+      BuildContext context, AppointmentActionState appointmentData) {
     final isButtonDisabled = appointmentData.selectedTimeSlot == '';
     final isLoading =
-        appointmentData.bookAppointmentState == LazyRequestState.loading;
+        appointmentData.actionState == LazyRequestState.loading;
 
-    return ElevatedButton(
-      onPressed: isButtonDisabled ? null : () => _bookAppointment(context),
-      style: _getButtonStyle(isButtonDisabled),
-      child: isLoading
-          ? const CircularProgressIndicator(color: Colors.white)
-          : _buildButtonText(),
+    return AdaptiveActionButton(
+      title: AppStrings.bookAppointment,
+      isButtonDisabled: isButtonDisabled,
+      isLoading: isLoading,
+      onPressed: () => _bookAppointment(context),
     );
   }
 
   /// Initiates the appointment booking process
-  void _bookAppointment(BuildContext context) {
-    context.read<AppointmentCubit>().bookAppointment(doctorId: doctorId);
-  }
-
-  /// Returns the appropriate button style based on disabled state
-  ButtonStyle _getButtonStyle(bool isDisabled) {
-    return ButtonStyle(
-      backgroundColor: WidgetStatePropertyAll(
-          isDisabled ? Colors.grey.shade300 : AppColors.softBlue),
-      foregroundColor:
-          WidgetStatePropertyAll(isDisabled ? Colors.black : Colors.white),
-    );
-  }
-
-  /// Builds the text widget for the button with consistent styling
-  Widget _buildButtonText() {
-    return Text(
-      'Book Appointment',
-      style: GoogleFonts.raleway(
-        fontSize: 19.sp,
-        fontWeight: FontWeight.w700,
-      ),
-    );
-  }
+  void _bookAppointment(BuildContext context) =>
+      context.read<AppointmentCubit>().bookAppointment(doctorId: doctorId);
 
   /// Handles different states of appointment booking process
   /// Routes to appropriate handlers based on current state
   void _handleAppointmentResponse(
-      BuildContext context, BookAppointmentModel appointmentData) {
-    switch (appointmentData.bookAppointmentState) {
+      BuildContext context, AppointmentActionState appointmentData) {
+    switch (appointmentData.actionState) {
       case LazyRequestState.error:
-        _handleBookingError(context, appointmentData.bookAppointmentError);
+        _handleBookingError(context, appointmentData.actionError);
         break;
       case LazyRequestState.loaded:
         _handleBookingSuccess(context);

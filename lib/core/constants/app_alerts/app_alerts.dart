@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_task/core/constants/app_alerts/no_internet_dialog.dart';
 import 'package:wolt_modal_sheet/wolt_modal_sheet.dart';
 
-import '../../../features/doctor_profile/presentation/widgets/working_days_dialog_header.dart';
 import '../../animations/custom_modal_type_bottom_sheet.dart';
 import 'error_dialogs.dart';
 import 'widgets/app_alert_widgets.dart';
@@ -48,7 +47,7 @@ class AppAlerts {
       barrierLabel: message,
       transitionDuration: const Duration(milliseconds: 300),
       pageBuilder: (context, _, __) {
-        Future.delayed(const Duration(milliseconds: 600), () {
+        Future.delayed(const Duration(milliseconds: 900), () {
           if (!context.mounted) return;
           Navigator.of(context).pop();
         });

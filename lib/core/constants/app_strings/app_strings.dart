@@ -97,6 +97,10 @@ static const String  to='TO';
   static String noInternetConnection='No Internet Connection';
   static const String kNoInternetBookingErrorMessage =
       'Booking an appointment requires an active internet connection to confirm and secure your reservation.\nPlease check your connection and try again.';
+static const String bookAppointment='Book Appointment';
 static const String cancel='Cancel';
 static const String reschedule='Reschedule';
+static const String editBookingAppointment='Edit Booking Appointment';
+  static const String rescheduleSuccessMessage = 'Appointment rescheduled successfully!';
+static const String confirmReschedule='Confirm Reschedule';
 }

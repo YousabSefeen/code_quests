@@ -44,7 +44,7 @@ class _DoctorAppointmentBookingSectionState
             doctorSchedule:widget.doctorSchedule
         ),
         const AppointmentTimeSelector(),
-        BookAppointmentButton(doctorId: widget.doctorSchedule.doctorId),
+        // BookAppointmentButton(doctorId: widget.doctorSchedule.doctorId),
       ],
     );
   }

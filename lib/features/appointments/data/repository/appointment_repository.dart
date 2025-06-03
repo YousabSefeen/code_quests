@@ -87,8 +87,7 @@ class AppointmentRepository extends AppointmentRepositoryBase {
 
       return right(null);
     } catch (e) {
-      print('AppointmentRepository.createAppointmentForDoctor ERROR: $e');
-
+      print('AppointmentRepository.bookAppointment ERROR: $e');
       return left(ServerFailure(catchError: e));
     }
   }
@@ -111,6 +110,45 @@ class AppointmentRepository extends AppointmentRepositoryBase {
       'appointmentTime': time,
       'appointmentStatus': 'pending',
     });
+  }
+
+  @override
+  Future<Either<Failure, void>> rescheduleAppointment({
+    required String doctorId,
+    required String appointmentId,
+    required String appointmentDate,
+    required String appointmentTime,
+  }) async {
+    try {
+      // مرجع إلى المستند الخاص بالموعد
+      final appointmentRef = FirebaseFirestore.instance
+          .collection('appointments')
+          .doc(appointmentId);
+
+      // تحديث التاريخ والوقت
+      await appointmentRef.update({
+        'appointmentDate': appointmentDate,
+        'appointmentTime': appointmentTime,
+        'appointmentStatus': 'rescheduled', // اختياري - لمتابعة الحالة
+      });
+
+      print('Appointment rescheduled successfully');
+      final doctorAppointmentRef = FirebaseFirestore.instance
+          .collection('doctors')
+          .doc(doctorId)
+          .collection('appointments')
+          .doc(appointmentId);
+
+      await doctorAppointmentRef.update({
+        'appointmentDate': appointmentDate,
+        'appointmentTime': appointmentTime,
+      });
+
+      return right(null);
+    } catch (e) {
+      print('AppointmentRepository.rescheduleAppointment ERROR $e');
+      return left(ServerFailure(catchError: e));
+    }
   }
 
   Future<void> _saveAppointmentGlobally({
@@ -229,5 +267,4 @@ class AppointmentRepository extends AppointmentRepositoryBase {
         doc.id: DoctorModel.fromJson(doc.data())
     };
   }
-
 }

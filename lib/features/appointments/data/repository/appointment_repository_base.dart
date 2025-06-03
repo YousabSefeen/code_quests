@@ -20,6 +20,15 @@ abstract class AppointmentRepositoryBase {
     required String time,
   });
 
+  Future<Either<Failure, void>> rescheduleAppointment({
+    required String doctorId,
+    required String appointmentId,
+    required String appointmentDate,
+    required String appointmentTime,
+  });
+
+
+
   Future<Either<Failure, List<ClientAppointmentsModel>?>>
       fetchClientAppointmentsWithDoctorDetails();
   Future<Either<Failure, void>>

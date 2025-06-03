@@ -6,6 +6,7 @@ import 'package:flutter_task/features/shared/models/doctor_schedule_model.dart';
 
 import '../../../../core/constants/common_widgets/consultation_fee_and_wait_row.dart';
 import '../../../doctor_list/data/models/doctor_list_model.dart';
+import '../widgets/book_appointment_button.dart';
 import '../widgets/doctor_info_header.dart';
 
 class CreateAppointmentScreen extends StatefulWidget {
@@ -72,6 +73,7 @@ class _CreateAppointmentScreenState extends State<CreateAppointmentScreen> {
                             doctorAvailability: doctorInfo.doctorAvailability,
                         ),
                       ),
+                      BookAppointmentButton(doctorId: doctor.doctorId),
                     ],
                   ),
                 ),

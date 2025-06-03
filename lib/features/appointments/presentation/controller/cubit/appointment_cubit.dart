@@ -8,8 +8,6 @@ import '../../../../../core/enum/lazy_request_state.dart';
 import '../../../../../core/enum/request_state.dart';
 import '../../../../../core/utils/date_time_formatter.dart';
 import '../../../../../core/utils/time_slot_helper.dart';
-import '../../../../doctor_list/data/models/doctor_list_model.dart';
-import '../../../../shared/models/availability_model.dart';
 import '../../../../shared/models/doctor_schedule_model.dart';
 import '../../../data/repository/appointment_repository.dart';
 import '../states/appointment_state.dart';
@@ -75,7 +73,13 @@ class AppointmentCubit extends Cubit<AppointmentState> {
     emit(state.copyWith(selectedTimeSlot: selectedSlot));
   }
 
-  Future<void> bookAppointment({required String doctorId}) async {
+  void printData() {
+    print('AppointmentCubit.printData  ${state.selectedTimeSlot}');
+    print('AppointmentCubit.printData  ${_selectedDateFormatted}');
+  }
+
+  Future<void> bookAppointment(
+      {required String doctorId, bool? isReschedule}) async {
     if (_isInternetDisconnected()) {
       _emitNoInternetForBooking();
       return;
@@ -99,6 +103,38 @@ class AppointmentCubit extends Cubit<AppointmentState> {
     );
   }
 
+  ///
+  Future<void> rescheduleAppointment({
+    required String doctorId,
+    required String appointmentId,
+  }) async {
+    if (_isInternetDisconnected()) {
+      _emitNoInternetForBooking();
+      return;
+    }
+
+    emit(state.copyWith(rescheduleAppointmentState: LazyRequestState.loading));
+    final response = await appointmentRepository.rescheduleAppointment(
+      doctorId: doctorId,
+      appointmentId: appointmentId,
+      appointmentDate: _selectedDateFormatted!,
+      appointmentTime: state.selectedTimeSlot!,
+    );
+
+    response.fold(
+      (failure) => emit(state.copyWith(
+        rescheduleAppointmentState: LazyRequestState.error,
+        bookAppointmentError: failure.toString(),
+      )),
+      (_) async{
+        await  fetchClientAppointmentsWithDoctorDetails();
+        emit(
+          state.copyWith(rescheduleAppointmentState: LazyRequestState.loaded));
+      },
+    );
+  }
+
+  ///
   Future<void> fetchClientAppointmentsWithDoctorDetails() async {
     final response =
         await appointmentRepository.fetchClientAppointmentsWithDoctorDetails();
@@ -108,7 +144,7 @@ class AppointmentCubit extends Cubit<AppointmentState> {
         getClientAppointmentsListError: failure.toString(),
       )),
       (appointments) {
-        print('AppointmentCubit.fetchClientAppointmentsWithDoctorDetails  ${appointments}');
+
         emit(state.copyWith(
         getClientAppointmentsList: appointments,
         getClientAppointmentsListState: RequestState.loaded,
@@ -123,6 +159,10 @@ class AppointmentCubit extends Cubit<AppointmentState> {
         bookAppointmentState: LazyRequestState.lazy,
         bookAppointmentError: '',
       ));
+  void resetRescheduleAppointmentState() => emit(state.copyWith(
+    rescheduleAppointmentState: LazyRequestState.lazy,
+    rescheduleAppointmentError: '',
+  ));
   // --- Private Helpers ---
 
   bool _isInternetDisconnected() =>
