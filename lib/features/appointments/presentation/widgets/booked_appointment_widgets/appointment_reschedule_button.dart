@@ -11,6 +11,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/constants/app_alerts/no_internet_dialog.dart';
 import '../../../../../core/constants/app_routes/app_router.dart';
 import '../../../../../core/enum/lazy_request_state.dart';
+import '../../../data/models/appointment_reschedule.dart';
 import '../../../data/models/client_appointments_model.dart';
 import '../../controller/states/appointment_action_state.dart';
 import '../../controller/states/appointment_state.dart';
@@ -80,21 +81,29 @@ class AppointmentRescheduleButton extends StatelessWidget {
   Widget _buildRescheduleConfirmationButton() => RescheduleConfirmationButton(
         doctorId: appointment.doctorId,
         appointmentId: appointment.appointmentId,
+        appointmentDate: appointment.appointmentDate,
+        appointmentTime: appointment.appointmentTime,
       );
 }
 
 class RescheduleConfirmationButton extends StatelessWidget {
   final String doctorId;
   final String appointmentId;
-
+  final String appointmentDate;
+  final String appointmentTime;
   const RescheduleConfirmationButton(
-      {super.key, required this.doctorId, required this.appointmentId});
+      {super.key,
+      required this.doctorId,
+      required this.appointmentId,
+      required this.appointmentDate,
+      required this.appointmentTime});
 
   @override
   Widget build(BuildContext context) {
     return BlocSelector<AppointmentCubit, AppointmentState,
         AppointmentActionState>(
       selector: (state) => AppointmentActionState(
+        selectedDate: state.selectedDateFormatted,
         selectedTimeSlot: state.selectedTimeSlot,
         actionState: state.rescheduleAppointmentState,
         actionError: state.rescheduleAppointmentError,
@@ -121,9 +130,12 @@ class RescheduleConfirmationButton extends StatelessWidget {
   }
 
   /// Triggers the reschedule appointment process
-  void _executeReschedule(BuildContext context) => context
-      .read<AppointmentCubit>()
-      .rescheduleAppointment(doctorId: doctorId, appointmentId: appointmentId);
+  void _executeReschedule(BuildContext context) {
+    print('RescheduleConfirmationButton._executeReschedule ${doctorId}');
+    context
+      .read<AppointmentCubit>().rescheduleAppointment(doctorId: doctorId, appointmentId: appointmentId);
+  }
+
 
   /// Handles different states of the reschedule process
   void _handleRescheduleResponse(
@@ -133,7 +145,7 @@ class RescheduleConfirmationButton extends StatelessWidget {
         _showRescheduleError(context, appointmentData.actionError);
         break;
       case LazyRequestState.loaded:
-        _handleSuccessfulReschedule(context);
+        _handleSuccessfulReschedule(context, appointmentData);
         break;
       case LazyRequestState.loading:
       case LazyRequestState.lazy:
@@ -151,7 +163,7 @@ class RescheduleConfirmationButton extends StatelessWidget {
       } else {
         AppAlerts.showErrorDialog(
           context,
-          AppStrings.kNoInternetBookingErrorMessage,
+         errorMessage,
         );
       }
 
@@ -160,7 +172,8 @@ class RescheduleConfirmationButton extends StatelessWidget {
   }
 
   /// Handles successful reschedule completion
-  void _handleSuccessfulReschedule(BuildContext context) {
+  void _handleSuccessfulReschedule(
+      BuildContext context, AppointmentActionState appointmentData) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!context.mounted) return;
 
@@ -168,7 +181,16 @@ class RescheduleConfirmationButton extends StatelessWidget {
 
       Future.delayed(const Duration(milliseconds: 500), () {
         if (!context.mounted) return;
-        _displaySuccessMessage(context);
+        AppAlerts.showRescheduleSuccessDialog(
+            context: context,
+            appointmentReschedule: AppointmentRescheduleData(
+              oldAppointmentDate: appointmentDate,
+              oldAppointmentTime: appointmentTime,
+              newAppointmentDate: appointmentData.selectedDate!,
+              newAppointmentTime: appointmentData.selectedTimeSlot!,
+            ));
+
+        /// _displaySuccessMessage(context);
       });
 
       _resetRescheduleState(context);

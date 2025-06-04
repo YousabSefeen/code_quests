@@ -11,31 +11,32 @@ class BookedAppointmentInfoSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final dateTimeBlackStyle = Theme.of(context).textTheme.dateTimeBlackStyle;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        _buildDateInfo(context),
-        _buildTimeInfo(context),
-        _buildStatusInfo(context),
+        _buildDateInfo(dateTimeBlackStyle),
+        _buildTimeInfo(dateTimeBlackStyle),
+        _buildStatusInfo(dateTimeBlackStyle),
       ],
     );
   }
 
-  Widget _buildDateInfo(BuildContext context) => IconWithText(
+  Widget _buildDateInfo(TextStyle textStyle) => IconWithText(
         icon: Icons.calendar_month,
         text: appointment.appointmentDate,
-        textStyle: Theme.of(context).textTheme.smallWhiteRegular,
+        textStyle: textStyle,
       );
 
-  Widget _buildTimeInfo(BuildContext context) => IconWithText(
+  Widget _buildTimeInfo(TextStyle textStyle) => IconWithText(
         icon: Icons.alarm,
         text: appointment.appointmentTime,
-        textStyle: Theme.of(context).textTheme.smallWhiteRegular,
+        textStyle: textStyle,
       );
 
-  Widget _buildStatusInfo(BuildContext context) => IconWithText(
+  Widget _buildStatusInfo(TextStyle textStyle) => IconWithText(
         icon: Icons.circle_rounded,
         text: appointment.appointmentStatus,
-        textStyle: Theme.of(context).textTheme.smallWhiteRegular,
+        textStyle: textStyle,
       );
 }

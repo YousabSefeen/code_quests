@@ -22,7 +22,7 @@ class NoInternetDialog {
           hasSabGradient: false,
           topBarTitle: const SizedBox.shrink(),
           topBar: _buildTopBar(context),
-          navBarHeight: 130,
+          navBarHeight: 150,
           child: _buildErrorBody(context),
           stickyActionBar: TryAgainButton(backgroundColor: AppColors.black),
           isTopBarLayerAlwaysVisible: true,

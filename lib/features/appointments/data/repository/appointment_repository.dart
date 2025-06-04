@@ -129,10 +129,10 @@ class AppointmentRepository extends AppointmentRepositoryBase {
       await appointmentRef.update({
         'appointmentDate': appointmentDate,
         'appointmentTime': appointmentTime,
-        'appointmentStatus': 'rescheduled', // اختياري - لمتابعة الحالة
+        'appointmentStatus': 'Rescheduled',
       });
 
-      print('Appointment rescheduled successfully');
+
       final doctorAppointmentRef = FirebaseFirestore.instance
           .collection('doctors')
           .doc(doctorId)
@@ -142,6 +142,7 @@ class AppointmentRepository extends AppointmentRepositoryBase {
       await doctorAppointmentRef.update({
         'appointmentDate': appointmentDate,
         'appointmentTime': appointmentTime,
+        'appointmentStatus': 'Rescheduled',
       });
 
       return right(null);

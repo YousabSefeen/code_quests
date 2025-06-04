@@ -27,6 +27,18 @@ extension AppTextStyles on TextTheme {
         fontWeight: FontWeight.w400,
       );
 
+  TextStyle get dateTimeBlackStyle => TextStyle(
+        color: Colors.black,
+        fontSize: 13.sp,
+        fontWeight: FontWeight.w500,
+      );
+
+  TextStyle get smallBlack => TextStyle(
+        fontSize: 13.sp,
+        fontWeight: FontWeight.w500,
+        color: Colors.black,
+      );
+
   // Original: titleMedium (DoctorList info)
   TextStyle get mediumPlaypenBold => GoogleFonts.playpenSans(
         fontSize: 14.sp,

@@ -57,7 +57,7 @@ class DoctorProfileCubit extends Cubit<DoctorProfileState> {
 
     if (_isFormValid(controllers)) {
       _cacheControllers(controllers);
-      _uploadCachedDoctorProfile(imageUrl: Assets.images[0]);
+      _uploadCachedDoctorProfile(imageUrl: AppStrings.images[0]);
     }
   }
 

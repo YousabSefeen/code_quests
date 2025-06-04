@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_task/core/constants/app_strings/app_strings.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../../core/constants/app_alerts/app_alerts.dart';
@@ -39,7 +40,7 @@ class _DoctorProfileImageState extends State<DoctorProfileImage> {
       setState(() {
         _image = File(imageCapture.path);
 
-        fakeImageUrl =  Assets.images[0];
+        fakeImageUrl =  AppStrings.images[0];
       });
     } else {
       if (kDebugMode) {

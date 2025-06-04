@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_task/core/constants/app_alerts/no_internet_dialog.dart';
 import 'package:wolt_modal_sheet/wolt_modal_sheet.dart';
 
+import '../../../features/appointments/data/models/appointment_reschedule.dart';
 import '../../animations/custom_modal_type_bottom_sheet.dart';
+import 'appointment_rescheduled_dialog.dart';
 import 'error_dialogs.dart';
 import 'widgets/app_alert_widgets.dart';
 
@@ -92,10 +94,18 @@ static  void  showCustomBottomSheet({required BuildContext context, required Str
       Navigator.of(context).pop();
     },
   );
-  static showNoInternetDialog(BuildContext context) =>
+
+  static void showNoInternetDialog(BuildContext context) =>
       NoInternetDialog.showErrorModal(context: context);
 
-  static showErrorDialog(BuildContext context, String errorMessage) =>
+  static void showErrorDialog(BuildContext context, String errorMessage) =>
       ErrorDialogs.showErrorDialog(
           context: context, errorMessage: errorMessage);
+
+  static void showRescheduleSuccessDialog({
+    required BuildContext context,
+    required AppointmentRescheduleData appointmentReschedule,
+  }) =>
+      AppointmentRescheduledDialog.show(
+          context: context, appointmentReschedule: appointmentReschedule);
 }

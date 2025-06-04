@@ -4,8 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class IconWithText extends StatelessWidget {
   final IconData icon;
   final String text;
-  final TextStyle textStyle;
 
+  final TextStyle textStyle;
   const IconWithText({
     super.key,
     required this.icon,
@@ -16,17 +16,10 @@ class IconWithText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      spacing: 3,
       children: [
-        Icon(icon, size: 18.sp, color: Colors.grey.shade600),
-        const SizedBox(width: 5),
-        Text(
-          text,
-          style: textStyle.copyWith(
-            fontSize: 13.sp,
-            fontWeight: FontWeight.w500,
-            color: Colors.black,
-          ),
-        ),
+        Icon(icon, size: 18.sp, color: textStyle.color),
+        Text(text, style: textStyle),
       ],
     );
   }

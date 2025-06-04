@@ -10,7 +10,7 @@ class AppointmentState extends Equatable{
   final List<DoctorAppointmentModel> doctorAppointmentModel;
   final RequestState doctorAppointmentState;
   final String doctorAppointmentError;
-
+  final String? selectedDateFormatted;
   final AppointmentAvailabilityStatus appointmentAvailabilityStatus;
   final List<String> reservedTimeSlots;
   final RequestState reservedTimeSlotsState;
@@ -37,6 +37,7 @@ class AppointmentState extends Equatable{
     this.doctorAppointmentModel = const [],
     this.doctorAppointmentState = RequestState.loading,
     this.doctorAppointmentError = '',
+    this.selectedDateFormatted,
     this.appointmentAvailabilityStatus = AppointmentAvailabilityStatus.available,
     this.reservedTimeSlots = const [],
     this.reservedTimeSlotsState = RequestState.loading,
@@ -58,6 +59,7 @@ class AppointmentState extends Equatable{
     List<DoctorAppointmentModel>? doctorAppointmentModel,
     RequestState? doctorAppointmentState,
     String? doctorAppointmentError,
+    String? selectedDateFormatted,
     AppointmentAvailabilityStatus? appointmentAvailabilityStatus,
     List<String>? reservedTimeSlots,
     RequestState? reservedTimeSlotsState,
@@ -81,6 +83,7 @@ class AppointmentState extends Equatable{
           doctorAppointmentState ?? this.doctorAppointmentState,
       doctorAppointmentError:
           doctorAppointmentError ?? this.doctorAppointmentError,
+      selectedDateFormatted:selectedDateFormatted??this.selectedDateFormatted,
       appointmentAvailabilityStatus:
           appointmentAvailabilityStatus ?? this.appointmentAvailabilityStatus,
       reservedTimeSlots: reservedTimeSlots ?? this.reservedTimeSlots,
@@ -114,6 +117,7 @@ class AppointmentState extends Equatable{
         doctorAppointmentModel,
         doctorAppointmentState,
         doctorAppointmentError,
+    selectedDateFormatted,
         appointmentAvailabilityStatus,
         reservedTimeSlots,
         reservedTimeSlotsState,

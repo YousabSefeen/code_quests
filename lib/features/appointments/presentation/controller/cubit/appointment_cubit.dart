@@ -15,7 +15,7 @@ import '../states/appointment_state.dart';
 class AppointmentCubit extends Cubit<AppointmentState> {
   final AppSettingsCubit appSettingsCubit;
   final AppointmentRepository appointmentRepository;
-  String? _selectedDateFormatted;
+
 
   AppointmentCubit({
     required this.appSettingsCubit,
@@ -51,15 +51,16 @@ class AppointmentCubit extends Cubit<AppointmentState> {
 
 
 
-    _selectedDateFormatted =
-        DateTimeFormatter.convertSelectedDateToString(selectedDate);
+    final formattedDate = DateTimeFormatter.convertSelectedDateToString(selectedDate);
+    emit(state.copyWith(selectedDateFormatted: formattedDate));
+
 
     final allTimeSlots = TimeSlotHelper.generateHourlyTimeSlots(
       startTime: doctorSchedule.doctorAvailability.availableFrom!,
       endTime: doctorSchedule.doctorAvailability.availableTo!,
     );
 
-    await _loadReservedSlots( doctorSchedule.doctorId, _selectedDateFormatted!);
+    await _loadReservedSlots( doctorSchedule.doctorId, formattedDate);
 
     final availableSlots = TimeSlotHelper.filterAvailableTimeSlots(
       totalTimeSlots: allTimeSlots,
@@ -74,8 +75,9 @@ class AppointmentCubit extends Cubit<AppointmentState> {
   }
 
   void printData() {
+
     print('AppointmentCubit.printData  ${state.selectedTimeSlot}');
-    print('AppointmentCubit.printData  ${_selectedDateFormatted}');
+    print('AppointmentCubit.printData  ${state.selectedDateFormatted}');
   }
 
   Future<void> bookAppointment(
@@ -89,7 +91,7 @@ class AppointmentCubit extends Cubit<AppointmentState> {
 
     final response = await appointmentRepository.bookAppointment(
       doctorId: doctorId,
-      date: _selectedDateFormatted!,
+      date: state.selectedDateFormatted!,
       time: state.selectedTimeSlot!,
     );
 
@@ -117,19 +119,22 @@ class AppointmentCubit extends Cubit<AppointmentState> {
     final response = await appointmentRepository.rescheduleAppointment(
       doctorId: doctorId,
       appointmentId: appointmentId,
-      appointmentDate: _selectedDateFormatted!,
+      appointmentDate:state.selectedDateFormatted!,
       appointmentTime: state.selectedTimeSlot!,
     );
 
     response.fold(
       (failure) => emit(state.copyWith(
         rescheduleAppointmentState: LazyRequestState.error,
-        bookAppointmentError: failure.toString(),
+        rescheduleAppointmentError: failure.toString(),
       )),
       (_) async{
         await  fetchClientAppointmentsWithDoctorDetails();
-        emit(
-          state.copyWith(rescheduleAppointmentState: LazyRequestState.loaded));
+
+
+        emit(state.copyWith(
+          rescheduleAppointmentState: LazyRequestState.loaded,
+        ));
       },
     );
   }

@@ -70,8 +70,11 @@ class  ErrorDialogs {
     );
   }
   static Widget _buildErrorBody(BuildContext context, String errorMessage) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 8, bottom: 100, left: 8, right: 8),
+    return Container(
+      margin: const EdgeInsets.only(top: 8, bottom: 100, left: 8, right: 8),
+      constraints:const BoxConstraints(
+        minHeight: 130,
+      ),
       child: RichText(
         text: TextSpan(
           text: 'Error Message: ',
@@ -82,7 +85,7 @@ class  ErrorDialogs {
           ),
           children: [
             TextSpan(
-              text: errorMessage,
+              text: errorMessage==''? 'The error was not caught in the catch case': errorMessage,
               style: TextStyle(
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w500,
