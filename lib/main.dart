@@ -34,7 +34,7 @@ void main() async {
   ]);
 
   ///Bloc.observer = MyBlocObserver();
-  ServicesLocator().init();
+  ServiceLocator().init();
   await Future.wait([
     Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
