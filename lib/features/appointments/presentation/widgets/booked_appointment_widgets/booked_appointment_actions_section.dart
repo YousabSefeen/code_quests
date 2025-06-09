@@ -18,7 +18,7 @@ class BookedAppointmentActionsSection extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          const CancelButton(),
+            CancelButton(appointment: appointment),
           AppointmentRescheduleButton(appointment: appointment),
         ],
       ),

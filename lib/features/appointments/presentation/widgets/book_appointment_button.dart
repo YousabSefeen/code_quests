@@ -121,5 +121,5 @@ class BookAppointmentButton extends StatelessWidget {
       AppRouter.pop(context);
   /// Resets booking state to initial values in cubit
   void _resetBookingState(BuildContext context) =>
-      context.read<AppointmentCubit>().resetBookingState();
+      context.read<AppointmentCubit>().resetBookAppointmentState();
 }

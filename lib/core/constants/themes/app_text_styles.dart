@@ -80,8 +80,8 @@ extension AppTextStyles on TextTheme {
   // Original: titleLarge
   TextStyle get smallOrangeMedium => TextStyle(
         fontSize: 14.sp,
-        color: Colors.black38,
-        fontWeight: FontWeight.w500,
+        color: Colors.black87,
+        fontWeight: FontWeight.w400,
         height: 1.6,
       );
 

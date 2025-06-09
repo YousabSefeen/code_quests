@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_task/features/appointments/presentation/screens/appointment_cancellation_screen.dart';
 import 'package:flutter_task/features/doctor_list/presentation/screen/doctor_list_view_screen.dart';
 
 import '../../../features/appointments/presentation/screens/booked_appointments_screen.dart';
@@ -29,6 +30,8 @@ class AppRouter {
 
       case AppRouterNames.bookedAppointments:
         return _animatedRoute(settings, const BookedAppointmentsScreen());
+        case AppRouterNames.appointmentCancellation:
+        return _animatedRoute(settings, const AppointmentCancellationScreen());
 
       default:
         return MaterialPageRoute(

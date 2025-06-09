@@ -18,7 +18,7 @@ class AdaptiveActionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: const EdgeInsets.all(12.0),
+        margin: const EdgeInsets.symmetric(vertical: 12.0,horizontal: 20),
     width: double.infinity,
     height: 50,
     child:    ElevatedButton(
@@ -35,8 +35,10 @@ class AdaptiveActionButton extends StatelessWidget {
   /// Returns the appropriate button style based on disabled state
   ButtonStyle _getButtonStyle(bool isDisabled) {
     return ButtonStyle(
+      elevation: const WidgetStatePropertyAll(1),
       backgroundColor: WidgetStatePropertyAll(
-          isDisabled ? Colors.grey.shade300 : AppColors.softBlue),
+          isDisabled ? Colors.grey.shade300 : AppColors.softBlue,
+      ),
       foregroundColor:
       WidgetStatePropertyAll(isDisabled ? Colors.black : Colors.white),
     );
@@ -46,7 +48,7 @@ class AdaptiveActionButton extends StatelessWidget {
   Widget _buildButtonText() {
     return Text(
       title,
-      style: GoogleFonts.raleway(
+      style: GoogleFonts.roboto(
         fontSize: 19.sp,
         fontWeight: FontWeight.w700,
       ),

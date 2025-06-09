@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_task/core/constants/app_strings/app_strings.dart';
+import 'package:flutter_task/core/constants/app_strings/appointment_status_strings.dart';
 
 import '../../../../../core/app_settings/controller/cubit/app_settings_cubit.dart';
 import '../../../../../core/enum/appointment_availability_status.dart';
@@ -9,6 +10,7 @@ import '../../../../../core/enum/request_state.dart';
 import '../../../../../core/utils/date_time_formatter.dart';
 import '../../../../../core/utils/time_slot_helper.dart';
 import '../../../../shared/models/doctor_schedule_model.dart';
+import '../../../data/models/client_appointments_model.dart';
 import '../../../data/repository/appointment_repository.dart';
 import '../states/appointment_state.dart';
 
@@ -105,7 +107,7 @@ class AppointmentCubit extends Cubit<AppointmentState> {
     );
   }
 
-  ///
+  /// Reschedule Appointment Process
   Future<void> rescheduleAppointment({
     required String doctorId,
     required String appointmentId,
@@ -139,6 +141,74 @@ class AppointmentCubit extends Cubit<AppointmentState> {
     );
   }
 
+  /// Cancel Appointment Process
+  Future<void> cancelAppointment(
+      {required String doctorId, required String appointmentId}) async {
+    if (_isInternetDisconnected()) {
+      _emitNoInternetForBooking();
+      return;
+    }
+
+    emit(state.copyWith(cancelAppointmentState: LazyRequestState.loading));
+
+    final response = await appointmentRepository.cancelAppointment(
+        doctorId: doctorId, appointmentId: appointmentId);
+
+    response.fold(
+        (failure) => emit(state.copyWith(
+              cancelAppointmentState: LazyRequestState.error,
+              cancelAppointmentError: failure.toString(),
+            )), (_) async {
+      await fetchClientAppointmentsWithDoctorDetails();
+
+      emit(state.copyWith(
+        cancelAppointmentState: LazyRequestState.loaded,
+      ));
+    });
+  }
+
+  ///
+  List<ClientAppointmentsModel>? get upcomingAppointments {
+    final now = DateTime.now();
+    return state.getClientAppointmentsList
+        .where(
+          (appointment) =>
+              appointment.appointmentStatus ==
+                  AppointmentStatusStrings.confirmed &&
+              appointDateFormatted(appointment.appointmentDate).isAfter(now),
+        )
+        .toList();
+  }
+
+  DateTime appointDateFormatted(String appointDate) {
+    return DateTimeFormatter.convertDateToString(appointDate);
+  }
+
+  List<ClientAppointmentsModel>? get completedAppointments {
+    final now = DateTime.now();
+    return state.getClientAppointmentsList
+        .where(
+          (appointment) =>
+              appointment.appointmentStatus ==
+                  AppointmentStatusStrings.completed ||
+              (appointment.appointmentStatus ==
+                      AppointmentStatusStrings.confirmed &&
+                  appointDateFormatted(appointment.appointmentDate)
+                      .isBefore(now)),
+        )
+        .toList();
+  }
+
+  List<ClientAppointmentsModel>? get cancelledAppointments {
+    return state.getClientAppointmentsList
+        .where(
+          (appointment) =>
+              appointment.appointmentStatus ==
+              AppointmentStatusStrings.cancelled,
+        )
+        .toList();
+  }
+
   ///
   Future<void> fetchClientAppointmentsWithDoctorDetails() async {
     final response =
@@ -160,13 +230,17 @@ class AppointmentCubit extends Cubit<AppointmentState> {
 
 
 
-  void resetBookingState() => emit(state.copyWith(
+  void resetBookAppointmentState() => emit(state.copyWith(
         bookAppointmentState: LazyRequestState.lazy,
         bookAppointmentError: '',
       ));
   void resetRescheduleAppointmentState() => emit(state.copyWith(
     rescheduleAppointmentState: LazyRequestState.lazy,
     rescheduleAppointmentError: '',
+  ));
+  void resetCancelAppointmentState() => emit(state.copyWith(
+    cancelAppointmentState: LazyRequestState.lazy,
+    cancelAppointmentError: '',
   ));
   // --- Private Helpers ---
 

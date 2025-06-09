@@ -13,7 +13,7 @@ class AppAlertWidgets {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
       ),
-      elevation: 20,
+      elevation: 5,
       dismissDirection: DismissDirection.horizontal,
       behavior: SnackBarBehavior.floating,
       duration: const Duration(seconds: 2),
@@ -58,17 +58,21 @@ class AppAlertWidgets {
   static Widget successDialogContent(String message) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+      margin: const EdgeInsets.symmetric(horizontal: 20),
       decoration: BoxDecoration(
         color: Colors.green,
         borderRadius: BorderRadius.circular(16),
       ),
       child: Text(
         message,
-        style: GoogleFonts.poppins(
+        style:TextStyle(
           color: Colors.white,
-          fontSize: 15.sp,
-          fontWeight: FontWeight.w500,
+          fontSize: 17.sp,
+          fontWeight: FontWeight.w400,
+
+          height:1.5
         ),
+        textAlign: TextAlign.center,
       ),
     );
   }

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_task/core/error/failure.dart';
+import '../../../../core/constants/app_strings/appointment_status_strings.dart';
 import '../../../doctor_profile/data/models/doctor_model.dart';
 import '../models/client_appointments_model.dart';
 import '../models/doctor_appointment_model.dart';
@@ -129,7 +130,7 @@ class AppointmentRepository extends AppointmentRepositoryBase {
       'clientId': clientId,
       'appointmentDate': date,
       'appointmentTime': time,
-      'appointmentStatus': 'pending',
+      'appointmentStatus': AppointmentStatusStrings.confirmed,
     });
   }
 
@@ -146,12 +147,92 @@ class AppointmentRepository extends AppointmentRepositoryBase {
       'clientId': clientId,
       'appointmentDate': date,
       'appointmentTime': time,
-      'appointmentStatus': 'pending',
+      'appointmentStatus':AppointmentStatusStrings.confirmed,
     });
   }
-
-  /// Reschedules an existing appointment
+//
   @override
+  Future<Either<Failure, void>> rescheduleAppointment({
+    required String doctorId,
+    required String appointmentId,
+    required String appointmentDate,
+    required String appointmentTime,
+  }) async {
+    final updates = {
+      'appointmentDate': appointmentDate,
+      'appointmentTime': appointmentTime,
+      'appointmentStatus': AppointmentStatusStrings.confirmed,
+    };
+
+    return await _updateAppointment(
+      doctorId: doctorId,
+      appointmentId: appointmentId,
+      updates: updates,
+      operationName: 'rescheduleAppointment',
+    );
+  }
+
+  @override
+  Future<Either<Failure, void>> cancelAppointment({
+    required String doctorId,
+    required String appointmentId,
+  }) async {
+    final updates = {
+      'appointmentStatus': AppointmentStatusStrings.cancelled,
+    };
+
+    return await _updateAppointment(
+      doctorId: doctorId,
+      appointmentId: appointmentId,
+      updates: updates,
+      operationName: 'cancelAppointment',
+    );
+  }
+
+  /// 🔁 General-purpose method to update appointment in both collections
+  Future<Either<Failure, void>> _updateAppointment({
+    required String doctorId,
+    required String appointmentId,
+    required Map<String, dynamic> updates,
+    required String operationName,
+  }) async {
+    try {
+      await Future.wait([
+        _updateGlobalAppointment(appointmentId, updates),
+        _updateDoctorAppointment(doctorId, appointmentId, updates),
+      ]);
+      return right(null);
+    } catch (e) {
+      _logError(operationName, e);
+      return left(ServerFailure(catchError: e));
+    }
+  }
+
+  Future<void> _updateGlobalAppointment(
+      String appointmentId,
+      Map<String, dynamic> updates,
+      ) {
+    return _firestore
+        .collection('appointments')
+        .doc(appointmentId)
+        .update(updates);
+  }
+
+  Future<void> _updateDoctorAppointment(
+      String doctorId,
+      String appointmentId,
+      Map<String, dynamic> updates,
+      ) {
+    return _firestore
+        .collection('doctors')
+        .doc(doctorId)
+        .collection('appointments')
+        .doc(appointmentId)
+        .update(updates);
+  }
+  //
+  /// Reschedules an existing appointment
+/*  @override
   Future<Either<Failure, void>> rescheduleAppointment({
     required String doctorId,
     required String appointmentId,
@@ -185,7 +266,34 @@ class AppointmentRepository extends AppointmentRepositoryBase {
       return left(ServerFailure(catchError: e));
     }
   }
+  @override
+  Future<Either<Failure, void>> cancelAppointment({required String doctorId, required String appointmentId}) async{
+    try {
+      final updates = {
 
+        'appointmentStatus':AppointmentStatusStrings.cancelled,
+      };
+
+      // Update in global appointments collection
+      await _firestore
+          .collection('appointments')
+          .doc(appointmentId)
+          .update(updates);
+
+      // Update in doctor's subcollection
+      await _firestore
+          .collection('doctors')
+          .doc(doctorId)
+          .collection('appointments')
+          .doc(appointmentId)
+          .update(updates);
+
+      return right(null);
+    } catch (e) {
+      _logError('rescheduleAppointment', e);
+      return left(ServerFailure(catchError: e));
+    }
+  }*/
   /// Fetches client appointments with complete doctor details
   @override
   Future<Either<Failure, List<ClientAppointmentsModel>?>>
@@ -286,4 +394,6 @@ class AppointmentRepository extends AppointmentRepositoryBase {
   void _logError(String methodName, dynamic error) {
     print('AppointmentRepository.$methodName ERROR: $error');
   }
+
+
 }

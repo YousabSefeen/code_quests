@@ -45,7 +45,12 @@ class DateTimeFormatter {
 
     return formattedDate;
   }
+  static DateTime convertDateToString(String date) {
 
+    final formattedDate = DateFormat('dd/MM/yyyy').parse(date);
+
+    return formattedDate;
+  }
   static String convertDateToNameDay({required DateTime date}) =>
       DateFormat.EEEE('en_US').format(date);
 

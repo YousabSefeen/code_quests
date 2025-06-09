@@ -113,10 +113,52 @@ static const String  to='TO';
       'Booking an appointment requires an active internet connection to confirm and secure your reservation.\nPlease check your connection and try again.';
 static const String bookAppointment='Book Appointment';
 static const String cancel='Cancel';
-static const String reschedule='Reschedule';
-static const String editBookingAppointment='Edit Booking Appointment';
+  static const String cancelAppointment = '$cancel Appointment';
+  static const String cancelAppointmentConfirmation =
+      'Are you sure want to cancel your appointment';
+
+  static const String partialRefundPolicyNote =
+      'Only 80% of the money can you can refund from your payment according to our policy';
+  static const String yesContinue = 'Yes, Continue';
+  static const String confirmCancellation = 'Confirm Cancellation';
+  static const String cancelAppointmentSuccess = '$cancelAppointment Success';
+  static const String cancellationFeedbackDescription =
+      'Help Us Improve Your Experience!\n'
+      "Cancelling appointments affects our doctors' schedules and other patients.\n"
+      'Your reason helps us:\n'
+      '• Offer better availability\n'
+      '• Improve our services\n'
+      '• Reduce wait times for everyone';
+  static const List<String> reasonsForCancellingList = [
+    'I want to change the doctor',
+    'I found another doctor with earlier availability',
+    'I have a scheduling conflict',
+    'Insurance doesn’t cover this visit / Cost is too high',
+    'Need to postpone due to recovery from a procedure',
+    'Other',
+  ];
+  static const String appointmentCancelledSuccessfully =
+      'Your medical appointment has been canceled successfully. ';
+
+  // 'If you need further assistance, feel free to contact us';
+  static const String reschedule = 'Reschedule';
+  static const String editBookingAppointment = 'Edit Booking Appointment';
   static const String rescheduleSuccessMessage = 'Appointment rescheduled successfully!';
   static const String yourAppointment = 'Your appointment\nhas been updated!!';
   static const String done = 'Done';
 static const String confirmReschedule='Confirm Reschedule';
+  static const List<String> appointmentsListTitles = [
+    'Upcoming',
+    'Completed',
+    'Cancelled',
+  ];
+
+  static const String emptyUpcomingAppointmentsMessage =
+      'No upcoming appointments.\nSchedule your next visit when you’re ready.';
+
+  static const String emptyCompletedAppointmentsMessage =
+      'No completed appointments yet.\nYour past visits will show up here.';
+
+  static const String emptyCancelledAppointmentsMessage =
+      'No cancelled appointments.\nAny cancelled visits will appear here.';
 }

@@ -8,8 +8,8 @@ class AppLightTheme {
   static ThemeData theme = ThemeData(
     useMaterial3: false,
     primarySwatch: Colors.blue,
-    unselectedWidgetColor: Colors.red,
-    scaffoldBackgroundColor: AppColors.customWhite,
+    unselectedWidgetColor: Colors.grey,
+    scaffoldBackgroundColor: Colors.grey.shade50,
     secondaryHeaderColor: const Color(0xffe85d04),
     appBarTheme: AppBarTheme(
       backgroundColor: AppColors.softBlue,
@@ -85,6 +85,7 @@ class AppLightTheme {
             color: Colors.black54,
             height: 1.5,
             fontWeight: FontWeight.w500)),
+
     elevatedButtonTheme: ElevatedButtonThemeData(
         style: ButtonStyle(
           elevation:const WidgetStatePropertyAll(1),

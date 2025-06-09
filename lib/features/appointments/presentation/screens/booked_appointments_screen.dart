@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_task/features/appointments/presentation/controller/cubit/appointment_cubit.dart';
-import 'package:flutter_task/features/appointments/presentation/widgets/booking_empty_widget.dart';
 
 import '../../../../core/constants/common_widgets/custom_error_widget.dart';
 import '../../../../core/constants/common_widgets/custom_loading _list.dart';
@@ -27,7 +26,6 @@ class _BookedAppointmentsScreenState extends State<BookedAppointmentsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final deviceSize = MediaQuery.sizeOf(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Appointments'),
@@ -38,12 +36,9 @@ class _BookedAppointmentsScreenState extends State<BookedAppointmentsScreen> {
             case RequestState.loading:
               return const CustomLoadingList(height: 100);
             case RequestState.loaded:
-
-              return state.getClientAppointmentsList.isEmpty
-                  ? const BookingEmptyWidget()
-                  : BookedAppointmentsList(
-                      appointmentsList: state.getClientAppointmentsList,
-                    );
+              return BookedAppointmentsList(
+                appointmentsList: state.getClientAppointmentsList,
+              );
 
             case RequestState.error:
               return CustomErrorWidget(

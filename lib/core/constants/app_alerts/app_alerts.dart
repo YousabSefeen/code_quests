@@ -4,6 +4,8 @@ import 'package:wolt_modal_sheet/wolt_modal_sheet.dart';
 
 import '../../../features/appointments/data/models/appointment_reschedule.dart';
 import '../../animations/custom_modal_type_bottom_sheet.dart';
+import 'appointment_canceled_success_dialog.dart';
+import 'appointment_cancellation_sheet.dart';
 import 'appointment_rescheduled_dialog.dart';
 import 'error_dialogs.dart';
 import 'widgets/app_alert_widgets.dart';
@@ -12,7 +14,7 @@ class AppAlerts {
   static void showErrorSnackBar(BuildContext context, String errorMessage) {
   //  ScaffoldMessenger.of(context).removeCurrentSnackBar();
     ScaffoldMessenger.of(context).showSnackBar(
-      AppAlertWidgets.errorSnackBar(errorMessage),
+      AppAlertWidgets.errorSnackBar(errorMessage ),
     );
   }
 
@@ -102,10 +104,28 @@ static  void  showCustomBottomSheet({required BuildContext context, required Str
       ErrorDialogs.showErrorDialog(
           context: context, errorMessage: errorMessage);
 
+  static void showCancelAppointmentBottomSheet({
+    required BuildContext context,
+    required VoidCallback onCancelPressed,
+    required VoidCallback onConfirmPressed,
+  }) =>
+      AppointmentCancellationSheet.showCancelAppointmentSheet(
+          context: context,
+          onCancelPressed: onCancelPressed,
+          onConfirmPressed: onConfirmPressed,
+      );
+
   static void showRescheduleSuccessDialog({
     required BuildContext context,
     required AppointmentRescheduleData appointmentReschedule,
   }) =>
       AppointmentRescheduledDialog.show(
           context: context, appointmentReschedule: appointmentReschedule);
+
+  static void showCanceledSuccessDialog({
+    required BuildContext context,
+
+  }) =>
+      AppointmentCanceledSuccessDialog.show(
+          context: context, );
 }

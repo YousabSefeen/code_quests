@@ -27,6 +27,11 @@ abstract class AppointmentRepositoryBase {
     required String appointmentTime,
   });
 
+  Future<Either<Failure, void>> cancelAppointment({
+    required String doctorId,
+    required String appointmentId,
+
+  });
 
 
   Future<Either<Failure, List<ClientAppointmentsModel>?>>

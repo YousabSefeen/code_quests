@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_task/features/appointments/presentation/widgets/time_slots_grid.dart';
+
+import '../../../../core/constants/app_strings/app_strings.dart';
+import '../../../../core/constants/common_widgets/content_unavailable_widget.dart';
 import '../../../../core/constants/themes/app_text_styles.dart';
 import '../../data/models/time_slots_data_model.dart';
 import '../controller/cubit/appointment_cubit.dart';
 import '../controller/states/appointment_state.dart';
-import 'no_appointments_available_widget.dart';
-
 
 class TimeSlotsDisplaySection extends StatelessWidget {
   const TimeSlotsDisplaySection({super.key});
@@ -17,7 +18,10 @@ class TimeSlotsDisplaySection extends StatelessWidget {
       selector: _mapStateToData,
       builder: (context, data) {
         return data.availableSlots.isEmpty
-            ? const NoAppointmentsAvailableWidget()
+            ? const ContentUnavailableWidget(
+                isExpandedHeight: false,
+                description: AppStrings.noAppointmentsAvailableToday,
+              )
             : _TimeSlotsWithTitle(data: data);
       },
     );

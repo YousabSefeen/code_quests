@@ -10,8 +10,10 @@ import '../../../../generated/assets.dart';
 class DoctorNotAvailableMessage extends StatelessWidget {
  final AppointmentAvailabilityStatus appointmentAvailabilityStatus;
 
-  const DoctorNotAvailableMessage(
-      {super.key, required this.appointmentAvailabilityStatus});
+  const DoctorNotAvailableMessage({
+    super.key,
+    required this.appointmentAvailabilityStatus,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +65,7 @@ class DoctorNotAvailableMessage extends StatelessWidget {
             children: [
               TextSpan(
                 text: AppStrings.doctorNotAvailableMessage[1],
-                style: textStyle.copyWith(color: AppColors.softBlue),
+                style: textStyle.copyWith(color: AppColors.softBlue,fontWeight: FontWeight.w700),
               ),
               TextSpan(
                 text: AppStrings.doctorNotAvailableMessage[2],
