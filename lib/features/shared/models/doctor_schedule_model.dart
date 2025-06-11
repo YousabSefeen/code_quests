@@ -10,6 +10,8 @@ class DoctorScheduleModel{
   final String doctorId;
   final DoctorAvailabilityModel  doctorAvailability;
 
-  DoctorScheduleModel({required this.doctorId, required this.doctorAvailability});
-
+  DoctorScheduleModel({
+    required this.doctorId,
+    required this.doctorAvailability,
+  });
 }

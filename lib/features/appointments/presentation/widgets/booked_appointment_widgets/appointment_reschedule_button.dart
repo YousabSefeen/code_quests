@@ -189,20 +189,11 @@ class RescheduleConfirmationButton extends StatelessWidget {
               newAppointmentDate: appointmentData.selectedDate!,
               newAppointmentTime: appointmentData.selectedTimeSlot!,
             ));
-
-        /// _displaySuccessMessage(context);
       });
 
       _resetRescheduleState(context);
     });
   }
-
-  /// Displays success dialog after rescheduling
-  void _displaySuccessMessage(BuildContext context) =>
-      AppAlerts.showAppointmentSuccessDialog(
-        context: context,
-        message: AppStrings.rescheduleSuccessMessage,
-      );
 
   /// Navigates back to previous screen
   void _returnToPreviousScreen(BuildContext context) => AppRouter.pop(context);

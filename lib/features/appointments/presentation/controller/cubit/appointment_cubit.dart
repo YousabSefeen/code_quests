@@ -1,6 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_task/core/constants/app_strings/app_strings.dart';
-import 'package:flutter_task/core/constants/app_strings/appointment_status_strings.dart';
 
 import '../../../../../core/app_settings/controller/cubit/app_settings_cubit.dart';
 import '../../../../../core/enum/appointment_availability_status.dart';
@@ -77,14 +76,9 @@ class AppointmentCubit extends Cubit<AppointmentState> {
     emit(state.copyWith(selectedTimeSlot: selectedSlot));
   }
 
-  void printData() {
 
-    print('AppointmentCubit.printData  ${state.selectedTimeSlot}');
-    print('AppointmentCubit.printData  ${state.selectedDateFormatted}');
-  }
 
-  Future<void> bookAppointment(
-      {required String doctorId, bool? isReschedule}) async {
+  Future<void> bookAppointment({required String doctorId }) async {
     if (_isInternetDisconnected()) {
       _emitNoInternetForBooking();
       return;
