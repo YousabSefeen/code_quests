@@ -152,7 +152,8 @@ static const String confirmReschedule='Confirm Reschedule';
     'Completed',
     'Cancelled',
   ];
-
+  static const String bookAgain = 'Book Again';
+  static const String leaveAReview = 'Leave a Review';
   static const String emptyUpcomingAppointmentsMessage =
       'No upcoming appointments.\nSchedule your next visit when you’re ready.';
 

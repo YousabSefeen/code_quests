@@ -3,6 +3,7 @@ import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_task/core/error/failure.dart';
 import '../../../../core/constants/app_strings/appointment_status_strings.dart';
+import '../../../../core/enum/appointment_status.dart';
 import '../../../doctor_profile/data/models/doctor_model.dart';
 import '../models/client_appointments_model.dart';
 import '../models/doctor_appointment_model.dart';
@@ -130,7 +131,7 @@ class AppointmentRepository extends AppointmentRepositoryBase {
       'clientId': clientId,
       'appointmentDate': date,
       'appointmentTime': time,
-      'appointmentStatus': AppointmentStatusStrings.confirmed,
+      'appointmentStatus': AppointmentStatus.confirmed.name,
     });
   }
 
@@ -147,10 +148,10 @@ class AppointmentRepository extends AppointmentRepositoryBase {
       'clientId': clientId,
       'appointmentDate': date,
       'appointmentTime': time,
-      'appointmentStatus':AppointmentStatusStrings.confirmed,
+      'appointmentStatus':AppointmentStatus.confirmed.name,
     });
   }
-//
+
   @override
   Future<Either<Failure, void>> rescheduleAppointment({
     required String doctorId,
@@ -161,7 +162,7 @@ class AppointmentRepository extends AppointmentRepositoryBase {
     final updates = {
       'appointmentDate': appointmentDate,
       'appointmentTime': appointmentTime,
-      'appointmentStatus': AppointmentStatusStrings.confirmed,
+      'appointmentStatus':AppointmentStatus.confirmed.name,
     };
 
     return await _updateAppointment(
@@ -178,7 +179,7 @@ class AppointmentRepository extends AppointmentRepositoryBase {
     required String appointmentId,
   }) async {
     final updates = {
-      'appointmentStatus': AppointmentStatusStrings.cancelled,
+      'appointmentStatus':AppointmentStatus.cancelled.name,
     };
 
     return await _updateAppointment(

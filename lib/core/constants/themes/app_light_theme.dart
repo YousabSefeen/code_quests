@@ -90,8 +90,8 @@ class AppLightTheme {
         style: ButtonStyle(
           elevation:const WidgetStatePropertyAll(1),
           shape: WidgetStatePropertyAll(RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-            side: const BorderSide(color: Colors.black12, width: 1.7),
+            borderRadius: BorderRadius.circular(12.r),
+
           )),
       backgroundColor: const WidgetStatePropertyAll(AppColors.darkBlue),
       foregroundColor: WidgetStatePropertyAll(AppColors.white),

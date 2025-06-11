@@ -4,12 +4,11 @@ import 'package:flutter_task/core/constants/app_strings/app_strings.dart';
 import 'package:flutter_task/features/appointments/presentation/controller/cubit/appointment_cubit.dart';
 
 import '../../../../core/constants/common_widgets/content_unavailable_widget.dart';
+import '../../../../core/enum/appointment_status.dart';
 import 'appointment_card.dart';
 
 class UpcomingAppointmentsList extends StatelessWidget {
-  const UpcomingAppointmentsList({
-    super.key,
-  });
+  const UpcomingAppointmentsList({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,8 +22,10 @@ class UpcomingAppointmentsList extends StatelessWidget {
         : ListView.builder(
             padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
             itemCount: upcomingAppointments.length,
-            itemBuilder: (context, index) =>
-                AppointmentCard(appointment: upcomingAppointments[index]),
+            itemBuilder: (context, index) => AppointmentCard(
+              appointmentStatus: AppointmentStatus.confirmed,
+              appointment: upcomingAppointments[index],
+            ),
           );
   }
 }

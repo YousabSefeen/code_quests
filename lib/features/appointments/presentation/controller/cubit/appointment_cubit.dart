@@ -4,6 +4,7 @@ import 'package:flutter_task/core/constants/app_strings/appointment_status_strin
 
 import '../../../../../core/app_settings/controller/cubit/app_settings_cubit.dart';
 import '../../../../../core/enum/appointment_availability_status.dart';
+import '../../../../../core/enum/appointment_status.dart';
 import '../../../../../core/enum/internet_state.dart';
 import '../../../../../core/enum/lazy_request_state.dart';
 import '../../../../../core/enum/request_state.dart';
@@ -174,7 +175,7 @@ class AppointmentCubit extends Cubit<AppointmentState> {
         .where(
           (appointment) =>
               appointment.appointmentStatus ==
-                  AppointmentStatusStrings.confirmed &&
+                  AppointmentStatus.confirmed.name &&
               appointDateFormatted(appointment.appointmentDate).isAfter(now),
         )
         .toList();
@@ -190,9 +191,9 @@ class AppointmentCubit extends Cubit<AppointmentState> {
         .where(
           (appointment) =>
               appointment.appointmentStatus ==
-                  AppointmentStatusStrings.completed ||
+                  AppointmentStatus.completed.name ||
               (appointment.appointmentStatus ==
-                      AppointmentStatusStrings.confirmed &&
+                  AppointmentStatus.confirmed.name &&
                   appointDateFormatted(appointment.appointmentDate)
                       .isBefore(now)),
         )
@@ -204,7 +205,7 @@ class AppointmentCubit extends Cubit<AppointmentState> {
         .where(
           (appointment) =>
               appointment.appointmentStatus ==
-              AppointmentStatusStrings.cancelled,
+                  AppointmentStatus.cancelled.name,
         )
         .toList();
   }

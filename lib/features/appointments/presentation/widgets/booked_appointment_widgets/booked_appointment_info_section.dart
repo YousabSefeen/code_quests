@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_task/core/constants/themes/app_text_styles.dart';
+import 'package:flutter_task/core/extensions/string_extensions.dart';
 
+import '../../../../../core/enum/appointment_status.dart';
 import '../../../data/models/client_appointments_model.dart';
 import '../icon_with_text.dart';
 
 class BookedAppointmentInfoSection extends StatelessWidget {
+  final AppointmentStatus appointmentStatus;
   final ClientAppointmentsModel appointment;
 
-  const BookedAppointmentInfoSection({super.key, required this.appointment});
+  const BookedAppointmentInfoSection({
+    super.key,
+    required this.appointmentStatus,
+    required this.appointment,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +24,7 @@ class BookedAppointmentInfoSection extends StatelessWidget {
       children: [
         _buildDateInfo(dateTimeBlackStyle),
         _buildTimeInfo(dateTimeBlackStyle),
-        _buildStatusInfo(dateTimeBlackStyle),
+        _buildStatusInfo(dateTimeBlackStyle, appointmentStatus),
       ],
     );
   }
@@ -34,9 +41,29 @@ class BookedAppointmentInfoSection extends StatelessWidget {
         textStyle: textStyle,
       );
 
-  Widget _buildStatusInfo(TextStyle textStyle) => IconWithText(
+  Widget _buildStatusInfo(
+          TextStyle textStyle, AppointmentStatus appointmentStatus) =>
+      IconWithText(
         icon: Icons.circle_rounded,
-        text: appointment.appointmentStatus,
-        textStyle: textStyle,
+        iconColor: _getIconColor(appointmentStatus),
+        text: appointment.appointmentStatus.capitalizeFirstLetter(),
+    //    textStyle: textStyle,
+        textStyle: textStyle.copyWith(
+          letterSpacing: 1,
+          fontWeight: FontWeight.w700,
+          color: _getIconColor(appointmentStatus),
+        ),
       );
+
+  _getIconColor(AppointmentStatus appointmentStatus) {
+    switch (appointmentStatus) {
+      case AppointmentStatus.confirmed:
+        return const Color(0xFFFFC107);
+
+      case AppointmentStatus.completed:
+        return const Color(0xFF4CAF50);
+      case AppointmentStatus.cancelled:
+        return const Color(0xFFF44336);
+    }
+  }
 }

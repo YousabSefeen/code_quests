@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_task/core/constants/themes/app_colors.dart';
 import 'package:flutter_task/features/appointments/presentation/widgets/upcoming_appointments_list.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/constants/app_strings/app_strings.dart';
 import '../../data/models/client_appointments_model.dart';
@@ -40,22 +41,25 @@ class BookedAppointmentsList extends StatelessWidget {
     return Container(
       height: deviceSize.height * 0.055,
       margin: const EdgeInsets.symmetric(vertical: 10),
-      decoration: BoxDecoration(
-        color: Colors.amber,
-        borderRadius: BorderRadius.circular(17),
-      ),
+      decoration: ShapeDecoration(
+          color: AppColors.customWhite,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12.r),
+          ),
+          shadows: const [
+            BoxShadow(color: Colors.blue, blurRadius: 2, spreadRadius: 1)
+          ]),
       child: TabBar(
         isScrollable: true,
         indicator: BoxDecoration(
-          borderRadius: BorderRadius.circular(17),
-          color: Colors.blue,
+          color: AppColors.darkBlue,
+          borderRadius: BorderRadius.circular(12.r),
         ),
         labelColor: Colors.white,
-        labelStyle: GoogleFonts.raleway(
-          textStyle: TextStyle(
-            fontSize: MediaQuery.sizeOf(context).width * 0.03,
-            fontWeight: FontWeight.w800,
-          ),
+        labelStyle: TextStyle(
+          fontSize: 15.sp,
+          fontWeight: FontWeight.w600,
+          letterSpacing: 1,
         ),
         unselectedLabelColor: Colors.black,
         tabs: AppStrings.appointmentsListTitles
