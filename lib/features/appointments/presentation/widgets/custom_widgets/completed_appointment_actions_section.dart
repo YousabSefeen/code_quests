@@ -2,6 +2,9 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:flutter_task/core/constants/app_routes/app_router.dart';
+import 'package:flutter_task/core/constants/app_routes/app_router_names.dart';
+import 'package:flutter_task/features/doctor_profile/data/models/doctor_model.dart';
 
 import '../../../../../core/constants/app_alerts/app_alerts.dart';
 import '../../../../../core/constants/app_strings/app_strings.dart';
@@ -20,6 +23,7 @@ class CompletedAppointmentActionsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+     final DoctorModel c=appointment.doctorModel;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 3),
       child: Row(
@@ -93,7 +97,13 @@ class LeaveAReviewButton extends StatelessWidget {
 text:AppStrings.leaveAReview,
 
       onPressed: () {
-
+        //AppAlerts.showNoInternetDialog(context);
+        AppAlerts.showAppointmentSuccessDialogX(
+          context: context,
+          onViewAppointmentPressed: () =>
+              AppRouter.pushNamed(context, AppRouterNames.appointmentDetails),
+          onCancelPressed: () => AppRouter.pop(context),
+        );
       },
     );
   }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_task/features/appointments/presentation/screens/appointment_cancellation_screen.dart';
 import 'package:flutter_task/features/doctor_list/presentation/screen/doctor_list_view_screen.dart';
 
+import '../../../features/appointments/presentation/screens/appointment_details_screen.dart';
 import '../../../features/appointments/presentation/screens/booked_appointments_screen.dart';
 import '../../../features/appointments/presentation/screens/create_appointment_screen.dart';
 import '../../../features/auth/presentation/screens/login_screen.dart';
@@ -30,6 +31,8 @@ class AppRouter {
 
       case AppRouterNames.bookedAppointments:
         return _animatedRoute(settings, const BookedAppointmentsScreen());
+      case AppRouterNames.appointmentDetails:
+        return _animatedRoute(settings, const AppointmentDetailsScreen());
         case AppRouterNames.appointmentCancellation:
         return _animatedRoute(settings, const AppointmentCancellationScreen());
 

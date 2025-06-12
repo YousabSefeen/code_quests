@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_task/core/constants/app_alerts/no_internet_dialog.dart';
+import 'package:flutter_task/core/constants/app_alerts/widgets/appointment_success_dialog.dart';
 import 'package:wolt_modal_sheet/wolt_modal_sheet.dart';
 
 import '../../../features/appointments/data/models/appointment_reschedule.dart';
@@ -121,6 +122,17 @@ static  void  showCustomBottomSheet({required BuildContext context, required Str
   }) =>
       AppointmentRescheduledDialog.show(
           context: context, appointmentReschedule: appointmentReschedule);
+
+  static void showAppointmentSuccessDialogX({
+    required BuildContext context,
+    required VoidCallback onViewAppointmentPressed,
+    required VoidCallback onCancelPressed,
+  }) =>
+      AppointmentSuccessDialog.show(
+        context: context,
+        onViewAppointmentPressed: onViewAppointmentPressed,
+        onCancelPressed: onCancelPressed,
+      );
 
   static void showCanceledSuccessDialog({
     required BuildContext context,

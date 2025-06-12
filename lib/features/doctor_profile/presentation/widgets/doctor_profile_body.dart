@@ -56,7 +56,7 @@ class DoctorProfileBody extends StatelessWidget {
     ];
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      spacing: 15,
+      spacing: 20,
       children: [
         const Align(
           alignment: Alignment.topCenter,

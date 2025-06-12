@@ -113,12 +113,12 @@ extension AppTextStyles on TextTheme {
   fontWeight: FontWeight.w600,
   color: Colors.white,
   );
-  TextStyle get labelFieldStyle => GoogleFonts.lato(
-      fontSize: 17.sp,
+  TextStyle get labelFieldStyle =>TextStyle(
+      fontSize: 16.sp,
 
-      color: AppColors.blue ,
+      color: Colors.grey.shade700,
       fontWeight: FontWeight.w700,
-      letterSpacing: 1
+
   );
 
   TextStyle get styleField => GoogleFonts.roboto(

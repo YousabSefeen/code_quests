@@ -110,9 +110,16 @@ static const String  to='TO';
       'Please select today\'s date or a future date.';
   static String noInternetConnection='No Internet Connection';
   static const String kNoInternetBookingErrorMessage =
-      'Booking an appointment requires an active internet connection to confirm and secure your reservation.\nPlease check your connection and try again.';
+      'Booking an appointment requires an active internet connection to confirm and secure your reservation.\n'
+      'Please check your connection and try again.';
 static const String bookAppointment='Book Appointment';
-static const String cancel='Cancel';
+  static const String appointmentSuccessDialogTitle = 'Congratulations!';
+  static const String appointmentSuccessDialogMessage =
+      'Appointment Successfully booked\n'
+      'You will receive a notification and the doctor you selected will contact you';
+
+  static const String viewAppointment = 'View Appointment';
+  static const String cancel='Cancel';
   static const String cancelAppointment = '$cancel Appointment';
   static const String cancelAppointmentConfirmation =
       'Are you sure want to cancel your appointment';

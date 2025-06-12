@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:wolt_modal_sheet/wolt_modal_sheet.dart';
 
 class MyCustomModalTypeDialog extends WoltModalType {
-  MyCustomModalTypeDialog()
+  final double? defaultMaxWidth;
+  MyCustomModalTypeDialog({  this.defaultMaxWidth= 0.8})
       : super(
           showDragHandle: false,
           transitionDuration: const Duration(milliseconds: 1500),
@@ -18,7 +19,7 @@ class MyCustomModalTypeDialog extends WoltModalType {
   BoxConstraints layoutModal(Size availableSize) {
     return BoxConstraints(
       minWidth: availableSize.width * 0.6,
-      maxWidth: availableSize.width * 0.8,
+      maxWidth:defaultMaxWidth==null?  availableSize.width * 0.8:  availableSize.width *defaultMaxWidth!,
       minHeight: availableSize.height * 0.4,
       maxHeight: availableSize.height * 0.8,
     );

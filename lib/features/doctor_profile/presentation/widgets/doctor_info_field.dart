@@ -31,7 +31,8 @@ class DoctorInfoField extends StatelessWidget {
       children: [
         FormTitle(label: label),
         TextFormField(
-          style: textTheme.styleField,
+          style: textTheme.styleField
+              .copyWith(fontWeight: FontWeight.w400, letterSpacing: 1),
           controller: controller,
           keyboardType: keyboardType,
           maxLines: maxLines,
@@ -39,11 +40,11 @@ class DoctorInfoField extends StatelessWidget {
           decoration: InputDecoration(
             hintText: hintText,
             hintStyle: textTheme.hintFieldStyle,
-            fillColor: Colors.white,
+            fillColor: Colors.grey.shade100,
             filled: true,
             border: _buildBorder(Colors.black12),
-            enabledBorder: _buildBorder(Colors.black12),
-            focusedBorder: _buildBorder(Colors.blue),
+            enabledBorder: _buildBorder(Colors.grey.shade100),
+            focusedBorder: _buildBorder(Colors.grey.shade100),
             errorBorder: _buildBorder(Colors.red),
             errorStyle: TextStyle(color: Colors.red, fontSize: 12.sp),
           ),
