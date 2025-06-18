@@ -7,6 +7,7 @@ part 'doctor_model.g.dart';
 
 @JsonSerializable()
 class DoctorModel extends Equatable {
+  final String? doctorId;
   final String imageUrl;
   final String name;
   final String specialization;
@@ -19,6 +20,7 @@ class DoctorModel extends Equatable {
   final int fees;
 
   const DoctorModel({
+      this.doctorId,
     required this.imageUrl,
     required this.name,
     required this.specialization,
@@ -37,6 +39,7 @@ class DoctorModel extends Equatable {
 
   @override
   List<Object?> get props => [
+        doctorId,
         imageUrl,
         name,
         specialization,

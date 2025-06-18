@@ -1,5 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_task/core/constants/app_strings/app_strings.dart';
+import 'package:flutter_task/features/appointments/data/models/book_appointment_model.dart';
+import 'package:flutter_task/features/appointments/presentation/controller/form_contollers/patient_fields_controllers.dart';
 
 import '../../../../../core/app_settings/controller/cubit/app_settings_cubit.dart';
 import '../../../../../core/enum/appointment_availability_status.dart';
@@ -87,9 +89,16 @@ class AppointmentCubit extends Cubit<AppointmentState> {
     emit(state.copyWith(bookAppointmentState: LazyRequestState.loading));
 
     final response = await appointmentRepository.bookAppointment(
-      doctorId: doctorId,
-      date: state.selectedDateFormatted!,
-      time: state.selectedTimeSlot!,
+      bookAppointmentModel: BookAppointmentModel(
+        doctorId: doctorId,
+        patientName: _cachedControllers!.nameController.text.trim(),
+        patientGender: state.selectedGenderIndex==0? AppStrings.male: AppStrings.female,
+        patientAge:_cachedControllers!.ageController.text.trim(),
+        patientProblem:_cachedControllers!.problemController.text.trim(),
+        appointmentDate: state.selectedDateFormatted!,
+        appointmentTime: state.selectedTimeSlot!,
+      ),
+
     );
 
     response.fold(
@@ -160,6 +169,14 @@ class AppointmentCubit extends Cubit<AppointmentState> {
         cancelAppointmentState: LazyRequestState.loaded,
       ));
     });
+  }
+
+  String get selectedTimeSlot {
+    return state.selectedTimeSlot ?? 'selectedTimeSlot Null';
+  }
+
+  String get selectedDateFormatted {
+    return state.selectedDateFormatted ?? 'selectedTimeSlot Null';
   }
 
   ///
@@ -318,4 +335,52 @@ class AppointmentCubit extends Cubit<AppointmentState> {
       ));
     });
   }
+
+//***************************************************************
+  void onChangeSelectedGenderIndex(int index) {
+    emit(state.copyWith(selectedGenderIndex: index));
+  }
+
+  void printData() {
+    print('nameController  ${_cachedControllers?.nameController.text}');
+    print('selectedGenderIndex  ${state.selectedGenderIndex}');
+
+    print('ageController  ${_cachedControllers?.ageController.text}');
+    print('problemController  ${_cachedControllers?.problemController.text}');
+  }
+
+  PatientFieldsControllers? _cachedControllers;
+
+  void validateInputsAndCache(
+      {required String doctorId,
+      required PatientFieldsControllers controllers}) {
+    _markAsValidatedIfNeeded();
+
+    if (_isFormValid(controllers)) {
+      _cacheControllers(controllers);
+      bookAppointmentProcess(doctorId);
+    }
+  }
+
+  void bookAppointmentProcess(String doctorId) {
+    bookAppointment(doctorId: doctorId);
+  }
+
+  void _markAsValidatedIfNeeded() {
+    if (!state.hasValidatedBefore) {
+      emit(state.copyWith(hasValidatedBefore: true));
+    }
+  }
+
+  bool _isFormValid(PatientFieldsControllers controllers) {
+    final isFormValid = controllers.formKey.currentState?.validate() ?? false;
+    final isGenderValid = controllers.genderController.validate();
+
+    final isAllFormValid = isFormValid && isGenderValid;
+
+    return isAllFormValid;
+  }
+
+  void _cacheControllers(PatientFieldsControllers controllers) =>
+      _cachedControllers = controllers;
 }

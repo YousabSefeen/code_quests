@@ -56,10 +56,11 @@ class DoctorProfileHeader extends StatelessWidget {
             const SizedBox(height: 5),
             Text(
               doctorInfo.name,
-              style: Theme.of(context).textTheme.styleField.copyWith(
+              style: Theme.of(context).textTheme.mediumBlack.copyWith(
                   fontSize: 18.sp,
                   fontWeight: FontWeight.w700,
-                  letterSpacing: 0.8),
+                  letterSpacing: 0.8,
+              ),
             ),
             Text(doctorInfo.bio,
                 style: Theme.of(context)

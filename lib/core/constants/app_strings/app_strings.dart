@@ -113,6 +113,29 @@ static const String  to='TO';
       'Booking an appointment requires an active internet connection to confirm and secure your reservation.\n'
       'Please check your connection and try again.';
 static const String bookAppointment='Book Appointment';
+static const String payNow='Pay Now';
+
+
+//TODO Patient Screen
+static const String patientDetails='Patient Details';
+
+
+
+
+static const String fullNameLabel='Full Name';
+static const String male='Male';
+static const String female='Female';
+static const String fullNameHint='Please enter your name';
+static const String ageLabel='Your Age';
+static const String ageHint='Please enter your age';
+static const String problemLabel='Write your problem';
+static const String problemHint='Briefly describe your health concern...';
+
+
+
+
+
+
   static const String appointmentSuccessDialogTitle = 'Congratulations!';
   static const String appointmentSuccessDialogMessage =
       'Appointment Successfully booked\n'

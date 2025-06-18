@@ -35,6 +35,10 @@ class AppointmentState extends Equatable{
 
   final LazyRequestState deleteAppointment;
   final String deleteAppointmentError;
+
+  //New New
+  final bool hasValidatedBefore;
+  final int? selectedGenderIndex;
   const AppointmentState({
     this.doctorAppointmentModel = const [],
     this.doctorAppointmentState = RequestState.loading,
@@ -57,6 +61,8 @@ class AppointmentState extends Equatable{
     this.getClientAppointmentsListError = '',
     this.deleteAppointment = LazyRequestState.lazy,
     this.deleteAppointmentError = '',
+    this.hasValidatedBefore = false,
+    this.selectedGenderIndex,
   });
 
   AppointmentState copyWith({
@@ -81,6 +87,8 @@ class AppointmentState extends Equatable{
     String? getClientAppointmentsListError,
     LazyRequestState? deleteAppointment,
     String? deleteAppointmentError,
+    bool? hasValidatedBefore,
+    int? selectedGenderIndex,
   }) {
     return AppointmentState(
       doctorAppointmentModel:
@@ -117,8 +125,10 @@ class AppointmentState extends Equatable{
       getClientAppointmentsListError:
           getClientAppointmentsListError ?? this.getClientAppointmentsListError,
       deleteAppointment: deleteAppointment ?? this.deleteAppointment,
+      hasValidatedBefore: hasValidatedBefore ?? this.hasValidatedBefore,
       deleteAppointmentError:
           deleteAppointmentError ?? this.deleteAppointmentError,
+      selectedGenderIndex: selectedGenderIndex ?? this.selectedGenderIndex,
     );
   }
 
@@ -145,5 +155,7 @@ class AppointmentState extends Equatable{
         getClientAppointmentsListError,
         deleteAppointment,
         deleteAppointmentError,
+        hasValidatedBefore,
+        selectedGenderIndex,
       ];
 }

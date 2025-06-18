@@ -3,18 +3,23 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_task/core/constants/app_alerts/app_alerts.dart';
 import 'package:flutter_task/core/constants/app_routes/app_router.dart';
 import 'package:flutter_task/features/appointments/presentation/controller/cubit/appointment_cubit.dart';
+import 'package:flutter_task/features/appointments/presentation/screens/appointment_details_screen.dart';
 import 'package:flutter_task/features/appointments/presentation/widgets/custom_widgets/adaptive_action_button.dart';
+import 'package:flutter_task/features/doctor_profile/data/models/doctor_model.dart';
 
 import '../../../../core/constants/app_alerts/no_internet_dialog.dart';
+import '../../../../core/constants/app_routes/app_router_names.dart';
 import '../../../../core/constants/app_strings/app_strings.dart';
 import '../../../../core/enum/lazy_request_state.dart';
 import '../controller/states/appointment_action_state.dart';
 import '../controller/states/appointment_state.dart';
 
 class BookAppointmentButton extends StatelessWidget {
+  final DoctorModel doctorModel;
   final String doctorId;
 
-  const BookAppointmentButton({super.key, required this.doctorId});
+  const BookAppointmentButton(
+      {super.key, required this.doctorId, required this.doctorModel});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +31,7 @@ class BookAppointmentButton extends StatelessWidget {
         actionError: state.bookAppointmentError,
       ),
       builder: (context, appointmentData) {
-        _handleAppointmentResponse(context, appointmentData);
+       //TODO _handleAppointmentResponse(context, appointmentData);
         return _buildBookingButton(context, appointmentData);
       },
     );
@@ -50,8 +55,11 @@ class BookAppointmentButton extends StatelessWidget {
   }
 
   /// Initiates the appointment booking process
-  void _bookAppointment(BuildContext context) =>
-      context.read<AppointmentCubit>().bookAppointment(doctorId: doctorId);
+  void _bookAppointment(BuildContext context) {
+
+      AppRouter.pushNamed(context, AppRouterNames.patientDetails,arguments: doctorId);
+//  TODO    context.read<AppointmentCubit>().bookAppointment(doctorId: doctorId);
+  }
 
   /// Handles different states of appointment booking process
   /// Routes to appropriate handlers based on current state
@@ -92,15 +100,33 @@ class BookAppointmentButton extends StatelessWidget {
   /// Shows success dialog, navigates to doctor list after delay
   /// Clears current appointment data
   void _handleBookingSuccess(BuildContext context) {
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   _showSuccessDialog(context);
+    //
+    //   Future.delayed(const Duration(milliseconds: 700), () {
+    //     if (!context.mounted) return;
+    //     _navigateToDoctorList(context);
+    //   });
+    //
+    //   _resetBookingState(context);
+    // });
+    final appointmentDate =
+        context.read<AppointmentCubit>().selectedDateFormatted;
+    final appointmentTime = context.read<AppointmentCubit>().selectedTimeSlot;
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _showSuccessDialog(context);
+      AppAlerts.showAppointmentSuccessDialogX(
+        context: context,
+        onViewAppointmentPressed: () {
+          // Navigator.of(context).push(MaterialPageRoute(
+          //     builder: (BuildContext context) => AppointmentDetailsScreen(
+          //           doctorModel: doctorModel,
+          //           appointmentDate: appointmentDate,
+          //           appointmentTime: appointmentTime,
+          //         )));
 
-      Future.delayed(const Duration(milliseconds: 700), () {
-        if (!context.mounted) return;
-        _navigateToDoctorList(context);
-      });
-
-      _resetBookingState(context);
+        },
+        onCancelPressed: () => AppRouter.pop(context),
+      );
     });
   }
 
@@ -122,4 +148,6 @@ class BookAppointmentButton extends StatelessWidget {
   /// Resets booking state to initial values in cubit
   void _resetBookingState(BuildContext context) =>
       context.read<AppointmentCubit>().resetBookAppointmentState();
+
+
 }

@@ -73,7 +73,7 @@ class CustomErrorWidget extends StatelessWidget {
       child: FittedBox(
         child: Text(
           AppStrings.errorDisplayTitle,
-          style: Theme.of(context).textTheme.styleField.copyWith(
+          style: Theme.of(context).textTheme.mediumBlack.copyWith(
                 color: iconColor,
               ),
         ),
@@ -100,7 +100,7 @@ class CustomErrorWidget extends StatelessWidget {
       text: AppStrings.errorMessageLabel,
       style: Theme.of(context)
           .textTheme
-          .styleField
+          .mediumBlack
           .copyWith(fontSize: 14.sp, fontWeight: FontWeight.w700),
     );
   }

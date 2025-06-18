@@ -15,6 +15,7 @@ class BookedAppointmentsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     List<Widget> appointmentCategories = [
       const UpcomingAppointmentsList( ),
       const CompletedAppointmentsList( ),

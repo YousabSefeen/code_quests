@@ -2,8 +2,10 @@
 class Assets {
   Assets._();
 
+  static const String imagesError = 'assets/images/error.png';
   static const String imagesErrorImage = 'assets/images/errorImage.png';
   static const String imagesListEmpty = 'assets/images/list_empty.json';
+  static const String imagesLoading = 'assets/images/loading.gif';
   static const String imagesLocation = 'assets/images/location.json';
   static const String imagesNew = 'assets/images/new.json';
   static const String imagesNoInternet = 'assets/images/no_internet.jpeg';

@@ -1,10 +1,11 @@
 import 'package:equatable/equatable.dart';
 
 import '../../../../../core/enum/request_state.dart';
+import '../../../../doctor_profile/data/models/doctor_model.dart';
 import '../../../data/models/doctor_list_model.dart';
 
 class DoctorListState extends Equatable {
-  final List<DoctorListModel> doctorList;
+  final List<DoctorModel> doctorList;
   final RequestState doctorListState;
   final String doctorListError;
 
@@ -15,7 +16,7 @@ class DoctorListState extends Equatable {
   });
 
   DoctorListState copyWith({
-    List<DoctorListModel>? doctorList,
+    List<DoctorModel>? doctorList,
     RequestState? doctorListState,
     String? doctorListError,
   }) {

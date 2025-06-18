@@ -5,7 +5,7 @@ import 'package:flutter_task/core/constants/themes/app_text_styles.dart';
 
 import '../../../../../core/constants/app_strings/app_strings.dart';
 import '../../../../doctor_profile/data/models/doctor_model.dart';
-import '../../../data/models/client_appointments_model.dart';
+
 
 
 
@@ -17,19 +17,13 @@ class BookedAppointmentHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       contentPadding: EdgeInsets.zero,
-      leading: _buildDoctorAvatar(doctorModel.imageUrl),
+      leading: _buildDoctorImage(doctorModel.imageUrl),
       title: _buildDoctorName(context),
       subtitle: _buildDoctorSpecialization(context),
     );
   }
 
-  Widget _buildDoctorAvatar(String imageUrl) {
-    return CircleAvatar(
-      radius: 40,
 
-      child: _buildDoctorImage(imageUrl),
-    );
-  }
 
   Widget _buildDoctorName(BuildContext context) {
     return Text(
@@ -52,16 +46,19 @@ class BookedAppointmentHeader extends StatelessWidget {
 
 
   Widget _buildDoctorImage(String imageUrl) {
-    return CachedNetworkImage(
-      imageUrl: imageUrl,
-      imageBuilder: (context, imageProvider) => Container(
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          image: DecorationImage(image: imageProvider, fit: BoxFit.cover),
+    return CircleAvatar(
+      radius: 40,
+      child: CachedNetworkImage(
+        imageUrl: imageUrl,
+        imageBuilder: (context, imageProvider) => Container(
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            image: DecorationImage(image: imageProvider, fit: BoxFit.cover),
+          ),
         ),
+        placeholder: (context, url) => const CircularProgressIndicator(),
+        errorWidget: (context, url, error) => const Icon(Icons.error),
       ),
-      placeholder: (context, url) => const CircularProgressIndicator(),
-      errorWidget: (context, url, error) => const Icon(Icons.error),
     );
   }
 }

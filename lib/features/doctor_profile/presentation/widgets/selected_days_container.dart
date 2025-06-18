@@ -67,7 +67,7 @@ class SelectedDaysContainer extends StatelessWidget {
         ),
         child: Text(
           day,
-          style: Theme.of(context).textTheme.styleField.copyWith(
+          style: Theme.of(context).textTheme.mediumBlack.copyWith(
                 color: Colors.white,
                 fontSize: 14.sp,
               ),

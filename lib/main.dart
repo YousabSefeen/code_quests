@@ -9,6 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_task/core/app_settings/controller/cubit/app_settings_cubit.dart';
 import 'package:flutter_task/core/enum/internet_state.dart';
+import 'package:flutter_task/features/appointments/presentation/screens/patient_details_screen.dart';
 import 'package:flutter_task/features/auth/presentation/controller/cubit/login_cubit.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:time_range/time_range.dart';
@@ -110,6 +111,7 @@ class MyApp extends StatelessWidget {
                 );
               },
              home: const DoctorListViewScreen(), // أو شاشتك الرئيسية
+          ///  home: const PatientDetailsScreen(), // أو شاشتك الرئيسية
           //  home: const FirestoreTestScreen(), // أو شاشتك الرئيسية
             ));
   }

@@ -5,7 +5,6 @@ import 'package:flutter_task/features/doctor_profile/data/models/doctor_model.da
 import 'package:flutter_task/features/shared/models/doctor_schedule_model.dart';
 
 import '../../../../core/constants/common_widgets/consultation_fee_and_wait_row.dart';
-import '../../../doctor_list/data/models/doctor_list_model.dart';
 import '../widgets/book_appointment_button.dart';
 import '../widgets/doctor_info_header.dart';
 
@@ -34,10 +33,8 @@ class _CreateAppointmentScreenState extends State<CreateAppointmentScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final DoctorListModel doctor =
-        ModalRoute.of(context)!.settings.arguments as DoctorListModel;
-
-    final DoctorModel doctorInfo = doctor.doctorModel;
+    final DoctorModel doctor =
+        ModalRoute.of(context)!.settings.arguments as DoctorModel;
 
     return Scaffold(
       backgroundColor: Colors.grey.shade50,
@@ -48,9 +45,9 @@ class _CreateAppointmentScreenState extends State<CreateAppointmentScreen> {
             controller: _scrollController,
             slivers: [
               CustomSliverAppBar(
-                doctorName: doctorInfo.name,
-                doctorImage: doctorInfo.imageUrl,
-                specialization: doctorInfo.specialization,
+                doctorName: doctor.name,
+                doctorImage: doctor.imageUrl,
+                specialization: doctor.specialization,
               ),
               SliverList(
                   delegate: SliverChildListDelegate([
@@ -61,19 +58,21 @@ class _CreateAppointmentScreenState extends State<CreateAppointmentScreen> {
                     spacing: 20,
                     children: [
                       const SizedBox(height: 5),
-                      DoctorInfoHeader(doctorInfo: doctorInfo),
-
+                      DoctorInfoHeader(doctorInfo: doctor),
                       ConsultationFeeAndWaitRow(
-                          fee: doctorInfo.fees.toString(),
+                        fee: doctor.fees.toString(),
                       ),
                       const Divider(color: Colors.black12,thickness: 1.7),
                       DoctorAppointmentBookingSection(
                         doctorSchedule: DoctorScheduleModel(
-                            doctorId: doctor.doctorId,
-                            doctorAvailability: doctorInfo.doctorAvailability,
+                          doctorId: doctor.doctorId!,
+                          doctorAvailability: doctor.doctorAvailability,
                         ),
                       ),
-                      BookAppointmentButton(doctorId: doctor.doctorId),
+                      BookAppointmentButton(
+                        doctorModel: doctor,
+                        doctorId: doctor.doctorId!,
+                      ),
                     ],
                   ),
                 ),

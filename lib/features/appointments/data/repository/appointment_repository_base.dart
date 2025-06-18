@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 
 import '../../../../core/error/failure.dart';
+import '../models/book_appointment_model.dart';
 import '../models/client_appointments_model.dart';
 import '../models/doctor_appointment_model.dart';
 
@@ -15,9 +16,7 @@ abstract class AppointmentRepositoryBase {
   });
 
   Future<Either<Failure, void>> bookAppointment({
-    required String doctorId,
-    required String date,
-    required String time,
+   required BookAppointmentModel bookAppointmentModel,
   });
 
   Future<Either<Failure, void>> rescheduleAppointment({

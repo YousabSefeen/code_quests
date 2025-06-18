@@ -5,6 +5,7 @@ import 'package:flutter_task/features/appointments/presentation/controller/cubit
 
 import '../../../../core/constants/common_widgets/content_unavailable_widget.dart';
 import '../../../../core/enum/appointment_status.dart';
+import '../screens/appointment_details_screen.dart';
 import 'appointment_card.dart';
 
 class UpcomingAppointmentsList extends StatelessWidget {
@@ -22,9 +23,27 @@ class UpcomingAppointmentsList extends StatelessWidget {
         : ListView.builder(
             padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
             itemCount: upcomingAppointments.length,
-            itemBuilder: (context, index) => AppointmentCard(
-              appointmentStatus: AppointmentStatus.confirmed,
-              appointment: upcomingAppointments[index],
+            itemBuilder: (context, index) => GestureDetector(
+             onTap: (){
+
+                 // //AppAlerts.showNoInternetDialog(context);
+                 Navigator.of(context).push(MaterialPageRoute(
+                     builder: (BuildContext context) => AppointmentDetailsScreen(
+                       doctorModel: upcomingAppointments[index].doctorModel  ,
+                       appointmentDate:  upcomingAppointments[index].appointmentDate  ,
+                       appointmentTime: upcomingAppointments[index].appointmentTime  ,
+                       patientName: upcomingAppointments[index].patientName  ,
+                       patientGender:  upcomingAppointments[index].patientGender  ,
+                       patientAge:  upcomingAppointments[index].patientAge  ,
+                       patientProblem:  upcomingAppointments[index].patientProblem  ,
+                     )));
+
+              },
+
+              child: AppointmentCard(
+                appointmentStatus: AppointmentStatus.confirmed,
+                appointment: upcomingAppointments[index],
+              ),
             ),
           );
   }

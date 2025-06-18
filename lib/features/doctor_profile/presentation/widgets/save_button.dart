@@ -11,10 +11,10 @@ import '../../../../core/constants/app_routes/app_router_names.dart';
 import '../../../../core/constants/app_strings/app_strings.dart';
 import '../../../../core/constants/themes/app_colors.dart';
 import '../controller/cubit/doctor_profile_cubit.dart';
-import '../controller/form_controllers/doctor_profile_controllers.dart';
+import '../controller/form_controllers/doctor_fields_controllers.dart';
 
 class SaveButton extends StatelessWidget {
-  final DoctorProfileControllers controllers;
+  final DoctorFieldsControllers controllers;
 
   const SaveButton({super.key, required this.controllers});
 

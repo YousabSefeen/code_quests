@@ -1,16 +1,17 @@
-import 'package:flutter_task/features/doctor_profile/presentation/controller/form_controllers/doctor_profile_controllers.dart';
+import 'package:flutter_task/features/doctor_profile/presentation/controller/form_controllers/doctor_fields_controllers.dart';
 
 import '../../../../../core/constants/app_strings/app_strings.dart';
 
-class DoctorProfileValidator {
-  static final DoctorProfileValidator _instance =
-      const DoctorProfileValidator._internal();
+// Following the Singleton Pattern
+class DoctorFieldsValidator {
+  const DoctorFieldsValidator._internal();
 
-  factory DoctorProfileValidator() => _instance;
+  static final DoctorFieldsValidator _instance =
+      const DoctorFieldsValidator._internal();
 
-  const DoctorProfileValidator._internal();
+  factory DoctorFieldsValidator() => _instance;
 
-  // 🧩 Name - required and at least 5 characters
+  //   Name - required and at least 5 characters
   String? validateName(String? value) {
     if (value == null || value.trim().isEmpty) {
       return 'Please enter your name';
@@ -21,7 +22,7 @@ class DoctorProfileValidator {
     return null;
   }
 
-  // 🧩 Specialization - required and at least 3 characters
+  //   Specialization - required and at least 3 characters
   String? validateSpecialization(String? value) {
     if (value == null || value.trim().isEmpty) {
       return 'Please enter your specialization';
@@ -32,7 +33,7 @@ class DoctorProfileValidator {
     return null;
   }
 
-  // 🧩 Bio - required and at least 10 characters
+  //   Bio - required and at least 10 characters
   String? validateBio(String? value) {
     if (value == null || value.trim().isEmpty) {
       return 'Please enter your bio';
@@ -43,7 +44,7 @@ class DoctorProfileValidator {
     return null;
   }
 
-  // 🧩 Location - required and at least 5 characters
+  //   Location - required and at least 5 characters
   String? validateLocation(String? value) {
     if (value == null || value.trim().isEmpty) {
       return 'Please enter your location';
@@ -54,12 +55,9 @@ class DoctorProfileValidator {
     return null;
   }
 
-  // 🧩 Working Days - required
+  //   Working Days - required
 
-
-
-
-  // 🧩 Fees - required and must be a positive number
+  //   Fees - required and must be a positive number
   String? validateFees(String? value) {
     if (value == null || value.trim().isEmpty) {
       return 'Please enter your consultation fees';
@@ -71,7 +69,7 @@ class DoctorProfileValidator {
     return null;
   }
 
-//  🧩 Working Days - both start and end times are required
+//    Working Days - both start and end times are required
   String? validateWorkingDays(bool isWorkingDaysEmpty) {
     if (isWorkingDaysEmpty) {
       return AppStrings.workingDaysValidationMessage;
@@ -80,7 +78,7 @@ class DoctorProfileValidator {
     }
   }
 
-//  🧩 Working Hours - both start and end times are required
+//    Working Hours - both start and end times are required
   String? validateWorkingHours(Map<String, String> workHoursSelected) {
     if (workHoursSelected.isEmpty) {
       return 'Please select your available working hours.';
@@ -90,7 +88,7 @@ class DoctorProfileValidator {
   }
 
   // ✅ Optional: validate all fields together
-  String? validateInputs(DoctorProfileControllers? c) {
+  String? validateInputs(DoctorFieldsControllers? c) {
     return validateName(c?.nameController.text) ??
         validateSpecialization(c?.specializationController.text) ??
         validateBio(c?.bioController.text) ??

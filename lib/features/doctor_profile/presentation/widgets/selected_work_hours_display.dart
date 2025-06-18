@@ -32,7 +32,7 @@ class SelectedWorkHoursDisplay extends StatelessWidget {
       children: [
         Text(
           '$label: ',
-          style: textTheme.styleField.copyWith(
+          style: textTheme.mediumBlack.copyWith(
             color: const Color(0xff3A59D1),
             letterSpacing: 1.3,
           ),

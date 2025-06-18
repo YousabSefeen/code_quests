@@ -4,8 +4,8 @@ import 'package:flutter_task/features/doctor_profile/presentation/controller/cub
 import 'package:flutter_task/features/doctor_profile/presentation/controller/states/doctor_profile_state.dart';
 
 import '../../../../core/constants/app_strings/app_strings.dart';
-import '../controller/form_controllers/doctor_profile_controllers.dart';
-import '../controller/form_controllers/doctor_profile_validator.dart';
+import '../controller/form_controllers/doctor_fields_controllers.dart';
+import '../controller/form_controllers/doctor_fields_validator.dart';
 import '../widgets/doctor_profile_body.dart';
 
 class DoctorProfileScreen extends StatefulWidget {
@@ -16,21 +16,21 @@ class DoctorProfileScreen extends StatefulWidget {
 }
 
 class _DoctorProfileScreenState extends State<DoctorProfileScreen> {
-  late final DoctorProfileControllers doctorProfileControllers;
+  late final DoctorFieldsControllers doctorFieldsControllers;
 
-  late final DoctorProfileValidator doctorProfileValidator;
+  late final DoctorFieldsValidator doctorFieldsValidator;
   final _scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
-    doctorProfileControllers = DoctorProfileControllers();
-    doctorProfileValidator = DoctorProfileValidator();
+    doctorFieldsControllers = DoctorFieldsControllers();
+    doctorFieldsValidator = DoctorFieldsValidator();
   }
 
   @override
   void dispose() {
-    doctorProfileControllers.dispose();
+    doctorFieldsControllers.dispose();
     _scrollController.dispose();
     super.dispose();
   }
@@ -47,13 +47,13 @@ class _DoctorProfileScreenState extends State<DoctorProfileScreen> {
           selector: (state) => state.hasValidatedBefore,
 
           builder: (context, hasValidatedBefore) => Form(
-            key: doctorProfileControllers.formKey,
+            key: doctorFieldsControllers.formKey,
             autovalidateMode: hasValidatedBefore
                 ? AutovalidateMode.always
                 : AutovalidateMode.disabled,
             child: DoctorProfileBody(
-              doctorProfileControllers: doctorProfileControllers,
-              doctorProfileValidator:doctorProfileValidator,
+              doctorFieldsControllers: doctorFieldsControllers,
+              doctorFieldsValidator:doctorFieldsValidator,
             ),
           ),
         ),

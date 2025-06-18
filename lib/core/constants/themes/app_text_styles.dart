@@ -115,25 +115,30 @@ extension AppTextStyles on TextTheme {
   );
   TextStyle get labelFieldStyle =>TextStyle(
       fontSize: 16.sp,
+        color: Colors.grey.shade800,
+        fontWeight: FontWeight.w600,
+      );
 
-      color: Colors.grey.shade700,
-      fontWeight: FontWeight.w700,
-
-  );
-
-  TextStyle get styleField => GoogleFonts.roboto(
+  TextStyle get mediumBlack => TextStyle(
         fontSize: 16.sp,
         fontWeight: FontWeight.w500,
         color: Colors.black,
         letterSpacing: 0.5,
       );
-
   TextStyle get hintFieldStyle => GoogleFonts.roboto(
         fontSize: 12.sp,
         letterSpacing: 0.5,
         height: 1.5,
         color: Colors.grey.shade600,
       );
+
+  TextStyle get styleInputField => TextStyle(
+        color: Colors.black,
+        fontSize: 16.sp,
+        letterSpacing: 1,
+        fontWeight: FontWeight.w400,
+      );
+  TextStyle get styleInputFieldError => TextStyle(color: Colors.red, fontSize: 12.sp,fontWeight: FontWeight.w500);
 
   TextStyle get numbersStyle => GoogleFonts.roboto(
     fontSize: 13.sp,

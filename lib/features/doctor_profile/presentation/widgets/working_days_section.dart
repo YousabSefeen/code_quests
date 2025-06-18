@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_task/features/doctor_profile/presentation/controller/form_controllers/doctor_profile_validator.dart';
+import 'package:flutter_task/features/doctor_profile/presentation/controller/form_controllers/doctor_fields_validator.dart';
 import 'package:flutter_task/features/doctor_profile/presentation/widgets/selected_days_container.dart';
 
 import '../controller/cubit/doctor_profile_cubit.dart';
@@ -18,7 +18,7 @@ class WorkingDaysSection extends StatelessWidget {
 
         return FormField<List<String>>(
           validator: (_) =>
-              DoctorProfileValidator().validateWorkingDays(isWorkingDaysEmpty),
+              DoctorFieldsValidator().validateWorkingDays(isWorkingDaysEmpty),
           builder: (field) => Padding(
             padding: const EdgeInsets.only(bottom: 10),
             child: Column(

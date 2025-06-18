@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../../core/base/disposable.dart';
 
-class DoctorProfileControllers implements Disposable {
+class DoctorFieldsControllers implements Disposable {
 
 
   final  formKey = GlobalKey<FormState>();

@@ -6,7 +6,7 @@ import 'package:flutter_task/generated/assets.dart';
 
 import '../../../data/models/doctor_model.dart';
 import '../../../data/repository/doctor_profile_repository.dart';
-import '../form_controllers/doctor_profile_controllers.dart';
+import '../form_controllers/doctor_fields_controllers.dart';
 import '../states/doctor_profile_state.dart';
 
 class DoctorProfileCubit extends Cubit<DoctorProfileState> {
@@ -50,9 +50,9 @@ class DoctorProfileCubit extends Cubit<DoctorProfileState> {
   }
 
 
-  DoctorProfileControllers? _cachedControllers;
+  DoctorFieldsControllers? _cachedControllers;
 
-  void validateInputsAndCache(DoctorProfileControllers controllers) {
+  void validateInputsAndCache(DoctorFieldsControllers controllers) {
     _markAsValidatedIfNeeded();
 
     if (_isFormValid(controllers)) {
@@ -67,10 +67,10 @@ class DoctorProfileCubit extends Cubit<DoctorProfileState> {
     }
   }
 
-  bool _isFormValid(DoctorProfileControllers controllers) =>
+  bool _isFormValid(DoctorFieldsControllers controllers) =>
       controllers.formKey.currentState?.validate() ?? false;
 
-  void _cacheControllers(DoctorProfileControllers controllers) =>
+  void _cacheControllers(DoctorFieldsControllers controllers) =>
       _cachedControllers = controllers;
 
   Future<void> _uploadCachedDoctorProfile({required String imageUrl}) async {

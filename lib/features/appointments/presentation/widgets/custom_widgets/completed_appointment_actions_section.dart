@@ -12,6 +12,7 @@ import '../../../../../core/constants/common_widgets/elevated_blue_button.dart';
 import '../../../../../core/constants/themes/app_colors.dart';
 import '../../../../shared/models/doctor_schedule_model.dart';
 import '../../../data/models/client_appointments_model.dart';
+import '../../screens/appointment_details_screen.dart';
 import '../book_appointment_button.dart';
 import '../doctor_appointment_booking_section.dart';
 
@@ -30,7 +31,7 @@ class CompletedAppointmentActionsSection extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           BookAgainButton(appointment: appointment),
-          LeaveAReviewButton(),
+          LeaveAReviewButton(appointment:appointment),
         ],
       ),
     );
@@ -72,7 +73,10 @@ class BookAgainButton extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _buildDoctorBookingSection(),
-            BookAppointmentButton(doctorId: appointment.doctorId),
+            BookAppointmentButton(
+              doctorModel: appointment.doctorModel,
+              doctorId: appointment.doctorId,
+            ),
           ],
         ),
       );
@@ -88,7 +92,8 @@ class BookAgainButton extends StatelessWidget {
 
 
 class LeaveAReviewButton extends StatelessWidget {
-  const LeaveAReviewButton({super.key});
+  final ClientAppointmentsModel appointment;
+  const LeaveAReviewButton({super.key, required this.appointment});
 
   @override
   Widget build(BuildContext context) {
@@ -97,13 +102,7 @@ class LeaveAReviewButton extends StatelessWidget {
 text:AppStrings.leaveAReview,
 
       onPressed: () {
-        //AppAlerts.showNoInternetDialog(context);
-        AppAlerts.showAppointmentSuccessDialogX(
-          context: context,
-          onViewAppointmentPressed: () =>
-              AppRouter.pushNamed(context, AppRouterNames.appointmentDetails),
-          onCancelPressed: () => AppRouter.pop(context),
-        );
+
       },
     );
   }

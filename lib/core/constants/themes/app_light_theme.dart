@@ -9,25 +9,22 @@ class AppLightTheme {
     useMaterial3: false,
     primarySwatch: Colors.blue,
     unselectedWidgetColor: Colors.grey,
-    scaffoldBackgroundColor: Colors.grey.shade50,
+    scaffoldBackgroundColor: Colors.white,
     secondaryHeaderColor: const Color(0xffe85d04),
     appBarTheme: AppBarTheme(
-      backgroundColor: AppColors.softBlue,
+      backgroundColor: AppColors.white,
       elevation: 0,
       centerTitle: true,
-      iconTheme: IconThemeData(color: AppColors.white, size: 25.sp),
-      titleTextStyle: GoogleFonts.poppins(
-        textStyle: TextStyle(
-          fontSize: 22.sp,
-          color: AppColors.white,
-          fontWeight: FontWeight.w500,
-          letterSpacing: 1,
-        ),
+      iconTheme: IconThemeData(color: AppColors.softBlue, size: 25.sp),
+      titleTextStyle: TextStyle(
+        fontSize: 20.sp,
+        color: AppColors.darkBlue,
+        fontWeight: FontWeight.w600,
+        letterSpacing: 1,
       ),
-
     ),
     iconTheme: IconThemeData(
-      color: Colors.white,
+      color: AppColors.softBlue,
       size: 22.sp,
     ),
     textSelectionTheme: TextSelectionThemeData(
@@ -50,6 +47,7 @@ class AppLightTheme {
         thickness: WidgetStateProperty.all(5),
       ),
       drawerTheme: const DrawerThemeData(
+
       backgroundColor: Colors.white,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(

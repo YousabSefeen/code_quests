@@ -73,6 +73,6 @@ class _TimeRangePickerState extends State<TimeRangePicker> {
   TextStyle _getActiveTextStyle(TextTheme textTheme) => textTheme.numbersStyle
         .copyWith(color: Colors.white, fontWeight: FontWeight.w600);
 
-  TextStyle _getLabelFieldStyle(TextTheme textTheme) => textTheme.styleField
+  TextStyle _getLabelFieldStyle(TextTheme textTheme) => textTheme.mediumBlack
       .copyWith(fontSize: 13.sp, color: const Color(0xff3A59D1));
 }

@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_task/core/error/failure.dart';
-import '../../../../core/constants/app_strings/appointment_status_strings.dart';
+import 'package:flutter_task/features/appointments/data/models/book_appointment_model.dart';
+
 import '../../../../core/enum/appointment_status.dart';
 import '../../../doctor_profile/data/models/doctor_model.dart';
 import '../models/client_appointments_model.dart';
@@ -76,31 +79,34 @@ class AppointmentRepository extends AppointmentRepositoryBase {
   /// Books a new appointment with the doctor
   @override
   Future<Either<Failure, void>> bookAppointment({
-    required String doctorId,
-    required String date,
-    required String time,
+    required BookAppointmentModel bookAppointmentModel,
   }) async {
     try {
       final appointmentId = _firestore.collection('appointments').doc().id;
       final clientId = _getCurrentUserId();
 
       await _saveAppointmentUnderDoctor(
-        doctorId: doctorId,
+        bookAppointmentModel: bookAppointmentModel,
         appointmentId: appointmentId,
         clientId: clientId,
-        date: date,
-        time: time,
       );
 
       await _saveAppointmentGlobally(
-        doctorId: doctorId,
+        bookAppointmentModel: bookAppointmentModel,
         appointmentId: appointmentId,
         clientId: clientId,
-        date: date,
-        time: time,
       );
 
       return right(null);
+    } on SocketException catch (e) {
+      print(
+          'AppointmentRepository.bookAppointment (***   SocketException  ***)');
+      return left(ServerFailure(catchError: e));
+    } on FirebaseException catch (e) {
+      print(
+          '  (*** FirebaseException ******)غالباً بسبب عدم وجود إنترنت أو مشكلة صلاحيات');
+      print('FirebaseException: ${e.message}');
+      return left(ServerFailure(catchError: e));
     } catch (e) {
       _logError('bookAppointment', e);
       return left(ServerFailure(catchError: e));
@@ -116,39 +122,44 @@ class AppointmentRepository extends AppointmentRepositoryBase {
 
   /// Saves appointment under doctor's subcollection
   Future<void> _saveAppointmentUnderDoctor({
-    required String doctorId,
     required String appointmentId,
     required String clientId,
-    required String date,
-    required String time,
+    required BookAppointmentModel bookAppointmentModel,
   }) async {
+
     await _firestore
         .collection('doctors')
-        .doc(doctorId)
+        .doc(bookAppointmentModel.doctorId)
         .collection('appointments')
         .doc(appointmentId)
         .set({
       'clientId': clientId,
-      'appointmentDate': date,
-      'appointmentTime': time,
+      'patientName': bookAppointmentModel.patientName,
+      'patientGender': bookAppointmentModel.patientGender,
+      'patientAge': bookAppointmentModel.patientAge,
+      'patientProblem': bookAppointmentModel.patientProblem,
+      'appointmentDate': bookAppointmentModel.appointmentDate,
+      'appointmentTime': bookAppointmentModel.appointmentTime,
       'appointmentStatus': AppointmentStatus.confirmed.name,
     });
   }
 
   /// Saves appointment in global appointments collection
   Future<void> _saveAppointmentGlobally({
-    required String doctorId,
+    required BookAppointmentModel bookAppointmentModel,
     required String appointmentId,
     required String clientId,
-    required String date,
-    required String time,
   }) async {
     await _firestore.collection('appointments').doc(appointmentId).set({
-      'doctorId': doctorId,
+      'doctorId': bookAppointmentModel.doctorId,
       'clientId': clientId,
-      'appointmentDate': date,
-      'appointmentTime': time,
-      'appointmentStatus':AppointmentStatus.confirmed.name,
+      'patientName': bookAppointmentModel.patientName,
+      'patientGender': bookAppointmentModel.patientGender,
+      'patientAge': bookAppointmentModel.patientAge,
+      'patientProblem': bookAppointmentModel.patientProblem,
+      'appointmentDate': bookAppointmentModel.appointmentDate,
+      'appointmentTime': bookAppointmentModel.appointmentTime,
+      'appointmentStatus': AppointmentStatus.confirmed.name,
     });
   }
 
@@ -302,7 +313,9 @@ class AppointmentRepository extends AppointmentRepositoryBase {
     try {
       final clientId = _getCurrentUserId();
       final appointments = await _fetchAppointmentsByClientId(clientId);
+
       final doctorIds = _extractUniqueDoctorIds(appointments);
+
       final doctorDataMap = await _fetchDoctorsDataByIds(doctorIds);
 
       final models = appointments.map((appointment) {
